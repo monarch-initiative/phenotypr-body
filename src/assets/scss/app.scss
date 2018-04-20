@@ -1,0 +1,591 @@
+@charset 'utf-8';
+@import './settings';
+@import '~foundation-sites/scss/foundation';
+@import '~motion-ui/src/motion-ui';
+
+@include foundation-global-styles;
+// @include foundation-grid;
+// @include foundation-flex-grid;
+@include foundation-xy-grid-classes;
+@include foundation-typography;
+@include foundation-button;
+@include foundation-forms;
+// @include foundation-range-input;
+@include foundation-accordion;
+@include foundation-accordion-menu;
+@include foundation-badge;
+@include foundation-breadcrumbs;
+@include foundation-button-group;
+@include foundation-callout;
+@include foundation-card;
+@include foundation-close-button;
+@include foundation-menu;
+@include foundation-menu-icon;
+@include foundation-drilldown-menu;
+@include foundation-dropdown;
+@include foundation-dropdown-menu;
+@include foundation-responsive-embed;
+@include foundation-label;
+@include foundation-media-object;
+@include foundation-off-canvas;
+@include foundation-orbit;
+@include foundation-pagination;
+@include foundation-progress-bar;
+@include foundation-slider;
+@include foundation-sticky;
+@include foundation-reveal;
+@include foundation-switch;
+@include foundation-table;
+@include foundation-tabs;
+@include foundation-thumbnail;
+@include foundation-title-bar;
+@include foundation-tooltip;
+@include foundation-top-bar;
+@include foundation-visibility-classes;
+// @include foundation-float-classes;
+@include foundation-flex-classes;
+// @include foundation-prototype-classes;
+
+@include motion-ui-transitions;
+@include motion-ui-animations;
+
+// @import 'components/form-floating-label';
+
+// MENU
+.dropdown.menu.medium-horizontal > li.is-dropdown-submenu-parent > a::after {
+  right: 1rem;
+}
+
+.off-canvas .menu {
+  padding: 1.5rem;
+
+  a {
+    color: $gunmetal;
+    outline: 0;
+  }
+
+  .button {
+    margin-top: 0.75rem;
+  }
+}
+
+.off-canvas .submenu {
+  padding: 0;
+
+  a {
+    font-size: 0.875rem;
+    line-height: 1.71428571428571;
+    padding: 0.375rem 1rem;
+    color: $medium-gray;
+  }
+}
+
+.logo {
+  text-transform: uppercase;
+  color: $primary-color;
+  letter-spacing: 0.375rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  display: block;
+}
+
+.top-bar {
+  .menu .logo a {
+    text-transform: uppercase;
+    padding: 0.75rem 0;
+    line-height: 1;
+    color: $primary-color;
+    letter-spacing: 0.375rem;
+    font-size: 1.5rem;
+  }
+
+  .is-dropdown-submenu a {
+    font-size: 0.875rem;
+    line-height: 1.71428571428571;
+    padding: 0.375rem 0.75rem;
+  }
+
+  .is-dropdown-submenu a {
+    &:active,
+    &:focus,
+    &:hover {
+      background: $primary-color;
+      color: $white;
+    }
+  }
+
+  .is-dropdown-submenu {
+    padding: 0.375rem 0;
+    background-color: $pale-gray;
+    box-shadow: 0 1px 2px rgba($black,.1);
+  }
+
+  .menu a {
+    color: $dark-gray;
+  }
+}
+
+.menu .button,
+.menu a {
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.menu a.button {
+  color: $white;
+  border: 0;
+  margin: 0 1rem;
+}
+
+.title-bar,
+.top-bar {
+  border-bottom: 1px solid $silver;
+  height: 6rem;
+
+  .logo {
+    padding-left: 0;
+  }
+}
+
+// BUTTON
+.button {
+  line-height: 1.71428571428571;
+  min-width: 9rem;
+  border: 0;
+  margin-bottom: 1.5rem;
+}
+
+.button[type='submit'] {
+  border-radius: 3rem;
+}
+
+.button.upload {
+  border-radius: 2px;
+  background: $gunmetal;
+  font-weight: normal;
+  margin-bottom: 0;
+}
+
+.button.secondary {
+  &:active,
+  &:focus,
+  &:hover {
+    background: $gunmetal;
+  }
+}
+
+.button.primary {
+  &:active,
+  &:focus,
+  &:hover {
+    background: $denim;
+  }
+}
+
+.button.primary.hollow {
+  &:active,
+  &:focus,
+  &:hover {
+    border-color: $denim;
+    color: $denim;
+    background-color: $white;
+  }
+}
+
+.button.medium {
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.button.disabled {
+  background: $pale-gray;
+  color: $primary-color;
+}
+
+.button.large {
+  line-height: 1;
+  padding: 1.5rem 2.5rem;
+  @include breakpoint(small only) {
+    font-size: 1.125rem;
+    line-height: 1.33333333333333333;
+    padding: 1.125rem 1.5rem;
+  }
+}
+
+.button.large.hollow {
+  padding: 1.375rem 2.5rem;
+  @include breakpoint(small only) {
+    font-size: 1.125rem;
+    line-height: 1.33333333333333333;
+    padding: 1rem 1.5rem;
+  }
+}
+
+// HEADINGS
+h1 {
+  line-height: 1.5;
+  color: $denim;
+}
+
+h2 {
+  line-height: 2;
+}
+
+h4 {
+  line-height: 2;
+  margin-bottom: 0;
+}
+
+h5 {
+  line-height: 1.66666666666667;
+}
+
+h6 {
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+h6.secondary {
+  color: $medium-gray;
+  border-bottom: 1px solid $secondary-color;
+  line-height: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.light {
+  color: $medium-gray;
+}
+
+// BANNER
+.banner {
+  h1 {
+    margin: 0 0 3rem;
+  }
+
+  h1.margin-bottom {
+    margin: 0 0 1.5rem;
+  }
+
+  h1.margin-bottom-small {
+    margin: 0 0 0.75rem;
+  }
+
+  .button {
+    margin-bottom: 0;
+  }
+}
+
+.banner {
+  @include breakpoint(medium) {
+    background: url("../img/dna.png") right top no-repeat;
+  }
+  padding: 7.5rem 0;
+  @include breakpoint(small only) {
+    padding: 3rem 0;
+  }
+  //background-attachment: fixed;
+}
+
+.banner.short {
+  padding: 3rem 0;
+  background-position: right center;
+  @include breakpoint(medium only) {
+    background: $pale-gray;
+  }
+}
+
+// .about1 {
+//   background: url("../img/about1.jpg") center no-repeat;
+// }
+//
+// .about2 {
+//   background: url("../img/about2.jpg") center no-repeat;
+// }
+//
+// .about3 {
+//   background: url("../img/about3.jpg") center no-repeat;
+// }
+
+.halfbanner {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+}
+
+.halfbanner-left {
+  right: 50%;
+  left: 0;
+}
+
+// .banner-secondary {
+//   padding: 6rem 0;
+//   background: url("../img/dna2.jpg") no-repeat;
+//   background-attachment: fixed;
+//   background-size: cover;
+//   position: relative;
+//   color: #fff;
+//
+//   h4 {
+//     position: relative;
+//   }
+// }
+
+.overlay {
+  background: rgba($denim, .9);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
+
+.overlay.white {
+  background: rgba($white, .8);
+  @include breakpoint(large) {
+    background: rgba($white, 0);
+  }
+}
+
+.overlay.denim {
+  background: rgba($denim, .9);
+}
+
+.overlay.secondary {
+  background: rgba($secondary-color, .9);
+}
+
+.overlay.primary {
+  background: rgba($primary-color, .9);
+}
+
+//SECTIONS
+.footer {
+  background: $black;
+  color: $white;
+
+  .menu {
+    opacity: 0.5;
+
+    a {
+      color: $white;
+      font-size: 0.875rem;
+      line-height: 1.71428571428571;
+      padding: 0.375rem 0;
+    }
+  }
+
+  .logo {
+    color: $white;
+    font-size: 1.125rem;
+    line-height: 1.333333333333;
+  }
+}
+
+.bg-2 {
+  background: $denim;
+  color: $white;
+}
+
+.bg-3 {
+  background: $pale-gray;
+}
+
+.bg-4 {
+  background: $denim;
+  color: $white;
+}
+
+.section {
+  padding: 3rem 0;
+}
+
+.section-large {
+  padding: 3rem 0;
+}
+
+// SHAPES
+.circle {
+  border-radius: 50%;
+  display: block;
+  text-align: center;
+}
+
+.circle.hollow {
+  border: 2px solid;
+}
+
+.yellow {
+  color: $secondary-color;
+}
+
+.circle.medium {
+  width: 3.75rem;
+  height: 3.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.circle.hollow.medium {
+  line-height: 3.5rem;
+}
+
+// SPACING
+.grid-container:not(.full) > .grid-padding-xs {
+  margin-right: -.375rem;
+  margin-left: -.375rem;
+}
+
+.grid-padding-xs > .cell {
+  padding-right: 0.375rem;
+  padding-left: 0.375rem;
+}
+
+.margin-top {
+  margin-top: 1.5rem;
+}
+
+.margin-top-large {
+  margin-top: 3rem;
+}
+
+.margin-bottom {
+  margin-bottom: 1.5rem;
+}
+
+.margin-bottom-large {
+  margin-bottom: 3rem;
+}
+
+.margin-left {
+  margin-left: 1.5rem;
+}
+
+.margin-right {
+  margin-right: 1.5rem;
+}
+
+.margin-right-large {
+  margin-right: 3rem;
+}
+
+.margin-right-small {
+  margin-right: 0.75rem;
+}
+
+.margin-left-small {
+  margin-left: 0.75rem;
+}
+
+.margin-bottom-small {
+  margin-bottom: 0.75rem;
+}
+
+.margin-bottom-xsmall {
+  margin-bottom: 0.375rem;
+}
+
+.relative {
+  position: relative;
+}
+
+// TYPOGRAPHY
+.tagline {
+  display: block;
+}
+
+.small {
+  font-size: 0.875rem;
+  line-height: 1.71428571428571;
+}
+
+// COLORS
+.blue {
+  color: $primary-color;
+}
+
+// CALLOUT
+
+.callout.alert {
+  border-color: $alert-color;
+  background-color: rgba($alert-color, .2);
+}
+// FORM
+
+.form-success {
+  color: $primary-color;
+  display: none;
+}
+
+.form-error {
+  margin-top: 0.375rem;
+  margin-bottom: 0.375rem;
+  line-height: 2;
+}
+
+.is-invalid-input:not(:focus) {
+  background-color: $white;
+}
+
+.radio-for-text-wrapper {
+  [type="radio"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0.75rem 0;
+    float: left;
+  }
+
+  .cell {
+    overflow: auto;
+  }
+
+  .form-floating-label {
+    float: left;
+    width: calc(100% - 1.5rem);
+  }
+}
+
+form .grid-container {
+  background: $pale-gray;
+  padding: 2.25rem 1.5rem;
+}
+
+// IMAGES
+.partner-logos {
+  line-height: 6rem;
+
+  [src*="hmlogo.svg"] {
+    height: 1.5rem;
+  }
+
+  [src*="hpologo.png"] {
+    height: 3.25rem;
+    opacity: 0.8;
+  }
+
+  [src*="monarchlogo.png"] {
+    height: 2rem;
+  }
+
+  [src*="mantonlogo.png"] {
+    height: 2rem;
+  }
+
+  [src*="bchlogo.svg"] {
+    height: 3.5rem;
+    opacity: 0.9;
+  }
+}
+
+.partner-logos img {
+  -webkit-filter: grayscale(100%);
+  /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+  line-height: 6rem;
+}
+
+.hobo {
+  color: red;
+}
