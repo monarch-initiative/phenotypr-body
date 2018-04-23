@@ -1,4 +1,4 @@
-# pcori
+# phenotypr-body
 
 > Plain-language phenotype search
 
@@ -10,6 +10,9 @@ npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
+
+# serve mockups with compiled styles at localhost:8080
+npm run mockups
 
 # build for production with minification
 npm run build
