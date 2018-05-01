@@ -15,6 +15,9 @@ export default class SearchService {
   /**
    * Constructs the URL to query the Solr index for the given terms.
    *
+   * TODO: HBCA-12 escape input to Solr
+   * TODO: Get feedback on query params
+   *
    * @param {String} queryText - search terms to query. Required.
    * @return {String} URL with query string to use to query the index.
    * @private
@@ -38,7 +41,7 @@ export default class SearchService {
    * @param {String} queryText - search terms to query for.
    * @return {Promise -> Object} a promise. On success, resolves to data returned by
    *   the Solr query. On error, resolves an object with an error key containing the
-   *   reason the request rejected.
+   *   reason the request was rejected.
    */
   search(queryText) {
     const url = this._buildUrl(queryText);
