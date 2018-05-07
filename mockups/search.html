@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/css/app.css">
+    <title>Base</title>
+  </head>
+  <body>
+
+    <!-- NAV -->
+    <div class="wrapper">
+      <div ng-include="" src="'/templates/nav.html'" class="ng-scope" style="">
+        <div class="ng-scope">
+          <div class="top-bar header">
+           </div>
+          <nav class="second-bar nav-bar-wrapper">
+            <span class="nav-bar-text">
+              <a ng-href="https://phenotypr.com/index.html" class="nav-links-home" href="https://phenotypr.com/index.html"><strong>PHENOTYPR</strong></a>
+              <a ng-href="/#" class="nav-links-home" href="/#">Body Tool</a>
+            </span>
+          </nav>
+        </div>
+      </div>
+
+      <!-- CONTENT - uiView:  -->
+      <div class="grid-content ng-scope">
+
+        <div class="grid-container ng-scope">
+
+          <div class="questions-page">
+
+            <form name="questionsForm grid-block large-12 row" class="ng-pristine ng-valid">
+
+              <div class="form-group body-tool">
+
+                <div class="tool-branding"><img src="/static/body.svg" alt="body" class="tool-icon"></div>
+
+                <p class="question-header"><span class="tool-icon-text">Body:</span> SYMTOMS SEARCH</p>
+
+                <div class="row small-12 medium-8 large-6 columns align-left question-row">
+
+                  <label class="question form-label">What symptoms are you experiencing?</label>
+
+                  <input type="search" name="search" placeholder="Search for a symptom">
+
+                </div>
+
+              </div>
+
+              <div class="saved-terms">
+
+                <span class="label symptom-tag">Symptom one <strong>X</strong></span>
+
+                <span class="label symptom-tag">Symptom two <strong>X</strong></span>
+
+                <span class="label symptom-tag">Symptom three <strong>X</strong></span>
+
+              </div>
+
+              <div class="button-container ">
+                <input type="button" class="button medium skip-button-q " value="Done adding symptoms" />
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div><!--wrapper-->
+  </body>
+</html>

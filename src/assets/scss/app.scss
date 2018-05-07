@@ -894,3 +894,65 @@ th {
 .thank-you {
   color: $primary-color;
 }
+
+/* OCTRI EDITS */
+.nav-links-home {
+  color:#fff;
+  margin-right:30px;
+  text-decoration:none;
+}
+
+.nav-links-home:hover {
+  color: #bcbcbc;
+}
+
+.nav-bar-text a.active {
+  color:#ddbd47;
+}
+
+.body-tool h6 {
+  margin-top:0.5rem;
+}
+
+.body-tool .tool-branding {
+  margin-top:6.5rem;
+}
+
+.body-tool .tool-icon {
+}
+
+.body-tool .question-header {
+  text-transform:uppercase;
+  padding-top:3%;
+}
+
+.tool-icon-text {
+  color: #bcbcbc;
+  font-weight:600;
+}
+
+.symptom-tag {
+  background-color: #355f88;
+  font-size:16px;
+  margin-right:12px;
+  padding:12px;
+}
+
+.symptom-tag strong {
+  margin-left:12px;
+}
+
+.saved-terms {
+  margin-top:30px;
+}
+
+.question-row {
+  padding-left:0 !important;
+}
+
+.question-row label {
+  display:block;
+  font-weight:300;
+  margin-top:6%;
+  margin-bottom: 1.25rem;
+}
