@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import SearchForm from '@/components/SearchForm';
+import QuestionsPage from '@/components/QuestionsPage';
 
 Vue.use(Router);
 
@@ -8,7 +8,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: SearchForm
+      component: QuestionsPage
     }
   ]
 });
