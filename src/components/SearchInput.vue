@@ -159,7 +159,7 @@ export default {
 
 <style lang="css">
 .autocomplete {
-  margin-top: 50px;
+  position: relative;
 }
 
 .autocomplete input {
@@ -167,12 +167,30 @@ export default {
 }
 
 .autocomplete .dropdown-pane {
-  position: inherit;
-  width: 100%;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #7e7e7e;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  visibility: hidden;
+}
+
+.autocomplete .dropdown-pane.is-open {
+  visibility: visible;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .autocomplete .dropdown-pane ul li {
   list-style-type: none;
+}
+
+.autocomplete .dropdown-pane li:before {
+  content: none;
 }
 
 .highlighted {
