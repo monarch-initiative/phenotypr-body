@@ -38,8 +38,7 @@ export default {
     return {
       queryText: '',
       suggestions: [],
-      currentIndex: null,
-      selections: []
+      currentIndex: null
     };
   },
 
@@ -58,7 +57,7 @@ export default {
      * @param {Number} index - the index in the `suggestions` array of the item selected.
      */
     selectItem(index) {
-      this.selections.push(this.suggestions[index]);
+      this.$emit('itemSelected', this.suggestions[index]);
     },
 
     /**

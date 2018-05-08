@@ -162,16 +162,13 @@ describe('SearchForm.vue', () => {
     const input = wrapper.find('input');
     const state = wrapper.vm.$data;
 
-    // Selected items should start empty
-    expect(state.selections.length).toEqual(0);
-
     input.trigger('keydown.enter');
 
-    // The selected item is captured
-    expect(state.selections.length).toEqual(1);
-    expect(state.selections[0]).toEqual(expectedSelection);
+    // An event is emitted with the selected item
+    expect(wrapper.emitted().itemSelected).toBeTruthy();
+    expect(wrapper.emitted().itemSelected[0]).toContain(expectedSelection);
 
-    // Other search state should be reset
+    // Search state should be reset
     expect(state.suggestions).toEqual([]);
     expect(state.queryText).toEqual('');
   });
@@ -187,17 +184,14 @@ describe('SearchForm.vue', () => {
     const suggestions = wrapper.findAll('li');
     const state = wrapper.vm.$data;
 
-    // Selected items should start empty
-    expect(state.selections.length).toEqual(0);
-
     // Click the third suggestion
     suggestions.wrappers[2].trigger('click');
 
-    // The selected item is captured
-    expect(state.selections.length).toEqual(1);
-    expect(state.selections[0]).toEqual(expectedSelection);
+    // An event is emitted with the selected item
+    expect(wrapper.emitted().itemSelected).toBeTruthy();
+    expect(wrapper.emitted().itemSelected[0]).toContain(expectedSelection);
 
-    // Other search state should be reset
+    // Search state should be reset
     expect(state.suggestions).toEqual([]);
     expect(state.queryText).toEqual('');
   });
