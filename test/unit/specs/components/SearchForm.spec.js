@@ -41,6 +41,7 @@ describe('SearchForm.vue', () => {
   test('should render a div with input and dropdown for suggestions', () => {
     const wrapper = shallow(SearchForm);
     expect(wrapper.is('div')).toBe(true);
+    expect(wrapper.contains('label')).toBe(true);
     expect(wrapper.contains('input')).toBe(true);
     expect(wrapper.contains('.dropdown-pane')).toBe(true);
   });
