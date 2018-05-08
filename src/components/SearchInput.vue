@@ -169,7 +169,7 @@ export default {
 .autocomplete .dropdown-pane {
   padding: 1rem;
   background: #fff;
-  border: 1px solid #7e7e7e;
+  border: 1px solid #ccc;
   position: absolute;
   top: 100%;
   left: 0;
