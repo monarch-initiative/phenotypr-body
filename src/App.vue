@@ -2,8 +2,7 @@
   <div id="app" class="wrapper">
     <div>
       <div>
-        <div class="top-bar header">
-         </div>
+        <div class="top-bar header"></div>
         <nav class="second-bar nav-bar-wrapper">
           <span class="nav-bar-text">
             <a href="https://phenotypr.com/index.html" class="nav-links-home"><strong>PHENOTYPR</strong></a>

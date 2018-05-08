@@ -21,7 +21,7 @@
               class="label symptom-tag">{{ selection.exact_synonym[0] }} <strong @click="removeSelection(index)">X</strong></span>
       </div>
 
-      <div class="button-container ">
+      <div class="button-container">
         <input type="button" class="button medium skip-button-q" value="Done adding symptoms" />
       </div>
 
