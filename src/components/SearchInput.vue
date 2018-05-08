@@ -1,13 +1,14 @@
 <template>
   <div class="autocomplete">
-    <input class="form-control" type="text"
+    <label class="question form-label">What symptoms are you experiencing?</label>
+    <input type="search"
            v-model="queryText"
            @input="updateQueryText($event.target.value)"
            v-on:input="refreshSuggestions"
            @keydown.enter='enter'
            @keydown.down='down'
            @keydown.up='up'
-           placeholder="Search..."
+           placeholder="Search for a symptom"
     >
     <div class="dropdown-pane" :class="{'is-open': hasSuggestions }" data-dropdown>
       <ul>
@@ -31,13 +32,13 @@
 import debounce from 'lodash/debounce';
 
 export default {
-  name: 'SearchForm',
+  name: 'SearchInput',
+
   data() {
     return {
       queryText: '',
       suggestions: [],
-      currentIndex: null,
-      selections: []
+      currentIndex: null
     };
   },
 
@@ -56,7 +57,7 @@ export default {
      * @param {Number} index - the index in the `suggestions` array of the item selected.
      */
     selectItem(index) {
-      this.selections.push(this.suggestions[index]);
+      this.$emit('itemSelected', this.suggestions[index]);
     },
 
     /**

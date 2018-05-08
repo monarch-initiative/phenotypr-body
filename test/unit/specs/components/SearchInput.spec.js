@@ -1,35 +1,13 @@
 import { shallow } from '@vue/test-utils';
-import SearchForm from '@/components/SearchForm';
+import SearchInput from '@/components/SearchInput';
+
+import exampleResponses from '../../example-responses';
 
 // Stub out debounce to work around Jest timer issue:
 // https://github.com/facebook/jest/issues/3465
 jest.mock('lodash/debounce', () => jest.fn(fn => fn));
 
-const exampleDocs = [
-  {
-    id: 'HP:0000316',
-    label: 'Hypertelorism',
-    exact_synonym: ['Widely spaced eyes', 'Wide-set eyes']
-  }, {
-    id: 'HP:0100539',
-    label: 'Periorbital edema',
-    exact_synonym: ['Swelling around the eyes', 'Puffiness around the eyes', 'Puffy eyes']
-  }, {
-    id: 'HP:0001090',
-    label: 'Abnormally large globe',
-    exact_synonym: ['Increased size of eyes', 'Large eyes']
-  }, {
-    id: 'HP:0001106',
-    label: 'Periorbital hyperpigmentation',
-    exact_synonym: ['Darkening around the eyes', 'Dark circles around the eyes', 'Dark circles under the eyes', 'Pigmentation around the eyes']
-  }, {
-    id: 'HP:0000601',
-    label: 'Hypotelorism',
-    exact_synonym: ['Abnormally close eyes', 'Closely spaced eyes']
-  }
-];
-
-describe('SearchForm.vue', () => {
+describe('SearchInput.vue', () => {
   const mockService = {
     search: jest.fn()
   };
@@ -39,31 +17,32 @@ describe('SearchForm.vue', () => {
   });
 
   test('should render a div with input and dropdown for suggestions', () => {
-    const wrapper = shallow(SearchForm);
+    const wrapper = shallow(SearchInput);
     expect(wrapper.is('div')).toBe(true);
+    expect(wrapper.contains('label')).toBe(true);
     expect(wrapper.contains('input')).toBe(true);
     expect(wrapper.contains('.dropdown-pane')).toBe(true);
   });
 
   test('should render a list item for each search result', () => {
-    const wrapper = shallow(SearchForm);
+    const wrapper = shallow(SearchInput);
 
     // Suggestions are empty by default
     expect(wrapper.contains('li')).toBe(false);
 
-    wrapper.setData({ suggestions: exampleDocs });
+    wrapper.setData({ suggestions: exampleResponses });
 
-    expect(wrapper.findAll('li').length).toEqual(exampleDocs.length);
+    expect(wrapper.findAll('li').length).toEqual(exampleResponses.length);
   });
 
   test('the down arrow key moves to the next suggestion', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleDocs
+        suggestions: exampleResponses
       }
     });
 
-    let expectedSelection = exampleDocs[0];
+    let expectedSelection = exampleResponses[0];
     let input = wrapper.find('input');
 
     // Nothing selected initially
@@ -78,22 +57,22 @@ describe('SearchForm.vue', () => {
 
     input.trigger('keydown.down');
 
-    expectedSelection = exampleDocs[1];
+    expectedSelection = exampleResponses[1];
     expect(wrapper.findAll('li.highlighted').length).toEqual(1);
     selectedItem = wrapper.find('li.highlighted');
     expect(selectedItem.find('strong').text()).toEqual(expectedSelection.exact_synonym[0]);
   });
 
   test('the up arrow key moves to the previous suggestion', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleDocs,
+        suggestions: exampleResponses,
         currentIndex: 1
       }
     });
 
     const input = wrapper.find('input');
-    let expectedSelection = exampleDocs[1];
+    let expectedSelection = exampleResponses[1];
 
     // First suggestion should be selected
     expect(wrapper.findAll('li.highlighted').length).toEqual(1);
@@ -102,16 +81,16 @@ describe('SearchForm.vue', () => {
 
     input.trigger('keydown.up');
 
-    expectedSelection = exampleDocs[0];
+    expectedSelection = exampleResponses[0];
     expect(wrapper.findAll('li.highlighted').length).toEqual(1);
     selectedItem = wrapper.find('li.highlighted');
     expect(selectedItem.find('strong').text()).toEqual(expectedSelection.exact_synonym[0]);
   });
 
   test('mousing over a suggestion moves to that suggestion', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleDocs
+        suggestions: exampleResponses
       }
     });
 
@@ -129,9 +108,9 @@ describe('SearchForm.vue', () => {
   });
 
   test('mousing out of a suggestion clears the selection', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleDocs,
+        suggestions: exampleResponses,
         currentIndex: 2
       }
     });
@@ -150,62 +129,56 @@ describe('SearchForm.vue', () => {
   });
 
   test('the enter key selects the current suggestion', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleDocs,
+        suggestions: exampleResponses,
         currentIndex: 2
       }
     });
 
-    const expectedSelection = exampleDocs[2];
+    const expectedSelection = exampleResponses[2];
     const input = wrapper.find('input');
     const state = wrapper.vm.$data;
 
-    // Selected items should start empty
-    expect(state.selections.length).toEqual(0);
-
     input.trigger('keydown.enter');
 
-    // The selected item is captured
-    expect(state.selections.length).toEqual(1);
-    expect(state.selections[0]).toEqual(expectedSelection);
+    // An event is emitted with the selected item
+    expect(wrapper.emitted().itemSelected).toBeTruthy();
+    expect(wrapper.emitted().itemSelected[0]).toContain(expectedSelection);
 
-    // Other search state should be reset
+    // Search state should be reset
     expect(state.suggestions).toEqual([]);
     expect(state.queryText).toEqual('');
   });
 
   test('clicking a suggestion selects it', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleDocs
+        suggestions: exampleResponses
       }
     });
 
-    const expectedSelection = exampleDocs[2];
+    const expectedSelection = exampleResponses[2];
     const suggestions = wrapper.findAll('li');
     const state = wrapper.vm.$data;
-
-    // Selected items should start empty
-    expect(state.selections.length).toEqual(0);
 
     // Click the third suggestion
     suggestions.wrappers[2].trigger('click');
 
-    // The selected item is captured
-    expect(state.selections.length).toEqual(1);
-    expect(state.selections[0]).toEqual(expectedSelection);
+    // An event is emitted with the selected item
+    expect(wrapper.emitted().itemSelected).toBeTruthy();
+    expect(wrapper.emitted().itemSelected[0]).toContain(expectedSelection);
 
-    // Other search state should be reset
+    // Search state should be reset
     expect(state.suggestions).toEqual([]);
     expect(state.queryText).toEqual('');
   });
 
   test('clears the suggestions when input is cleared', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
         queryText: 'wide eyes',
-        suggestions: exampleDocs,
+        suggestions: exampleResponses,
         currentIndex: 1
       }
     });
@@ -221,9 +194,9 @@ describe('SearchForm.vue', () => {
   });
 
   test('calls the search service on input', (done) => {
-    mockService.search.mockReturnValue(Promise.resolve({ docs: exampleDocs }));
+    mockService.search.mockReturnValue(Promise.resolve({ docs: exampleResponses }));
 
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       mocks: {
         $searchService: mockService
       }
@@ -238,16 +211,16 @@ describe('SearchForm.vue', () => {
 
     wrapper.vm.$nextTick(() => {
       expect(mockService.search).toHaveBeenCalledWith('wide-set eyes');
-      expect(wrapper.vm.$data.suggestions).toEqual(exampleDocs);
+      expect(wrapper.vm.$data.suggestions).toEqual(exampleResponses);
       done();
     });
   });
 
   test('hasSuggestions computed property', () => {
-    const wrapper = shallow(SearchForm);
+    const wrapper = shallow(SearchInput);
     expect(wrapper.vm.hasSuggestions).toBe(false);
 
-    wrapper.setData({ suggestions: exampleDocs });
+    wrapper.setData({ suggestions: exampleResponses });
     expect(wrapper.vm.hasSuggestions).toBe(true);
   });
 });
