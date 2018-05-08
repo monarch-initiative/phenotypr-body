@@ -32,7 +32,7 @@
 import debounce from 'lodash/debounce';
 
 export default {
-  name: 'SearchForm',
+  name: 'SearchInput',
 
   data() {
     return {

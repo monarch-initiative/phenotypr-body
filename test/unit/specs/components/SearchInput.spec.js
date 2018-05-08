@@ -1,5 +1,5 @@
 import { shallow } from '@vue/test-utils';
-import SearchForm from '@/components/SearchForm';
+import SearchInput from '@/components/SearchInput';
 
 // Stub out debounce to work around Jest timer issue:
 // https://github.com/facebook/jest/issues/3465
@@ -29,7 +29,7 @@ const exampleDocs = [
   }
 ];
 
-describe('SearchForm.vue', () => {
+describe('SearchInput.vue', () => {
   const mockService = {
     search: jest.fn()
   };
@@ -39,7 +39,7 @@ describe('SearchForm.vue', () => {
   });
 
   test('should render a div with input and dropdown for suggestions', () => {
-    const wrapper = shallow(SearchForm);
+    const wrapper = shallow(SearchInput);
     expect(wrapper.is('div')).toBe(true);
     expect(wrapper.contains('label')).toBe(true);
     expect(wrapper.contains('input')).toBe(true);
@@ -47,7 +47,7 @@ describe('SearchForm.vue', () => {
   });
 
   test('should render a list item for each search result', () => {
-    const wrapper = shallow(SearchForm);
+    const wrapper = shallow(SearchInput);
 
     // Suggestions are empty by default
     expect(wrapper.contains('li')).toBe(false);
@@ -58,7 +58,7 @@ describe('SearchForm.vue', () => {
   });
 
   test('the down arrow key moves to the next suggestion', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
         suggestions: exampleDocs
       }
@@ -86,7 +86,7 @@ describe('SearchForm.vue', () => {
   });
 
   test('the up arrow key moves to the previous suggestion', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
         suggestions: exampleDocs,
         currentIndex: 1
@@ -110,7 +110,7 @@ describe('SearchForm.vue', () => {
   });
 
   test('mousing over a suggestion moves to that suggestion', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
         suggestions: exampleDocs
       }
@@ -130,7 +130,7 @@ describe('SearchForm.vue', () => {
   });
 
   test('mousing out of a suggestion clears the selection', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
         suggestions: exampleDocs,
         currentIndex: 2
@@ -151,7 +151,7 @@ describe('SearchForm.vue', () => {
   });
 
   test('the enter key selects the current suggestion', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
         suggestions: exampleDocs,
         currentIndex: 2
@@ -174,7 +174,7 @@ describe('SearchForm.vue', () => {
   });
 
   test('clicking a suggestion selects it', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
         suggestions: exampleDocs
       }
@@ -197,7 +197,7 @@ describe('SearchForm.vue', () => {
   });
 
   test('clears the suggestions when input is cleared', () => {
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       data: {
         queryText: 'wide eyes',
         suggestions: exampleDocs,
@@ -218,7 +218,7 @@ describe('SearchForm.vue', () => {
   test('calls the search service on input', (done) => {
     mockService.search.mockReturnValue(Promise.resolve({ docs: exampleDocs }));
 
-    const wrapper = shallow(SearchForm, {
+    const wrapper = shallow(SearchInput, {
       mocks: {
         $searchService: mockService
       }
@@ -239,7 +239,7 @@ describe('SearchForm.vue', () => {
   });
 
   test('hasSuggestions computed property', () => {
-    const wrapper = shallow(SearchForm);
+    const wrapper = shallow(SearchInput);
     expect(wrapper.vm.hasSuggestions).toBe(false);
 
     wrapper.setData({ suggestions: exampleDocs });
