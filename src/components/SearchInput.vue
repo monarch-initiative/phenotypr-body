@@ -21,9 +21,7 @@
             @mouseover="mouseOver(index)"
             @mouseout="mouseOut()"
         >
-          <strong>{{ suggestion.exact_synonym[0] }}</strong><br/>
-          <small>{{ suggestion.label }}</small>
-          <small>{{ suggestion.id }}</small>
+          {{ suggestion.exact_synonym[0] }}
         </li>
       </ul>
     </div>
@@ -101,6 +99,7 @@ export default {
     up() {
       if (this.currentIndex > 0) {
         this.currentIndex--;
+        this.scrollItemIntoView(this.currentIndex);
       }
     },
 
@@ -112,6 +111,7 @@ export default {
         this.currentIndex = 0;
       } else if (this.currentIndex < this.suggestions.length - 1) {
         this.currentIndex++;
+        this.scrollItemIntoView(this.currentIndex);
       }
     },
 
@@ -146,6 +146,28 @@ export default {
      */
     isActive(index) {
       return index === this.currentIndex;
+    },
+
+    /**
+     * Scrolls a suggestion item into the visible portion of the dropdown. If the item is
+     * below the visible portion of the dropdown, scroll up until its bottom edge touches
+     * the bottom of the dropdown. If above the visible portion of the dropdown, scroll
+     * down until its top edge touches the top of the dropdown.
+     * @param {Number} index - an index into the `suggestions` array.
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+     */
+    scrollItemIntoView(index) {
+      const dropdown = this.$refs.dropdown;
+      const listItems = this.$refs.suggestionList.children;
+      const currentItem = listItems[index];
+
+      const maxVisible = dropdown.scrollTop + dropdown.clientHeight;
+      const aboveVisible = currentItem.offsetTop < dropdown.scrollTop;
+      const belowVisible = currentItem.offsetTop + currentItem.clientHeight > maxVisible;
+
+      if (aboveVisible || belowVisible) {
+        currentItem.scrollIntoView && currentItem.scrollIntoView(aboveVisible);
+      }
     }
   },
 
@@ -186,7 +208,6 @@ export default {
 }
 
 .autocomplete .dropdown-pane {
-  padding: 1rem;
   background: #fff;
   border: 1px solid #ccc;
   position: absolute;
@@ -204,7 +225,12 @@ export default {
   overflow-x: hidden;
 }
 
+.autocomplete .dropdown-pane ul {
+  margin: 0;
+}
+
 .autocomplete .dropdown-pane ul li {
+  padding: 10px;
   list-style-type: none;
 }
 
