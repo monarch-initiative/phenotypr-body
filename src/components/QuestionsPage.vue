@@ -5,7 +5,7 @@
 
       <div class="form-group body-tool">
 
-        <div class="tool-branding"><img src="/static/body.svg" alt="body" class="tool-icon"></div>
+        <div class="tool-branding"><img src="../../static/body.svg" alt="body" class="tool-icon"></div>
 
         <p class="question-header"><span class="tool-icon-text">Body:</span> SYMPTOMS SEARCH</p>
 
