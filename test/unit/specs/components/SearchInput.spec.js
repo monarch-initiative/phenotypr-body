@@ -193,6 +193,42 @@ describe('SearchInput.vue', () => {
     expect(state.currentIndex).toEqual(null);
   });
 
+  test('clears the search when the icon is clicked', () => {
+    const wrapper = shallow(SearchInput, {
+      data: {
+        queryText: 'wide eyes',
+        suggestions: exampleResponses,
+        currentIndex: 1
+      }
+    });
+
+    const clearIcon = wrapper.find('span.clear-search');
+    clearIcon.trigger('click');
+
+    const state = wrapper.vm.$data;
+    expect(state.queryText).toEqual('');
+    expect(state.suggestions).toEqual([]);
+    expect(state.currentIndex).toEqual(null);
+  });
+
+  test('clears the search on escape key', () => {
+    const wrapper = shallow(SearchInput, {
+      data: {
+        queryText: 'wide eyes',
+        suggestions: exampleResponses,
+        currentIndex: 1
+      }
+    });
+
+    const input = wrapper.find('input');
+    input.trigger('keydown.esc');
+
+    const state = wrapper.vm.$data;
+    expect(state.queryText).toEqual('');
+    expect(state.suggestions).toEqual([]);
+    expect(state.currentIndex).toEqual(null);
+  });
+
   test('calls the search service on input', (done) => {
     mockService.search.mockReturnValue(Promise.resolve({ docs: exampleResponses }));
 

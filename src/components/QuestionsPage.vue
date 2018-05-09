@@ -1,7 +1,7 @@
 <template>
   <div class="questions-page">
 
-    <form name="questionsForm grid-block large-12 row">
+    <form name="questionsForm grid-block large-12 row" @submit.prevent>
 
       <div class="form-group body-tool">
 

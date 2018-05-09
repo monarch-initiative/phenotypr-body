@@ -8,10 +8,12 @@
            @keydown.enter='enter'
            @keydown.down='down'
            @keydown.up='up'
+           @keydown.esc='resetSearch'
            placeholder="Search for a symptom"
     >
-    <div class="dropdown-pane" :class="{'is-open': hasSuggestions }" data-dropdown>
-      <ul>
+    <span class="clear-search" :class="{ 'is-visible': hasSuggestions }" @click="resetSearch">X</span>
+    <div ref="dropdown" class="dropdown-pane" :class="{ 'is-open': hasSuggestions }" data-dropdown>
+      <ul ref="suggestionList">
         <li v-for="(suggestion, index) in suggestions"
             :key="suggestion.id"
             :class="{'highlighted': isActive(index)}"
@@ -50,6 +52,7 @@ export default {
       this.queryText = '';
       this.suggestions = [];
       this.currentIndex = null;
+      this.$refs.dropdown.scrollTop = 0;
     },
 
     /**
@@ -164,6 +167,22 @@ export default {
 
 .autocomplete input {
   margin-bottom: 0;
+}
+
+.autocomplete .clear-search {
+  position: absolute;
+  left: 95%;
+  bottom: 11px;
+  color: #7e7e7e;
+  visibility: hidden;
+}
+
+.autocomplete .clear-search:hover {
+  cursor: pointer;
+}
+
+.autocomplete .clear-search.is-visible {
+  visibility: visible;
 }
 
 .autocomplete .dropdown-pane {
