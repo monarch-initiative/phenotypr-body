@@ -1,3 +1,4 @@
+/* global process */
 import './assets/scss/app.scss';
 
 // The Vue build version to load with the `import` command
@@ -11,8 +12,7 @@ import SearchService from './services/search-service';
 
 Vue.config.productionTip = false;
 
-// TODO: get the URL from config
-const searchService = new SearchService('/solr/hpo-pl/select');
+const searchService = new SearchService(process.env.HPO_SOLR_ENDPOINT);
 
 // Inject the search service into components
 Vue.mixin(SearchMixin);
