@@ -2,11 +2,15 @@ import qs from 'qs';
 import axios from 'axios';
 
 const defaultParams = {
+  // Select all document fields, plus the score
   fl: '*,score',
+  // Use the 'edismax' query parser
   defType: 'edismax',
+  // Highlighting config
   hl: 'on',
   'hl.snippets': '1000',
   'hl.simple.pre': '<em class="hilite">',
+  // Fields to query with boosting factors
   qf: [
     'broad_synonym_std^1',
     'broad_synonym_kw^1',
@@ -21,6 +25,7 @@ const defaultParams = {
     'related_synonym_kw^2',
     'related_synonym_eng^2'
   ].join(' '),
+  // JSON output
   wt: 'json'
 };
 
