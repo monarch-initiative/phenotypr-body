@@ -7,7 +7,6 @@ const defaultParams = {
   hl: 'on',
   'hl.snippets': '1000',
   'hl.simple.pre': '<em class="hilite">',
-  df: ['exact_synonym_eng'],
   qf: [
     'broad_synonym_std^1',
     'broad_synonym_kw^1',
