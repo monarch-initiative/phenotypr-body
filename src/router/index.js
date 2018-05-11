@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import QuestionsPage from '@/components/QuestionsPage';
+import SearchPage from '@/components/SearchPage';
 import ResultsPage from '@/components/ResultsPage';
 
 Vue.use(Router);
@@ -14,7 +14,7 @@ export default new Router({
     },
     {
       path: '/search',
-      component: QuestionsPage
+      component: SearchPage
     },
     {
       path: '/results',

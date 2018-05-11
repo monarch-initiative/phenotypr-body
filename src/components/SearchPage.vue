@@ -34,7 +34,7 @@
 import SearchInput from './SearchInput';
 
 export default {
-  name: 'QuestionsPage',
+  name: 'SearchPage',
 
   data() {
     return {
