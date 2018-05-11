@@ -53,14 +53,14 @@ describe('SearchInput.vue', () => {
     // First suggestion should be selected
     expect(wrapper.findAll('li.highlighted').length).toEqual(1);
     let selectedItem = wrapper.find('li.highlighted');
-    expect(selectedItem.find('strong').text()).toEqual(expectedSelection.exact_synonym[0]);
+    expect(selectedItem.text()).toEqual(expectedSelection.exact_synonym[0]);
 
     input.trigger('keydown.down');
 
     expectedSelection = exampleResponses[1];
     expect(wrapper.findAll('li.highlighted').length).toEqual(1);
     selectedItem = wrapper.find('li.highlighted');
-    expect(selectedItem.find('strong').text()).toEqual(expectedSelection.exact_synonym[0]);
+    expect(selectedItem.text()).toEqual(expectedSelection.exact_synonym[0]);
   });
 
   test('the up arrow key moves to the previous suggestion', () => {
@@ -74,17 +74,18 @@ describe('SearchInput.vue', () => {
     const input = wrapper.find('input');
     let expectedSelection = exampleResponses[1];
 
-    // First suggestion should be selected
+    // Second suggestion should be selected
     expect(wrapper.findAll('li.highlighted').length).toEqual(1);
     let selectedItem = wrapper.find('li.highlighted');
-    expect(selectedItem.find('strong').text()).toEqual(expectedSelection.exact_synonym[0]);
+    expect(selectedItem.text()).toEqual(expectedSelection.exact_synonym[0]);
 
     input.trigger('keydown.up');
 
+    // First suggestion should now be selected
     expectedSelection = exampleResponses[0];
     expect(wrapper.findAll('li.highlighted').length).toEqual(1);
     selectedItem = wrapper.find('li.highlighted');
-    expect(selectedItem.find('strong').text()).toEqual(expectedSelection.exact_synonym[0]);
+    expect(selectedItem.text()).toEqual(expectedSelection.exact_synonym[0]);
   });
 
   test('mousing over a suggestion moves to that suggestion', () => {
