@@ -31,16 +31,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import SearchInput from './SearchInput';
 
 export default {
   name: 'SearchPage',
-
-  data() {
-    return {
-      selections: []
-    };
-  },
 
   components: {
     SearchInput
@@ -48,16 +43,20 @@ export default {
 
   methods: {
     handleSelection(item) {
-      this.selections.push(item);
+      this.$store.commit('addTerm', item);
     },
 
     removeSelection(index) {
-      this.selections.splice(index, 1);
+      this.$store.commit('removeTermAtIndex', index);
     },
 
     goToResults() {
       this.$router.push('/results');
     }
-  }
+  },
+
+  computed: mapState({
+    selections: 'selectedTerms'
+  })
 };
 </script>

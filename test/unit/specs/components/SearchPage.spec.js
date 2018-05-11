@@ -1,57 +1,67 @@
-import { shallow } from '@vue/test-utils';
+import Vuex from 'vuex';
+import { shallow, createLocalVue } from '@vue/test-utils';
+
 import SearchPage from '@/components/SearchPage';
 import SearchInput from '@/components/SearchInput';
-
 import exampleResponses from '../../example-responses';
 
+const localVue = createLocalVue();
+localVue.use(Vuex);
+
 describe('SearchPage.vue', () => {
+  let store, state, mutations;
+
+  beforeEach(() => {
+    mutations = {
+      addTerm: jest.fn(),
+      removeTermAtIndex: jest.fn()
+    };
+
+    state = {
+      selectedTerms: exampleResponses.slice(2)
+    };
+
+    store = new Vuex.Store({ state, mutations });
+  });
+
   test('renders a form with a search input', () => {
-    const wrapper = shallow(SearchPage);
+    const wrapper = shallow(SearchPage, { store, localVue });
     expect(wrapper.find('form').exists()).toBe(true);
     expect(wrapper.find(SearchInput).exists()).toBe(true);
   });
 
   test('renders a tag for each selected term', () => {
-    const wrapper = shallow(SearchPage);
-    const sliceIndex = 2;
-
-    expect(wrapper.findAll('.symptom-tag').length).toEqual(0);
-
-    wrapper.setData({
-      // Take items from index 2 to the end
-      selections: exampleResponses.slice(sliceIndex)
-    });
-
-    expect(wrapper.findAll('.symptom-tag').length).toEqual(exampleResponses.length - sliceIndex);
+    const tagCount = store.state.selectedTerms.length;
+    const wrapper = shallow(SearchPage, { store, localVue });
+    expect(wrapper.findAll('.symptom-tag').length).toEqual(tagCount);
   });
 
-  test('selecting an item adds a tag', () => {
-    const wrapper = shallow(SearchPage);
+  test('selecting an item commits an addTerm mutation', () => {
+    const wrapper = shallow(SearchPage, { store, localVue });
     const expectedItem = exampleResponses[2];
 
-    expect(wrapper.findAll('.symptom-tag').length).toEqual(0);
-
     wrapper.vm.handleSelection(expectedItem);
-
-    const tags = wrapper.findAll('.symptom-tag');
-    expect(tags.length).toEqual(1);
-    expect(tags.at(0).text()).toContain(expectedItem.exact_synonym[0]);
+    expect(mutations.addTerm).toHaveBeenCalledWith(state, expectedItem);
   });
 
-  test('clicking the X on a tag removes it', () => {
-    const expectedItem = exampleResponses[3];
-    const wrapper = shallow(SearchPage, {
-      data: {
-        selections: [expectedItem]
+  test('clicking the X on a tag commits a removeTermAtIndex mutation', () => {
+    const wrapper = shallow(SearchPage, { store, localVue });
+    const tagRemovalButtons = wrapper.findAll('.symptom-tag strong');
+
+    tagRemovalButtons.at(1).trigger('click');
+    expect(mutations.removeTermAtIndex).toHaveBeenCalledWith(state, 1);
+  });
+
+  test('clicking the button transitions to the results route', () => {
+    const mocks = {
+      $router: {
+        push: jest.fn()
       }
-    });
+    };
 
-    let tags = wrapper.findAll('.symptom-tag');
-    expect(tags.length).toEqual(1);
+    const wrapper = shallow(SearchPage, { store, localVue, mocks });
 
-    tags.at(0).find('strong').trigger('click');
-
-    tags = wrapper.findAll('.symptom-tag');
-    expect(tags.length).toEqual(0);
+    wrapper.find('input[type=button]').trigger('click');
+    expect(mocks.$router.push).toHaveBeenCalledWith('/results');
   });
 });
