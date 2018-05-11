@@ -1,6 +1,34 @@
 import qs from 'qs';
 import axios from 'axios';
 
+const defaultParams = {
+  // Select all document fields, plus the score
+  fl: '*,score',
+  // Use the 'edismax' query parser
+  defType: 'edismax',
+  // Highlighting config
+  hl: 'on',
+  'hl.snippets': '1000',
+  'hl.simple.pre': '<em class="hilite">',
+  // Fields to query with boosting factors
+  qf: [
+    'broad_synonym_std^1',
+    'broad_synonym_kw^1',
+    'broad_synonym_eng^1',
+    'narrow_synonym_std^3',
+    'narrow_synonym_kw^3',
+    'narrow_synonym_eng^3',
+    'exact_synonym_std^5',
+    'exact_synonym_kw^5',
+    'exact_synonym_eng^5',
+    'related_synonym_std^2',
+    'related_synonym_kw^2',
+    'related_synonym_eng^2'
+  ].join(' '),
+  // JSON output
+  wt: 'json'
+};
+
 /**
  * A service that queries the Solr index.
  */
@@ -16,23 +44,34 @@ export default class SearchService {
    * Constructs the URL to query the Solr index for the given terms.
    *
    * TODO: HBCA-12 escape input to Solr
-   * TODO: Get feedback on query params
    *
    * @param {String} queryText - search terms to query. Required.
    * @return {String} URL with query string to use to query the index.
    * @private
    */
   _buildUrl(queryText) {
-    const defaultParams = {
-      df: 'exact_synonym_eng',
-      fl: 'id,label,exact_synonym,score',
-      wt: 'json'
-    };
-
     const params = Object.assign({}, defaultParams, { q: queryText });
     const queryString = qs.stringify(params, { addQueryPrefix: true });
 
     return `${this.searchUrl}${queryString}`;
+  }
+
+  /**
+   * Merges highlighting returned from Solr with the related HPO term document.
+   *
+   * @param {Object} response - a Solr response.
+   * @return {Object} an object with a `docs` key, where `docs` is an array of Solr
+   *   documents with highlighting information added
+   */
+  _mergeHighlighting(response) {
+    const { docs = [] } = response.response;
+    const { highlighting = {} } = response;
+
+    docs.forEach(doc => {
+      doc.highlighting = highlighting[doc.id];
+    });
+
+    return { docs };
   }
 
   /**
@@ -46,7 +85,8 @@ export default class SearchService {
   search(queryText) {
     const url = this._buildUrl(queryText);
     return axios(url)
-      .then(response => response.data.response)
+      .then(response => response.data)
+      .then(this._mergeHighlighting)
       .catch(reason => ({ error: reason }));
   }
 }

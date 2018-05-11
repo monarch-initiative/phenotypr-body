@@ -5,17 +5,18 @@ jest.mock('axios');
 
 describe('search service', () => {
   const mockUrl = 'http://example.com/solr/hpo-pl/select';
+
+  const defaultMockResponse = {
+    data: {
+      response: {
+        docs: []
+      }
+    }
+  };
+
   let service;
 
-  function mockQueryResponse() {
-    const mockResponse = {
-      data: {
-        response: {
-          docs: []
-        }
-      }
-    };
-
+  function mockQueryResponse(mockResponse = defaultMockResponse) {
     axios.mockReturnValue(Promise.resolve(mockResponse));
   }
 
@@ -45,5 +46,35 @@ describe('search service', () => {
     axios.mockReturnValue(Promise.reject(new Error(message)));
     return service.search('some query')
       .then(response => expect(response.error.message).toEqual(message));
+  });
+
+  test('it merges highlighting into the response documents', () => {
+    const mockHighlighting = {
+      'HP:0000001': {
+        exact_synonym_eng: [ '<em class="hilite">Flat</em> <em class="hilite">nose</em>' ],
+        exact_synonym_std: [ '<em class="hilite">Flat</em> <em class="hilite">nose</em>' ]
+      },
+      'HP:0000042': {
+        exact_synonym_eng: [ '<em class="hilite">Flat</em> foot' ],
+        exact_synonym_std: [ '<em class="hilite">Flat</em> foot' ]
+      }
+    };
+
+    const mockResponse = {
+      data: {
+        response: {
+          docs: [
+            { id: 'HP:0000042' },
+            { id: 'HP:0000001' }
+          ]
+        },
+        highlighting: mockHighlighting
+      }
+    };
+
+    mockQueryResponse(mockResponse);
+    const expectedHighlight = mockHighlighting['HP:0000042'];
+    return service.search('some query')
+      .then(response => expect(response.docs[0].highlighting).toEqual(expectedHighlight));
   });
 });
