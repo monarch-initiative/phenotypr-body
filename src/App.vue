@@ -6,7 +6,7 @@
         <nav class="second-bar nav-bar-wrapper">
           <span class="nav-bar-text">
             <a href="https://phenotypr.com/index.html" class="nav-links-home"><strong>PHENOTYPR</strong></a>
-            <a href="/#/" class="nav-links-home">Body Tool</a>
+            <router-link to="/" class="nav-links-home">Body Tool</router-link>
           </span>
         </nav>
       </div>
