@@ -22,7 +22,7 @@
       </div>
 
       <div class="button-container">
-        <input type="button" class="button medium skip-button-q" value="Done adding symptoms" />
+        <input type="button" class="button medium skip-button-q" value="Done adding symptoms" @click="goToResults" />
       </div>
 
     </form>
@@ -34,7 +34,7 @@
 import SearchInput from './SearchInput';
 
 export default {
-  name: 'QuestionsPage',
+  name: 'SearchPage',
 
   data() {
     return {
@@ -53,6 +53,10 @@ export default {
 
     removeSelection(index) {
       this.selections.splice(index, 1);
+    },
+
+    goToResults() {
+      this.$router.push('/results');
     }
   }
 };

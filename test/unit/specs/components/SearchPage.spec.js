@@ -1,18 +1,18 @@
 import { shallow } from '@vue/test-utils';
-import QuestionsPage from '@/components/QuestionsPage';
+import SearchPage from '@/components/SearchPage';
 import SearchInput from '@/components/SearchInput';
 
 import exampleResponses from '../../example-responses';
 
-describe('QuestionsPage.vue', () => {
+describe('SearchPage.vue', () => {
   test('renders a form with a search input', () => {
-    const wrapper = shallow(QuestionsPage);
+    const wrapper = shallow(SearchPage);
     expect(wrapper.find('form').exists()).toBe(true);
     expect(wrapper.find(SearchInput).exists()).toBe(true);
   });
 
   test('renders a tag for each selected term', () => {
-    const wrapper = shallow(QuestionsPage);
+    const wrapper = shallow(SearchPage);
     const sliceIndex = 2;
 
     expect(wrapper.findAll('.symptom-tag').length).toEqual(0);
@@ -26,7 +26,7 @@ describe('QuestionsPage.vue', () => {
   });
 
   test('selecting an item adds a tag', () => {
-    const wrapper = shallow(QuestionsPage);
+    const wrapper = shallow(SearchPage);
     const expectedItem = exampleResponses[2];
 
     expect(wrapper.findAll('.symptom-tag').length).toEqual(0);
@@ -40,7 +40,7 @@ describe('QuestionsPage.vue', () => {
 
   test('clicking the X on a tag removes it', () => {
     const expectedItem = exampleResponses[3];
-    const wrapper = shallow(QuestionsPage, {
+    const wrapper = shallow(SearchPage, {
       data: {
         selections: [expectedItem]
       }
