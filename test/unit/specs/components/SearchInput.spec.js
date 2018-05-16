@@ -152,6 +152,15 @@ describe('SearchInput.vue', () => {
     expect(state.queryText).toEqual('');
   });
 
+  test('hitting enter without a selection does not emit an item', () => {
+    const wrapper = shallow(SearchInput);
+
+    const input = wrapper.find('input');
+    input.trigger('keydown.enter');
+
+    expect(wrapper.emitted().itemSelected).toBe(undefined);
+  });
+
   test('clicking a suggestion selects it', () => {
     const wrapper = shallow(SearchInput, {
       data: {

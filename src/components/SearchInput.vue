@@ -58,7 +58,9 @@ export default {
      * @param {Number} index - the index in the `suggestions` array of the item selected.
      */
     selectItem(index) {
-      this.$emit('itemSelected', this.suggestions[index]);
+      if (typeof this.suggestions[index] !== 'undefined') {
+        this.$emit('itemSelected', this.suggestions[index]);
+      }
     },
 
     /**
