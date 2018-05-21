@@ -15,6 +15,9 @@ const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
 const mockupWebpackConfig = merge(baseWebpackConfig, {
+  entry: {
+    app: './mockups/main.js'
+  },
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.dev.cssSourceMap,
@@ -70,8 +73,7 @@ const mockupWebpackConfig = merge(baseWebpackConfig, {
         ignore: ['.*']
       },
       {
-        from: path.resolve(__dirname, '../mockups'),
-        to: 'mockups'
+        from: path.resolve(__dirname, '../mockups/*.html'),
       }
     ]),
     new ExtractTextPlugin({
