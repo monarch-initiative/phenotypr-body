@@ -7,7 +7,7 @@
         <div class="media-object">
           <div class="media-object-section">
             <div>
-              <img src="/static/body.svg">
+              <img src="../../static/body.svg">
             </div>
           </div>
 
