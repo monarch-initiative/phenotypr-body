@@ -8,7 +8,7 @@
   
   <body>
     
-    <!-- nav bar -->
+    <!-- nav -->
     <div class="top-bar">
       
       <div class="top-bar-left">
@@ -57,48 +57,57 @@
       
       </div>
       
-      <!-- search form -->
-      <form>
+      <!-- sub heading -->
+      <div class="grid-x grid-margin-x terms-subheading">
         
-        <div class="grid-x grid-margin-x">
-        
-          <div class="cell medium-8 large-6">
-            
-            <label class="lead">What symptoms are you experiencing?</label>
-            
-            <input type="search" placeholder="Search for a symptom">
-          
-          </div>
-          
+        <div class="cell large-8">
+          <h2>Your HPO Terms</h2>
         </div>
         
-        <!-- saved terms -->
-        <div class="grid-x grid-margin-x saved-terms">
+        <div class="cell large-4 text-right">
         
-          <div class="cell">
-            
-            <span class="label symptom-tag ">Large eyes <strong>X</strong></span>
-            <span class="label symptom-tag">Widely spaced teeth <strong>X</strong></span>
-            <span class="label symptom-tag">Chin, H-Shaped Crease <strong>X</strong></span>
-            <span class="label symptom-tag">Sweating profusely <strong>X</strong></span>
-            <span class="label symptom-tag">Leg paralysis <strong>X</strong></span>
-          </div>
-          
+          <input type="button" value="Download" class="button">
+        
         </div>
-        
-        <!-- forms -->
-        <div class="grid-x grid-margin-x button-container">
-        
-          <div class="cell large-8 text-right">
-            
-            <input type="button" value="Done adding symptoms" class="button rounded">
           
-          </div>
-          
-        </div>
+      </div>  
         
-      </form>
-    
+      <!-- seearch results table -->
+      <div class="grid-x grid-margin-x">
+        
+        <div class="cell">
+          
+          <table>
+            <caption></caption>
+            <thead>
+              <tr>
+                <th>Sypmtom</th>
+                <th>HPO Term</th>
+                <th>HPO #</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Content Goes Here</td>
+                <td>Content Goes Here</td>
+                <td>Content Goes Here</td>
+              </tr>
+              <tr>
+                <td>Content Goes Here</td>
+                <td>Content Goes Here</td>
+                <td>Content Goes Here</td>
+              </tr>
+              <tr>
+                <td>Content Goes Here</td>
+                <td>Content Goes Here</td>
+                <td>Content Goes Here</td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>  
+        
+      </div>  
       
     <!-- /end grid container -->
     </div>   

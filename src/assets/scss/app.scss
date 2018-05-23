@@ -6,3 +6,117 @@
 // Load Foundation
 @import "~foundation-sites/scss/foundation";
 @include foundation-everything;
+@include foundation-prototype-rounded;
+
+
+
+// TOP NAV
+.top-bar, 
+.top-bar ul {
+  background:#5aa4d2;
+}
+.top-bar {
+  border-top:20px solid #489ace;
+  padding-left:3.9%;
+  padding-top:.7%;
+}
+.menu .menu-text {
+  padding:0;
+}
+.menu a {
+  color:#fff;
+}
+.menu a:hover {
+  color:#ddd;
+}
+
+  
+// BODY-SEARCH-CONTENT HEADERS
+.body-search-content {
+  margin-top:73px;
+}
+.body-search-content h1 {
+  border-bottom: 2px solid #ddbd47;
+  color:#7e7e7e;
+  display:inline-block;
+  font-size:1.5em; 
+  font-weight:400;
+  line-height:1.6em;
+  text-transform:uppercase;
+}
+.body-search-content h1 strong {
+  color:#bcbcbc;
+  font-weight:600;
+}
+.body-search-content .terms-subheading {
+  margin-top:25px;
+}
+.body-search-content h2 {
+  color:#355f88;
+  font-size:1.4em;
+  font-weight:600;
+}
+
+
+// BODY-SEARCH-CONTENT FORM
+.body-search-content form {
+  margin-top:30px;
+}
+.body-search-content form label {
+  color:#7e7e7e;
+  font-size:1.4em;
+  margin-bottom:10px;
+}
+.symptom-tag {
+    background-color: #355f88;
+    font-size: 16px;
+    margin-right: 12px;
+    padding: 12px;
+}
+.saved-terms {
+  margin-top:45px;
+}
+
+
+// BODY-SEARCH-CONTENT BUTTONS
+.body-search-content form .button-container {
+  margin-top:65px;
+}
+.body-search-content .button-container .button {
+  background-color: #5aa4d2;
+  border:2px solid #5aa4d2;
+  font-size:1em;
+  padding-left:2.8em;
+  padding-right:2.8em;
+}
+.body-search-content .terms-subheading .button {
+  background-color:#355f88;
+  font-size:1em;
+  margin-bottom:0;
+}
+.body-search-content .button-container .button:hover,
+.body-search-content .terms-subheading .button:hover  {
+  background-color:#ddd;
+  border-color:#333;
+  color:#333;
+}
+
+
+// BODY-SEARCH-CONTENT RESULTS
+.body-search-content table,
+.body-search-content table tbody {
+  border:none;
+}
+.body-search-content table thead {
+  background-color:transparent;
+  border:none;
+  border-bottom:1px solid #ddbd47;
+  color:#91989e;
+  font-size:1.1em;
+}
+.body-search-content tbody tr:nth-child(odd) {
+  background-color:#f6fafc;
+}
+.body-search-content tbody tr:nth-child(even) {
+  background-color:#ecf4fa;
+}
