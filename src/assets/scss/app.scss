@@ -1,961 +1,122 @@
-@import "settings";
-@import "~foundation-apps/scss/foundation";
-// @import "foundation/components/tables";
+// This file gets imported in every component by the scss cssLoader (see build/utils.js)
+// https://github.com/vuejs/vue-loader/issues/328
 
-// custom colors
-$background-color: #f4f4f4;
-$decoration-color: #ddbd47;
-$description-gray: #7e7e7e;
-$table-gray: #d5d5d5;
-$subheader-gray: #bcbcbc;
-$lightest-gray: #e4e4e4;
-$white: #fff;
-$reg-blue: #154A9A;
-//
-// // custom CSS
+// Load custom Foundation variables
+@import "./settings";
+// Load Foundation
+@import "~foundation-sites/scss/foundation";
+@include foundation-everything;
+@include foundation-prototype-rounded;
 
-// custom button mixin
 
-// .grid-container, .welcome-page{
-//   height: auto;
-// }
-html {
-  box-sizing: border-box;
-  height: 100%;
+
+// TOP NAV
+.top-bar, 
+.top-bar ul {
+  background:#5aa4d2;
 }
-
-body {
-  // background-color: $background-color;
-  // margin-bottom: 250px;
-  min-height: 100%;
-  position: relative;
-}
-
-.grid-content {
-  padding-left: 0;
-  padding-right: 0;
-  /* prevents autocomplete being clipped */
-  overflow-y: visible;
-}
-
-h1 {
-  color: $description-gray;
-}
-
-.background {
-  background-position: right;
-  height: 100%;
-  overflow: hidden;
-  width: 100%;
-  z-index: -1000;
-}
-
-.background::after {
-  background: url('../img/dna-cropped.png') no-repeat right;
-  bottom: 0;
-  content: '';
-  height: 100%;
-  left: 0;
-  padding: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: -1;
-}
-
-
-#myProgress {
-    background-color: $table-gray;
-    border-radius: 10px;
-    // margin-left: 10%;
-    // margin-right: 10%;
-    position: relative;
-}
-
-#myBar {
-    background-color: $decoration-color;
-    border-radius: 10px;
-    color: black;
-    height: 15px;
-    margin-bottom: -4%;
-    padding-bottom: -3%;
-    // position: absolute;
-    margin-top: 5%;
-    width: 1%;
-}
-
-//
-
-// .wrapper {
-//   min-height: 100%;
-//   position: relative;
-// }
-//
-// .header {
-//   padding: 10px;
-// }
-
-.table-headers {
-  color: $white;
-  font-size: 1.2em;
-  text-align: left;
-}
-
-.hpo-details {
-  font-size: 1em;
-}
-
-// .landing-photo {
-//   background-size: cover 100%;
-//   display: inline-block;
-//   float: right;
-//   height: 100%;
-//   max-width: 20%;
-//   position: static;
-//   right: 0;
-// }
-
-
-// .landing-page-text {
-//   float: left;
-//   height: 550px;
-//   margin-top: 1%;
-//   padding-bottom: 5%;
-//   padding-right: 0;
-//   width: 70%;
-// }
-
-.landing-header-text {
-  border-bottom: solid 2px $decoration-color;
-  color: $description-gray;
-  height: auto;
-  margin: 0;
-}
-
-.landing-header {
-  margin-bottom: 0;
-  padding-bottom: 2%;
-}
-
-// .landing-header-row, .about-text-row, .project-row, .header-row {
-//   padding-left: 4%;
-//   padding-right: 4%;
-// }
-
-// .landing-what-grt,
-// .landing-what-hpo,
-// .landing-why-hpo {
-//   display: inline-block;
-//   float: left;
-//   margin-top: 1%;
-//   padding-right: 2%;
-//   width: 33%;
-// }
-
-.head-text-neuro, .start-button-div {
-  padding: 2%;
-}
-
-.about-text, .project-row, .head-text, .section-header-row, .about-header-row{
-  padding: 0% 2% 2%;
-}
-
-.landing-text {
-  font-size: 1em;
-}
-
-.about-header-row {
-  text-align: center;
-}
-
-p, h1, h4, h5, li, .confirm-item, .confirm-checkboxes-section{
-  font-weight: 300;
-}
-
-// @include breakpoint(small) {
-//   .form-group {
-//     display: inline-block;
-//     height: 80%;
-//     padding-bottom: 100px;
-//     width: 100%;
-//   }
-// }
-
-@media all and ( max-width: 1200px ) {
-  .background::after {
-    background: none;
-  }
-}
-
-@media all and (min-width: 1400px) {
-  .ppp {
-    margin-right: 25%;
-  }
-}
-
-@media all and (max-width: 600px) {
-  .welcome-header, .ppp {
-    font-size: 1.55em !important;
-  }
-
-  .question {
-    font-size: 1.2em !important;
-  }
-
-  .symptom-list {
-    font-size: 1em !important;
-  }
-
-  .landing-text, .table-headers, .email-address {
-    font-size: .75em !important;
-  }
-
-  .button {
-    font-size: .75em !important;
-    text-align: center;
-  }
-
-  .download-links {
-    text-align: left;
-  }
-  .skip-button,
-  .skip-button-q,
-  .previous-button,
-  .hpo-details {
-    font-size: .5em !important;
-  }
-  .main-row {
-    font-size: .6em !important;
-  }
-  .question-header {
-    font-size: 1.2em !important;
-  }
-  table {
-    font-size: 1em !important;
-  }
-  .table-section {
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    // padding-right: 12em !important;
-    // width: 300px !important;
-  }
-  .loading-data {
-    font-size: .8em !important;
-  }
-}
-
-// LANDING PAGE
-
-* {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-.project {
-  background-color: $background-color;
-  height: 450px;
-}
-
-.column, .columns {
-  padding-bottom: 0.9375rem;
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
-}
-
-.project-photo-container {
-  overflow: hidden;
-  position: relative;
-}
-
-.project-photo-container img {
-  max-width: 100%;
-
-  -moz-transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
-
-.project-photo-container:hover img {
-  -moz-transform: scale(1.1);
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-}
-
-.project-photo-container, .project-photo  {
-  height: 70%;
-}
-
-.project-photo {
-  // height: 70%;
-  object-fit: fill;
-  width: 100%;
-}
-
-.project-title-container {
-  // height: 20%;
-}
-
-.project-title, .project-subtitle {
-  color: $description-gray;
-  margin: 0;
-  // padding-left: 2%;
-  text-align: center;
-}
-
-.project-title {
-  font-size: 22px;
-  font-weight: 500;
-}
-
-.project-subtitle {
-  font-weight: 300;
-}
-
-.home-text-section {
-  position: sticky;
-  z-index: -3;
-}
-
-.home-text-section, .projects-section, .about-section, .about-section-neuro, .home-text-section-neuro {
-  display: inline-block;
-  float: left;
-  // height: 500px;
-  // margin-bottom: 1%;
-  margin-left: 0;
-  overflow: inherit;
-  padding-left: 4%;
-  padding-right: 4%;
-  padding-top: 2%;
-  position: sticky;
-  width: 100%;
-  z-index: 100;
-}
-
-.home-text-section {
-  height: 400px;
-}
-
-.projects-section, .about-section {
-  // background-color: $background-color;
-  height: 600px;
-}
-
-.home-footer-section {
-  background-color: $secondary-color;
-  bottom: 0;
-  clear: both;
-  height: 250px;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
-
-.welcome-header {
-  border-bottom: solid 2px $decoration-color;
-  color: $description-gray;
-  display: inline-block;
-  font-size: 3.75em;
-  font-weight: 300;
-  padding-top: 4%;
-}
-
-.section-header {
-  // border-bottom: solid 2px $description-gray;
-  color: $description-gray;
-  margin-bottom: 1%;
-  margin-top: 1%;
-  text-align: center;
-}
-
-.ppp {
-  color: $subheader-gray;
-  font-size: 2.625em;
-}
-
-.logos-section {
-  background-color: $secondary-color;
-  height: auto;
-  margin: 0;
-  padding-left: 10%;
-  padding-right: 10%;
-  width: 100%;
-}
-
-.logo-image {
-  background-color: $secondary-color;
-}
-
-.logos {
-  background-color: $secondary-color;
-  padding: 3%;
-}
-
-.contact-row {
-  color: $white;
-  display: inline-block;
-  height: 100px;
-  text-align: center;
-  vertical-align: middle;
-  width: 100%;
-}
-
-.email-address {
-  color: $white;
-  font-size: 1.2em;
-  text-align: center;
-}
-
-.home-text-section-neuro {
-  height: 100%;
-  position: sticky;
-}
-
-// headers
 .top-bar {
-  background-color: $secondary-color;
-  min-height: 20px;
+  border-top:20px solid #489ace;
+  padding-left:3.9%;
+  padding-top:.7%;
 }
-
-.second-bar {
-  background-color: $primary-color;
-  height: 3.5em;
-  padding-left: 5%;
-  padding-top: 1.5%;
-  vertical-align: middle;
+.menu .menu-text {
+  padding:0;
 }
-
-.nav-links, .nav-links-home {
-  color: $white;
-  font-weight: 400;
-}
-
-.nav-links-home {
-  float: left;
-}
-
-.nav-links {
-  float: right;
-  margin-right: 20px;
-}
-
-
-
-
-.app-button {
-  border: 2px solid;
-  border-radius: 10px;
-  color: $primary-color;
-  display: block;
-  margin-left: 0;
-  text-align: center;
-  width: 30%;
-}
-
-.button-container {
-  display: inline-block;
-  margin-top: 3%;
-  padding-top: 3%;
-  position: relative;
-  width: 100%;
-}
-
-.idk-button {
-  background: none;
-  border: 0;
-  color: $primary-color;
-  float: right;
-  font-size: 100%;
-  margin-right: 20%;
-  padding-top: 13px;
-}
-
-.no-button,
-.yes-button {
-  border: 2px solid;
-  border-radius: 10px;
-  color: $primary-color;
-  display: inline-block;
-  float: left;
-  font-size: 100%;
-  margin-left: 0;
-  // text-align: center;
-  width: 20%;
-}
-
-.no-button,
-.yes-button {
-  // background-color: $primary-color;
-  border: 2px solid;
-  border-radius: 10px;
-  color: $primary-color;
-  display: inline-block;
-  float: left;
-  font-size: 100%;
-  margin-left: 0;
-  text-align: left;
-  width: 20%;
-}
-
-.confirm-button {
-  border: 2px solid;
-  border-radius: 10px;
-  color: $primary-color;
-  display: inherit;
-  text-align: center;
-  width: 28%;
-}
-
-.skip-button,
-.skip-button-q,
-.previous-button {
-  background-color: $primary-color;
-  border: 2px solid;
-  border-radius: 10px;
-  color: $white;
-  display: inherit;
-  font-size: 1em;
-  height: 3em;
-  margin-right: 20%;
-  text-align: center;
-  width: 28%;
-}
-
-.previous-button {
-  float: left;
-}
-//
-.skip-button-q {
-  float: right;
-}
-
-.skip-button {
-  float: right;
-}
-
-
-// hoverable symptoms
-/* Hover tooltips */
-.field-tip {
-  cursor: default;
-  position: relative;
-}
-
-.field-tip .tip-content {
-  background: $secondary-color;
-  color: $white;
-  margin-right: -200px; //* width + left/right padding */
-  padding: 10px;
-  position: relative;
-  right: 9999px;
-  // top: -5px; //* - top padding */
-  width: 200px;
-}
-
-// triangle part of hover box
-.field-tip .tip-content:before {
-  border: 8px solid transparent;
-  border-right-color: $secondary-color;
-  content: ' '; //* Must have content to display */
-  height: 0;
-  left: -16px;
-  margin-top: -8px;
-  position: absolute;
-  top: 50%;
-  //  /* 2 x border width */
-  width: 0;
-  //  /* - border width */
-}
-
-.field-tip:hover .tip-content {
-  opacity: 1;
-  right: -20px;
-}
-
-
-// form and questions
-.questions-page, .confirm-page, .summary-page {
-  padding-left: 10%;
-  padding-right: 10%;
-}
-
-.table-section {
-  // margin: 1em;
-  // padding-left: 1.5em;
-  padding-right: 5.5em;
-}
-
-.form-label {
-  padding: 0;
-}
-
-.question {
-  color: $description-gray;
-  font-size: 1.5em;
-  margin-top: 3%;
-  padding-top: 0;
-}
-
-ul {
-  list-style: none;
-}
-
-li:before {
-  border-color: $secondary-color;
-  border-radius: 50%;
-  border-style: solid;
-  border-width: .25em;
-  content: '';
-  display: block;
-  height: 0;
-  left: -1em;
-  position: relative;
-  top: 1.05em;
-  width: 0;
-}
-
-.bold-text {
-  font-weight: bold;
-}
-
-.tech-term {
-  display: none;
-}
-
-.checkbox:hover .tech-term {
-  display: block;
-}
-
-.checkbox {
-  // display: block;
-  font-size: 18px;
-  font-weight: 300;
-  height: 2.2em;
-  padding-bottom: 1%;
-  padding-top: 1%;
-}
-
-.symp-question {
-  margin-top: 12%;
-}
-
-.question-header{
-  color: $description-gray;
-  font-size: 1.5em;
-  padding-top: 11%;
-}
-
-.question-header, .symptom-header {
-  border-bottom: solid 2px $decoration-color;
-  display: inline-block;
-  font-weight: 300;
-}
-
-.symptom-header {
-  margin-bottom: 25px;
-  margin-top: 5%;
-  padding: 0;
-}
-
-.symptoms-desc {
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.symptom-list {
-  font-size: 1.2em;
-}
-
-.symptom-list-p {
-  color: $description-gray;
-  margin-bottom: 0;
-  padding-bottom: 0;
-  padding-left: 22px;
-}
-
-input[type=checkbox] {
-  background-color: bold $decoration-color;
-
-}
-
-// summary
-.summary-instructions {
-  padding-bottom: 4%;
-}
-
-.not-dx {
-  font-style: italic;
-  font-weight: 500;
-}
-
-.loading-data {
-  color: $description-gray;
-  font-size: 1.4em;
-  padding-left: 40%;
-  text-align: center;
-  width: 100%;
-
-}
-
-.email {
-  bottom: 0;
-  // display: inline-block;
-  height: 2%;
-  left: 0;
-  right: 0;
-  width: 100%;
-}
-
-.send-button {
-  background-color: $secondary-color;
-  border-color: $secondary-color;
-  border-radius: 10px;
-  color: $white;
-  height: 50px;
-  padding-bottom: 1px;
-  // width: 10%;
-}
-
-table {
-  width: 100%;
-}
-
-.download {
-  display: inline-block;
-  padding-top: 11%;
-}
-
-.download-links {
-  text-align: right;
-}
-
-.download-link-files {
-  color: $body-font-color;
-}
-
-
-.placeholder {
-  height: 300px;
-  padding-top: 150px;
-}
-
-// confirmation page
-
-.confirm-header {
-  background-color: $primary-color;
-  color: $white;
-  font-size: 18px;
-  padding: 10px;
-}
-
-.confirm-table {
-  width: 100%;
-}
-
-.confirm-checkboxes-section {
-  display: inline-block;
-  float: left;
-  font-size: 18px;
-  width: 30%;
-}
-
-.confirm-checkboxes-section, .confirm-item, .no-items {
-  padding: 12px;
-}
-
-.confirm-checkboxes {
-  width: 10%;
-}
-
-.confirm-item {
-  display: inline-block;
-  font-size: 18px;
-  width: 70%;
-}
-
-.no-items {
-  font-size: 18px;
-  width: 100%;
-}
-
-.yes, .no, .idk, .ua, .confirm-header{
-  border: .5px solid $description-gray;
-  height: auto;
-  word-wrap: break-word;
-}
-
-.yes:nth-child(odd), .no:nth-child(odd), .idk:nth-child(odd), .ua:nth-child(odd) {
-    background-color: $table-gray;
-}
-
-// format table outputs
-
-th, td {
-  text-align: left;
-}
-
-#tbl-hpo,
-#tbl-symphpo,
-#tbl-hpolink,
-#tbl-layterm {
-  width: 17%;
-}
-
-
-// new table outputs
-// table {
-// 	width: 100%;
-// 	border-collapse: collapse;
-// 	// margin:50px auto;
-// 	}
-//
-// th {
-// 	background: #3498db;
-// 	color: white;
-// 	font-weight: bold;
-//   width: 100%;
-// 	}
-//
-
-// .instructions {
-//   font-size: 20px;
-// }
-//
-// .click-instructions {
-//   font-size: 20px;
-//   font-style: italic;
-// }
-
-
-
-th {
-  background-color: $primary-color;
-  font-size: 20px;
-}
-
-.main-row {
-  background-color: $white;
-  border: .5px solid $description-gray;
-  cursor: pointer;
-  // color: $description-gray;
-  font-size: 1.1em;
-  // font-weight: bold;
-  padding: 10px;
-}
-
-.main-row:hover {
-    background-color: $decoration-color;
-}
-
-.main-row, .extra-row {
-  height: 50px;
-  vertical-align: middle;
-}
-
-.table-headers, .hpo-details, .exportTable {
-	padding: 10px;
-	border: 1px solid $description-gray;
-  height: auto;
-	text-align: left;
-	// font-size: 18px;
-	}
-
-
-//
-// .labels tr td {
-// 	background-color: #2cc16a;
-// 	font-weight: bold;
-// 	color: #fff;
-// }
-//
-// .label tr td label {
-// 	display: block;
-// }
-
-
-.extra-row {
-    background-color: $table-gray !important;
-}
-
-.show-hide {
-  float: right;
-  text-align: right;
-}
-
-.entry-error {
-  color: red;
-}
-
-.manton-list {
-  margin-bottom: 1%;
-}
-
-.thank-you {
-  color: $primary-color;
-}
-
-/* OCTRI EDITS */
-.nav-links-home {
+.menu a {
   color:#fff;
-  margin-right:30px;
-  text-decoration:none;
+}
+.menu a:hover {
+  color:#ddd;
 }
 
-.nav-links-home:hover {
-  color: #bcbcbc;
+  
+// BODY-SEARCH-CONTENT HEADERS
+.body-search-content {
+  margin-top:73px;
 }
-
-.nav-bar-text a.active {
-  color:#ddbd47;
-}
-
-.body-tool h6 {
-  margin-top:0.5rem;
-}
-
-.body-tool .tool-branding {
-  margin-top:6.5rem;
-}
-
-.body-tool .tool-icon {
-}
-
-.body-tool .question-header {
+.body-search-content h1 {
+  border-bottom: 2px solid #ddbd47;
+  color:#7e7e7e;
+  display:inline-block;
+  font-size:1.5em; 
+  font-weight:400;
+  line-height:1.6em;
   text-transform:uppercase;
-  padding-top:3%;
 }
-
-.tool-icon-text {
-  color: #bcbcbc;
+.body-search-content h1 strong {
+  color:#bcbcbc;
+  font-weight:600;
+}
+.body-search-content .terms-subheading {
+  margin-top:25px;
+}
+.body-search-content h2 {
+  color:#355f88;
+  font-size:1.4em;
   font-weight:600;
 }
 
-.symptom-tag {
-  background-color: #355f88;
-  font-size:16px;
-  margin-right:12px;
-  padding:12px;
-}
 
-.symptom-tag strong {
-  margin-left:12px;
-}
-
-.saved-terms {
+// BODY-SEARCH-CONTENT FORM
+.body-search-content form {
   margin-top:30px;
-  min-height:40px;
+}
+.body-search-content form label {
+  color:#7e7e7e;
+  font-size:1.4em;
+  margin-bottom:10px;
+}
+.symptom-tag {
+    background-color: #355f88;
+    font-size: 16px;
+    margin-right: 12px;
+    padding: 12px;
+}
+.saved-terms {
+  margin-top:45px;
 }
 
-.question-row {
-  padding-left:0 !important;
+
+// BODY-SEARCH-CONTENT BUTTONS
+.body-search-content form .button-container {
+  margin-top:65px;
+}
+.body-search-content .button-container .button {
+  background-color: #5aa4d2;
+  border:2px solid #5aa4d2;
+  font-size:1em;
+  padding-left:2.8em;
+  padding-right:2.8em;
+}
+.body-search-content .terms-subheading .button {
+  background-color:#355f88;
+  font-size:1em;
+  margin-bottom:0;
+}
+.body-search-content .button-container .button:hover,
+.body-search-content .terms-subheading .button:hover  {
+  background-color:#ddd;
+  border-color:#333;
+  color:#333;
 }
 
-.question-row label {
-  display:block;
-  font-weight:300;
-  margin-top:6%;
-  margin-bottom: 1.25rem;
+
+// BODY-SEARCH-CONTENT RESULTS
+.body-search-content table,
+.body-search-content table tbody {
+  border:none;
+}
+.body-search-content table thead {
+  background-color:transparent;
+  border:none;
+  border-bottom:1px solid #ddbd47;
+  color:#91989e;
+  font-size:1.1em;
+}
+.body-search-content tbody tr:nth-child(odd) {
+  background-color:#f6fafc;
+}
+.body-search-content tbody tr:nth-child(even) {
+  background-color:#ecf4fa;
 }
