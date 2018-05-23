@@ -20,7 +20,6 @@ describe('ResultsPage.vue', () => {
 
   test('renders the selected terms', () => {
     const wrapper = shallow(ResultsPage, { store, localVue });
-    expect(wrapper.classes()).toContain('results-page');
     expect(wrapper.findAll('tbody tr').length).toEqual(exampleResponses.length);
   });
 });
