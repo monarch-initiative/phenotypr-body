@@ -1,22 +1,16 @@
 <template>
-  <div id="app" class="wrapper">
-    <div>
-      <div>
-        <div class="top-bar header"></div>
-        <nav class="second-bar nav-bar-wrapper">
-          <span class="nav-bar-text">
-            <a href="https://phenotypr.com/index.html" class="nav-links-home"><strong>PHENOTYPR</strong></a>
-            <router-link to="/" class="nav-links-home">Body Tool</router-link>
-          </span>
-        </nav>
+  <div id="app">
+    <!-- nav bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu>
+          <li class="menu-text"><a href="https://phenotypr.com/index.html">PHENOTYPR</a></li>
+          <li><router-link to="/">Body Tool</router-link></li>
+        </ul>
       </div>
     </div>
 
-    <div class="grid-content">
-      <div class="grid-container">
-        <router-view/>
-      </div>
-    </div>
+    <router-view/>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="autocomplete">
-    <label class="question form-label">What symptoms are you experiencing?</label>
+    <label class="lead">What symptoms are you experiencing?</label>
     <input type="search"
            v-model="queryText"
            @input="updateQueryText($event.target.value)"
@@ -12,7 +12,7 @@
            placeholder="Search for a symptom"
     >
     <span class="clear-search" :class="{ 'is-visible': hasSuggestions }" @click="resetSearch">X</span>
-    <div ref="dropdown" class="dropdown-pane" :class="{ 'is-open': hasSuggestions }" data-dropdown>
+    <div ref="dropdown" class="search-results" :class="{ 'is-open': hasSuggestions }" data-dropdown>
       <ul ref="suggestionList">
         <li v-for="(suggestion, index) in suggestions"
             :key="suggestion.id"
@@ -196,7 +196,7 @@ export default {
 .autocomplete .clear-search {
   position: absolute;
   left: 95%;
-  bottom: 11px;
+  bottom: 8px;
   color: #7e7e7e;
   visibility: hidden;
 }
@@ -209,9 +209,9 @@ export default {
   visibility: visible;
 }
 
-.autocomplete .dropdown-pane {
+.autocomplete .search-results {
   background: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #cacaca;
   position: absolute;
   top: 100%;
   left: 0;
@@ -220,23 +220,23 @@ export default {
   visibility: hidden;
 }
 
-.autocomplete .dropdown-pane.is-open {
+.autocomplete .search-results.is-open {
   visibility: visible;
   max-height: 200px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-.autocomplete .dropdown-pane ul {
+.autocomplete .search-results ul {
   margin: 0;
 }
 
-.autocomplete .dropdown-pane ul li {
+.autocomplete .search-results ul li {
   padding: 10px;
   list-style-type: none;
 }
 
-.autocomplete .dropdown-pane li:before {
+.autocomplete .search-results li:before {
   content: none;
 }
 
