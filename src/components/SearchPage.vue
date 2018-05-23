@@ -1,32 +1,46 @@
 <template>
-  <div class="questions-page">
+  <div class="grid-container body-search-content">
+    <!-- heading -->
+    <div class="grid-x grid-margin-x">
+      <div class="cell">
+        <div class="media-object">
+          <div class="media-object-section">
+            <div>
+              <img src="/static/body.svg">
+            </div>
+          </div>
 
-    <form name="questionsForm grid-block large-12 row" @submit.prevent>
+          <div class="media-object-section">
+            <h1><strong>Body:</strong> Symptoms Search</h1>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <div class="form-group body-tool">
-
-        <div class="tool-branding"><img src="../../static/body.svg" alt="body" class="tool-icon"></div>
-
-        <p class="question-header"><span class="tool-icon-text">Body:</span> SYMPTOMS SEARCH</p>
-
-        <div class="row small-12 medium-8 large-6 columns align-left question-row">
+    <!-- search form -->
+    <form @submit.prevent>
+      <div class="grid-x grid-margin-x">
+        <div class="cell medium-8 large-6">
           <SearchInput @itemSelected="handleSelection"/>
         </div>
-
       </div>
 
-      <div class="saved-terms">
-        <span v-for="(selection, index) in selections"
-              :key="selection.id"
-              class="label symptom-tag">{{ selection.exact_synonym[0] }} <strong @click="removeSelection(index)">X</strong></span>
+      <!-- saved terms -->
+      <div class="grid-x grid-margin-x saved-terms">
+        <div class="cell">
+          <span v-for="(selection, index) in selections"
+                :key="selection.id"
+                class="label symptom-tag">{{ selection.exact_synonym[0] }} <strong @click="removeSelection(index)">X</strong></span>
+        </div>
       </div>
 
-      <div class="button-container">
-        <input type="button" class="button medium skip-button-q" value="Done adding symptoms" @click="goToResults" />
+      <!-- forms -->
+      <div class="grid-x grid-margin-x button-container">
+        <div class="cell large-8 text-right">
+          <input type="button" value="Done adding symptoms" class="button rounded" @click="goToResults">
+        </div>
       </div>
-
     </form>
-
   </div>
 </template>
 
