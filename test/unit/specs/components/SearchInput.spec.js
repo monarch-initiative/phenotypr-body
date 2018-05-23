@@ -21,7 +21,7 @@ describe('SearchInput.vue', () => {
     expect(wrapper.is('div')).toBe(true);
     expect(wrapper.contains('label')).toBe(true);
     expect(wrapper.contains('input')).toBe(true);
-    expect(wrapper.contains('.dropdown-pane')).toBe(true);
+    expect(wrapper.contains('.search-results')).toBe(true);
   });
 
   test('should render a list item for each search result', () => {
