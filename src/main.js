@@ -1,4 +1,5 @@
 /* global process */
+import 'babel-polyfill';
 import './assets/scss/app.scss';
 
 // The Vue build version to load with the `import` command

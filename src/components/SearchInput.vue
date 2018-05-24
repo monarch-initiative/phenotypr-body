@@ -193,6 +193,12 @@ export default {
   margin-bottom: 0;
 }
 
+/* https://stackoverflow.com/questions/14007655/remove-ie10s-clear-field-x-button-on-certain-inputs */
+.autocomplete input::-ms-clear {
+  width: 0;
+  height: 0;
+}
+
 .autocomplete .clear-search {
   position: absolute;
   left: 95%;
