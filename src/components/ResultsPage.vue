@@ -36,7 +36,7 @@
           <caption></caption>
           <thead>
             <tr>
-              <th>Sypmtom</th>
+              <th>Symptom</th>
               <th>HPO Term</th>
               <th>HPO #</th>
             </tr>
