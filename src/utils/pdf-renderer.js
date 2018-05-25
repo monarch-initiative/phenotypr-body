@@ -1,6 +1,8 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import vfsFonts from 'pdfmake/build/vfs_fonts';
 
+import isExportDocument from '@/utils/is-export-document';
+
 /**
  * Renders a document structure to a downloadable PDF object.
  *
@@ -22,21 +24,10 @@ export default class PdfRenderer {
    * @return {Object} a PDF object.
    */
   renderDocument(doc) {
-    if (!this._isValidDocument(doc)) {
+    if (!isExportDocument(doc)) {
       throw new Error('Input document does not have the expected structure.');
     }
 
     return pdfMake.createPdf(doc);
-  }
-
-  /**
-   * Reports whether the input looks like a document structure created by the document builder.
-   *
-   * @param {Any} doc - anything
-   * @return {Boolean} true if the input is defined and has a `content` property that
-   *   matches one of the types allowed by pdfmake, false otherwise.
-   */
-  _isValidDocument(doc) {
-    return !!doc && !!doc.content && Array.isArray(doc.content);
   }
 }
