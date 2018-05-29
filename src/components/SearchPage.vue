@@ -37,7 +37,7 @@
       <!-- forms -->
       <div class="grid-x grid-margin-x button-container">
         <div class="cell large-8 text-right">
-          <input type="button" value="Done adding symptoms" class="button rounded" @click="goToResults">
+          <input type="button" value="Done adding symptoms" class="button rounded" :disabled="selectionIsEmpty" @click="goToResults">
         </div>
       </div>
     </form>
@@ -70,7 +70,9 @@ export default {
   },
 
   computed: mapState({
-    selections: 'selectedTerms'
+    selections: 'selectedTerms',
+
+    selectionIsEmpty: state => state.selectedTerms && state.selectedTerms.length < 1
   })
 };
 </script>
