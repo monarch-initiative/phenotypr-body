@@ -30,6 +30,16 @@ describe('vuex store', () => {
       expect(mockState.selectedTerms[1]).toEqual(term);
     });
 
+    test('addTerm prevents adding duplicate terms', () => {
+      const term = exampleResponses[1];
+      const mockState = {
+        selectedTerms: [term]
+      };
+
+      mutations.addTerm(mockState, term);
+      expect(mockState.selectedTerms.length).toEqual(1);
+    });
+
     test('removeTermAtIndex removes the term from the array', () => {
       const expectedItem = exampleResponses[2];
       const mockState = {
