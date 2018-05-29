@@ -9,12 +9,15 @@ export default {
   state: initialState,
   mutations: {
     /**
-     * Add an HPO term to the selected terms.
+     * Add an HPO term to the selected terms if it is not already present.
      * @param {Object} state - the current state.
      * @param {Object} term - an HPO term from Solr.
      */
     addTerm(state, term) {
-      state.selectedTerms.push(term);
+      const found = state.selectedTerms.find(current => current.id === term.id);
+      if (!found) {
+        state.selectedTerms.push(term);
+      }
     },
 
     /**

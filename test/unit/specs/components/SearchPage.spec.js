@@ -52,6 +52,15 @@ describe('SearchPage.vue', () => {
     expect(mutations.removeTermAtIndex).toHaveBeenCalledWith(state, 1);
   });
 
+  test('the button is disabled when no terms are selected', () => {
+    const wrapper = shallow(SearchPage, { store, localVue });
+    const submitButton = wrapper.find('input[type=button]');
+    expect(submitButton.attributes().disabled).toBeUndefined();
+
+    state.selectedTerms = [];
+    expect(submitButton.attributes().disabled).toBeDefined();
+  });
+
   test('clicking the button transitions to the results route', () => {
     const mocks = {
       $router: {
