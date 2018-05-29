@@ -25,7 +25,7 @@
       </div>
 
       <div class="cell large-4 text-right">
-        <input type="button" value="Download" class="button">
+        <input type="button" value="Download" class="button" @click="downloadPdf">
       </div>
     </div>
 
@@ -58,9 +58,20 @@
 
 <script>
 import { mapState } from 'vuex';
+import PdfRenderer from '@/utils/pdf-renderer';
+import createExportDocument from '@/utils/create-export-document';
 
 export default {
   name: 'ResultsPage',
+
+  methods: {
+    downloadPdf() {
+      const renderer = new PdfRenderer();
+      const doc = createExportDocument(this.selectedTerms);
+      const pdf = renderer.renderDocument(doc);
+      pdf.download('phenotypr-body-export.pdf');
+    }
+  },
 
   computed: mapState({
     selectedTerms: 'selectedTerms'
