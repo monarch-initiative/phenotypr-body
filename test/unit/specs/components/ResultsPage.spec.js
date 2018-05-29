@@ -9,6 +9,9 @@ import exampleResponses from '../../example-responses';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
+// NOTE: Returns an empty mock implementation to work around Jest's apparent inability
+// to automatically mock modules in the `src/` directory. Enables mocking the constructor
+// below.
 jest.mock('@/utils/pdf-renderer', () => {
   return jest.fn().mockImplementation(() => ({}));
 });
