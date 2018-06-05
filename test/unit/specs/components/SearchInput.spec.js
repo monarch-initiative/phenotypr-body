@@ -24,6 +24,11 @@ describe('SearchInput.vue', () => {
     expect(wrapper.contains('.search-results')).toBe(true);
   });
 
+  test('should focus the input', () => {
+    const wrapper = shallow(SearchInput);
+    expect(wrapper.find('input').is(':focus')).toBe(true);
+  });
+
   test('should render a list item for each search result', () => {
     const wrapper = shallow(SearchInput);
 
@@ -33,6 +38,15 @@ describe('SearchInput.vue', () => {
     wrapper.setData({ suggestions: exampleResponses });
 
     expect(wrapper.findAll('li').length).toEqual(exampleResponses.length);
+  });
+
+  test('should render a default message if nothing is found', () => {
+    const wrapper = shallow(SearchInput);
+    wrapper.setData({ suggestions: [], searchComplete: true });
+
+    const listItems = wrapper.findAll('li');
+    expect(listItems.length).toEqual(1);
+    expect(listItems.at(0).text()).toEqual('Nothing found.');
   });
 
   test('the down arrow key moves to the next suggestion', () => {
@@ -268,5 +282,20 @@ describe('SearchInput.vue', () => {
 
     wrapper.setData({ suggestions: exampleResponses });
     expect(wrapper.vm.hasSuggestions).toBe(true);
+  });
+
+  test('showDefault computed property', () => {
+    const wrapper = shallow(SearchInput);
+
+    // Starts off false because suggestions array is empty and no search yet
+    expect(wrapper.vm.showDefault).toBe(false);
+
+    // Should be false when search is complete and suggestions are available
+    wrapper.setData({ suggestions: exampleResponses, searchComplete: true });
+    expect(wrapper.vm.showDefault).toBe(false);
+
+    // Should be true when search is complete and suggestions array is empty
+    wrapper.setData({ suggestions: [], searchComplete: true });
+    expect(wrapper.vm.showDefault).toBe(true);
   });
 });

@@ -2,27 +2,30 @@
   <div class="autocomplete">
     <label class="lead">What symptoms are you experiencing?</label>
     <input type="search"
-           v-model="queryText"
-           @input="updateQueryText($event.target.value)"
-           v-on:input="refreshSuggestions"
-           @keydown.enter='enter'
-           @keydown.down='down'
-           @keydown.up='up'
-           @keydown.esc='resetSearch'
+           v-model.trim="queryText"
+           @input="refreshSuggestions"
+           @keydown.enter="enter"
+           @keydown.down="down"
+           @keydown.up="up"
+           @keydown.esc="resetSearch"
            placeholder="Search for a symptom"
+           ref="input"
     >
-    <span class="clear-search" :class="{ 'is-visible': hasSuggestions }" @click="resetSearch">X</span>
-    <div ref="dropdown" class="search-results" :class="{ 'is-open': hasSuggestions }" data-dropdown>
-      <ul ref="suggestionList">
+    <span class="clear-search" :class="{ 'is-visible': searchComplete }" @click="resetSearch">X</span>
+    <div ref="dropdown" class="search-results" :class="{ 'is-open': searchComplete }" data-dropdown>
+      <ul ref="suggestionList" v-if="hasSuggestions">
         <li v-for="(suggestion, index) in suggestions"
             :key="suggestion.id"
-            :class="{'highlighted': isActive(index)}"
+            :class="{ highlighted: isActive(index) }"
             @click="suggestionClick(index)"
             @mouseover="mouseOver(index)"
             @mouseout="mouseOut()"
         >
           {{ suggestion.exact_synonym[0] }}
         </li>
+      </ul>
+      <ul v-if="showDefault">
+        <li>Nothing found.</li>
       </ul>
     </div>
   </div>
@@ -38,8 +41,13 @@ export default {
     return {
       queryText: '',
       suggestions: [],
-      currentIndex: null
+      currentIndex: null,
+      searchComplete: false
     };
+  },
+
+  mounted() {
+    this.$refs.input.focus();
   },
 
   methods: {
@@ -50,6 +58,7 @@ export default {
       this.queryText = '';
       this.suggestions = [];
       this.currentIndex = null;
+      this.searchComplete = false;
       this.$refs.dropdown.scrollTop = 0;
     },
 
@@ -64,26 +73,19 @@ export default {
     },
 
     /**
-     * Updates the query text on input.
-     * @param {String} text - new query text.
-     */
-    updateQueryText(text) {
-      this.queryText = text;
-    },
-
-    /**
      * Refreshes the list of suggested plain-language terms when input pauses.
      */
     refreshSuggestions: debounce(function() {
       if (this.queryText) {
         this.suggestions = [];
+        this.searchComplete = false;
         this.$searchService.search(this.queryText)
           .then(response => {
             this.suggestions = response.docs;
+            this.searchComplete = true;
           });
       } else {
-        this.suggestions = [];
-        this.currentIndex = null;
+        this.resetSearch();
       }
     }, 500),
 
@@ -179,6 +181,13 @@ export default {
      */
     hasSuggestions() {
       return this.suggestions.length > 0;
+    },
+
+    /**
+     * A computed property that indicates if default output should be displayed.
+     */
+    showDefault() {
+      return this.searchComplete && !this.hasSuggestions;
     }
   }
 };
@@ -228,7 +237,7 @@ export default {
 
 .autocomplete .search-results.is-open {
   visibility: visible;
-  max-height: 200px;
+  max-height: 460px;
   overflow-y: auto;
   overflow-x: hidden;
 }
