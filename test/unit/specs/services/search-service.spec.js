@@ -1,5 +1,6 @@
 import SearchService from '@/services/search-service';
 import axios from 'axios';
+import striptags from 'striptags';
 
 jest.mock('axios');
 
@@ -48,15 +49,15 @@ describe('search service', () => {
       .then(response => expect(response.error.message).toEqual(message));
   });
 
-  test('it merges highlighting into the response documents', () => {
+  describe('response manipulation', () => {
     const mockHighlighting = {
       'HP:0000001': {
         exact_synonym_eng: [ '<em class="hilite">Flat</em> <em class="hilite">nose</em>' ],
         exact_synonym_std: [ '<em class="hilite">Flat</em> <em class="hilite">nose</em>' ]
       },
       'HP:0000042': {
-        exact_synonym_eng: [ '<em class="hilite">Flat</em> foot' ],
-        exact_synonym_std: [ '<em class="hilite">Flat</em> foot' ]
+        narrow_synonym_eng: [ '<em class="hilite">Flat</em> foot' ],
+        narrow_synonym_std: [ '<em class="hilite">Flat</em> foot' ]
       }
     };
 
@@ -72,9 +73,27 @@ describe('search service', () => {
       }
     };
 
-    mockQueryResponse(mockResponse);
-    const expectedHighlight = mockHighlighting['HP:0000042'];
-    return service.search('some query')
-      .then(response => expect(response.docs[0].highlighting).toEqual(expectedHighlight));
+    test('it merges highlighting into the response documents', () => {
+      mockQueryResponse(mockResponse);
+      const expectedHighlight = mockHighlighting['HP:0000042'];
+      return service.search('some query')
+        .then(response => expect(response.docs[0].highlighting).toEqual(expectedHighlight));
+    });
+
+    test('it creates symptom labels from highlighting', () => {
+      const expectedHtml = [
+        mockHighlighting['HP:0000042'].narrow_synonym_std[0],
+        mockHighlighting['HP:0000001'].exact_synonym_eng[0]
+      ];
+
+      mockQueryResponse(mockResponse);
+      return service.search('some query')
+        .then(response => {
+          response.docs.forEach((doc, index) => {
+            expect(doc.symptomHtml).toEqual(expectedHtml[index]);
+            expect(doc.symptomText).toEqual(striptags(expectedHtml[index]));
+          });
+        });
+    });
   });
 });

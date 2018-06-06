@@ -59,7 +59,7 @@ function createTermTable(terms) {
           { text: 'HPO Term', style: 'tableHeaderCell', border: headerCellBorders },
           { text: 'HPO #', style: 'tableHeaderCell', border: headerCellBorders }
         ],
-        ...terms.map(term => [term.exact_synonym[0], term.label, term.id])
+        ...terms.map(term => [term.symptomText, term.label, term.id])
       ]
     },
     layout: {

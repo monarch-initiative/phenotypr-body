@@ -20,8 +20,8 @@
             @click="suggestionClick(index)"
             @mouseover="mouseOver(index)"
             @mouseout="mouseOut()"
+            v-html="suggestion.symptomHtml"
         >
-          {{ suggestion.exact_synonym[0] }}
         </li>
       </ul>
       <ul v-if="showDefault">

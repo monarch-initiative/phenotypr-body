@@ -30,7 +30,7 @@
         <div class="cell">
           <span v-for="(selection, index) in selections"
                 :key="selection.id"
-                class="label symptom-tag">{{ selection.exact_synonym[0] }} <strong @click="removeSelection(index)">X</strong></span>
+                class="label symptom-tag">{{ selection.symptomText }} <strong @click="removeSelection(index)">X</strong></span>
         </div>
       </div>
 

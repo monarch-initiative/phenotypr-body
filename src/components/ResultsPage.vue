@@ -43,7 +43,7 @@
           </thead>
           <tbody>
             <tr v-for="term in selectedTerms" :key="term.id">
-              <td>{{ term.exact_synonym[0] }}</td>
+              <td>{{ term.symptomText }}</td>
               <td>{{ term.label }}</td>
               <td>{{ term.id }}</td>
             </tr>

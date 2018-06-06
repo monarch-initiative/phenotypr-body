@@ -1,5 +1,35 @@
 import qs from 'qs';
 import axios from 'axios';
+import striptags from 'striptags';
+
+const searchFields = [
+  { name: 'exact_synonym_std', boost: 5 },
+  { name: 'exact_synonym_kw', boost: 5 },
+  { name: 'exact_synonym_eng', boost: 5 },
+  { name: 'narrow_synonym_std', boost: 3 },
+  { name: 'narrow_synonym_kw', boost: 3 },
+  { name: 'narrow_synonym_eng', boost: 3 },
+  { name: 'related_synonym_std', boost: 2 },
+  { name: 'related_synonym_kw', boost: 2 },
+  { name: 'related_synonym_eng', boost: 2 },
+  { name: 'broad_synonym_std', boost: 1 },
+  { name: 'broad_synonym_kw', boost: 1 },
+  { name: 'broad_synonym_eng', boost: 1 }
+];
+
+/**
+ * Sorts search fields by position in the searchFields array.
+ *
+ * @param {String} a - a search field name
+ * @param {String} b - a search field name
+ * @return 0 if `a = b`; < 0 if `a` precedes `b` in the `searchFields` array; > 0 if `a`
+ *   follows `b` in the `searchFields` array.
+ */
+function compareSearchFields(a, b) {
+  const aIndex = searchFields.findIndex(item => item.name === a);
+  const bIndex = searchFields.findIndex(item => item.name === b);
+  return aIndex - bIndex;
+}
 
 const defaultParams = {
   // Select all document fields, plus the score
@@ -11,20 +41,7 @@ const defaultParams = {
   'hl.snippets': '1000',
   'hl.simple.pre': '<em class="hilite">',
   // Fields to query with boosting factors
-  qf: [
-    'broad_synonym_std^1',
-    'broad_synonym_kw^1',
-    'broad_synonym_eng^1',
-    'narrow_synonym_std^3',
-    'narrow_synonym_kw^3',
-    'narrow_synonym_eng^3',
-    'exact_synonym_std^5',
-    'exact_synonym_kw^5',
-    'exact_synonym_eng^5',
-    'related_synonym_std^2',
-    'related_synonym_kw^2',
-    'related_synonym_eng^2'
-  ].join(' '),
+  qf: searchFields.map(field => `${field.name}^${field.boost}`).join(' '),
   // JSON output
   wt: 'json'
 };
@@ -75,6 +92,36 @@ export default class SearchService {
   }
 
   /**
+   * Adds symptom labels to each HPO term document based on highlighting information.
+   *
+   * The HTML and text versions of the symptom displayed to the user is determined by
+   * sorting the available highlighting responses by boost factor, then taking the head
+   * of the array.
+   *
+   * @param {Object} mergedHighlightResponse - a Solr response with highlighting merged.
+   * @return {Object} an object with a `docs` key, where `docs` is an array of Solr
+   *   documents with added `symptomHtml` and `symptomText` properties.
+   */
+  _mapSymptomLabels(mergedHighlightResponse) {
+    const { docs } = mergedHighlightResponse;
+    const mapped = docs.map(term => {
+      const { highlighting } = term;
+      const [ labelKey ] = Object.keys(highlighting).sort(compareSearchFields);
+      const symptomHtml = highlighting[labelKey][0];
+
+      return {
+        ...term,
+        symptomHtml,
+        symptomText: striptags(symptomHtml)
+      };
+    });
+
+    return {
+      docs: mapped
+    };
+  }
+
+  /**
    * Queries the Solr index with the given search terms.
    *
    * @param {String} queryText - search terms to query for.
@@ -87,6 +134,7 @@ export default class SearchService {
     return axios(url)
       .then(response => response.data)
       .then(this._mergeHighlighting)
+      .then(this._mapSymptomLabels)
       .catch(reason => ({ error: reason }));
   }
 }
