@@ -42,7 +42,7 @@ describe('createExportDocument utility', () => {
         const [ symptom, hpoTerm, hpoId ] = tableBody[i];
         const term = exampleResponses[i];
 
-        expect(symptom).toEqual(term.exact_synonym[0]);
+        expect(symptom).toEqual(term.symptomText);
         expect(hpoTerm).toEqual(term.label);
         expect(hpoId).toEqual(term.id);
       }
