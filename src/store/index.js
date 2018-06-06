@@ -1,5 +1,6 @@
 const initialState = {
-  selectedTerms: []
+  selectedTerms: [],
+  termsOfUseAccepted: false
 };
 
 /**

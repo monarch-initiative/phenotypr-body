@@ -4,8 +4,11 @@ import Router from 'vue-router';
 import SearchPage from '@/components/SearchPage';
 import ResultsPage from '@/components/ResultsPage';
 import TermsOfUsePage from '@/components/TermsOfUsePage';
+import store from '@/store/index.js';
 
 Vue.use(Router);
+
+const termsOfUsePath = '/terms-of-use';
 
 const router = new Router({
   routes: [
@@ -25,16 +28,16 @@ const router = new Router({
       meta: { requireTermsOfUse: true }
     },
     {
-      path: '/terms-of-use',
+      path: termsOfUsePath,
       component: TermsOfUsePage
     }
   ]
 });
 
 router.beforeResolve((to, from, next) => {
-  if (to.meta.requireTermsOfUse) {
+  if (to.meta.requireTermsOfUse && !store.state.termsOfUseAccepted) {
     next({
-      path: '/terms-of-use'
+      path: termsOfUsePath
     });
   } else {
     next();
