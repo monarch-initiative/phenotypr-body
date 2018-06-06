@@ -28,6 +28,10 @@ export default {
      */
     removeTermAtIndex(state, index) {
       state.selectedTerms.splice(index, 1);
+    },
+
+    acceptTermsOfUse(state) {
+      state.termsOfUseAccepted = true;
     }
   }
 };
