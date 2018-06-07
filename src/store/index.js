@@ -1,5 +1,6 @@
 const initialState = {
-  selectedTerms: []
+  selectedTerms: [],
+  termsOfUseAccepted: false
 };
 
 /**
@@ -27,6 +28,15 @@ export default {
      */
     removeTermAtIndex(state, index) {
       state.selectedTerms.splice(index, 1);
+    },
+
+    /**
+     * Sets the terms of use accepted state.
+     * @param {Object} - the current state
+     * @param {Boolean} - true if the terms of use are accepted
+     */
+    acceptTermsOfUse(state, value) {
+      state.termsOfUseAccepted = value;
     }
   }
 };

@@ -52,5 +52,17 @@ describe('vuex store', () => {
       expect(mockState.selectedTerms.length).toEqual(exampleResponses.length - 1);
       expect(mockState.selectedTerms).not.toContain(expectedItem);
     });
+
+    test('acceptTermsOfUse mutates termsOfUseAccepted', () => {
+      const { mutations } = storeConfig;
+
+      const mockState = {
+        termsOfUseAccepted: false
+      };
+
+      expect(mockState.termsOfUseAccepted).toBe(false);
+      mutations.acceptTermsOfUse(mockState, true);
+      expect(mockState.termsOfUseAccepted).toBe(true);
+    });
   });
 });
