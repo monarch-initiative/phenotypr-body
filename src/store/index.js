@@ -30,6 +30,10 @@ export default {
       state.selectedTerms.splice(index, 1);
     },
 
+    /**
+     * Sets the terms of use accepted state.
+     * @param {Object} - the current state
+     */
     acceptTermsOfUse(state) {
       state.termsOfUseAccepted = true;
     }

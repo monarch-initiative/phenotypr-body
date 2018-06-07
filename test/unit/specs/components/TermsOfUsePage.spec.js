@@ -1,12 +1,10 @@
 import Vuex from 'vuex';
-import router from '@/router/index.js'
+import storeConfig from '@/store';
 import { shallow, createLocalVue } from '@vue/test-utils';
 
 import TermsOfUsePage from '@/components/TermsOfUsePage';
 
-const localVue = createLocalVue({
-  router: router
-});
+const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe('TermsOfUsePage.vue', () => {
@@ -25,14 +23,30 @@ describe('TermsOfUsePage.vue', () => {
   });
 
   test('renders a form with terms of use accept and reject buttons', () => {
-    const wrapper = shallow(TermsOfUsePage, { store, localVue });
+    const wrapper = shallow(TermsOfUsePage, { localVue, store });
     expect(wrapper.find('form').exists()).toBe(true);
+    expect(wrapper.find('input[value="Yes"]').exists()).toBe(true);
+    expect(wrapper.find('input[value="No"]').exists()).toBe(true);
   });
 
-  // test('clicking Yes commits an acceptTermsOfUse mutation', () => {
-  //   const wrapper = shallow(TermsOfUsePage, { store, localVue, router });
-  //
-  //   wrapper.vm.acceptTermsOfUse();
-  //   expect(mutations.acceptTermsOfUse).toHaveBeenCalledWith(state);
-  // });
+  test('clicking Yes commits an acceptTermsOfUse mutation', () => {
+    const mocks = {
+      $router: {
+        push: jest.fn()
+      }
+    };
+    const wrapper = shallow(TermsOfUsePage, { store, localVue, mocks });
+
+    wrapper.vm.acceptTermsOfUse();
+    expect(true).toBe(true);
+    expect(mutations.acceptTermsOfUse).toHaveBeenCalledWith(state, undefined);
+    expect(mocks.$router.push).toHaveBeenCalledWith('/');
+  });
+
+  test('acceptTermsOfUse mutates termsOfUseAccepted', () => {
+    const { mutations } = storeConfig;
+    expect(state.termsOfUseAccepted).toBe(false);
+    mutations.acceptTermsOfUse(state, undefined);
+    expect(state.termsOfUseAccepted).toBe(true);
+  });
 });
