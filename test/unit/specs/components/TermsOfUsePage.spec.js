@@ -38,7 +38,6 @@ describe('TermsOfUsePage.vue', () => {
     const wrapper = shallow(TermsOfUsePage, { store, localVue, mocks });
 
     wrapper.vm.acceptTermsOfUse();
-    expect(true).toBe(true);
     expect(mutations.acceptTermsOfUse).toHaveBeenCalledWith(state, true);
     expect(mocks.$router.push).toHaveBeenCalledWith('/');
   });
@@ -48,5 +47,11 @@ describe('TermsOfUsePage.vue', () => {
     expect(state.termsOfUseAccepted).toBe(false);
     mutations.acceptTermsOfUse(state, true);
     expect(state.termsOfUseAccepted).toBe(true);
+  });
+
+  test('clicking Yes triggers acceptTermsOfUse', () => {
+    const wrapper = shallow(TermsOfUsePage, { store, localVue });
+    wrapper.find('input[value="Yes"]').trigger('click');
+    expect(mutations.acceptTermsOfUse).toHaveBeenCalledWith(state, true);
   });
 });
