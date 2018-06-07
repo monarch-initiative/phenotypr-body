@@ -3,7 +3,7 @@
   <h2>Terms of Use</h2>
   <p>Do you accept?</p>
   <form @submit.prevent>
-    <input type="button" value="No" class="button rounded alert" @click="rejectTermsOfUse">
+    <a ref="terms-no-button" href="https://phenotypr.com/index.html" class="button rounded alert">No</a>
     <input type="button" value="Yes" class="button rounded" @click="acceptTermsOfUse">
   </form>
 </div>
@@ -16,10 +16,6 @@ export default {
     acceptTermsOfUse() {
       this.$store.commit('acceptTermsOfUse', true);
       this.$router.push('/');
-    },
-
-    rejectTermsOfUse() {
-      window.location.href = 'https://phenotypr.com/index.html';
     }
   }
 };

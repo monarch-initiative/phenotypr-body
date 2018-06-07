@@ -26,7 +26,7 @@ describe('TermsOfUsePage.vue', () => {
     const wrapper = shallow(TermsOfUsePage, { localVue, store });
     expect(wrapper.find('form').exists()).toBe(true);
     expect(wrapper.find('input[value="Yes"]').exists()).toBe(true);
-    expect(wrapper.find('input[value="No"]').exists()).toBe(true);
+    expect(wrapper.find({ ref: 'terms-no-button' }).exists()).toBe(true);
   });
 
   test('clicking Yes commits an acceptTermsOfUse mutation', () => {
