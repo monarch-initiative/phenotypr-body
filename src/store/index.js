@@ -33,9 +33,10 @@ export default {
     /**
      * Sets the terms of use accepted state.
      * @param {Object} - the current state
+     * @param {Boolean} - true if the terms of use are accepted
      */
-    acceptTermsOfUse(state) {
-      state.termsOfUseAccepted = true;
+    acceptTermsOfUse(state, value) {
+      state.termsOfUseAccepted = value;
     }
   }
 };

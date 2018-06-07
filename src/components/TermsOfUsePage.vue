@@ -14,12 +14,12 @@ export default {
   name: 'TermsOfUsePage',
   methods: {
     acceptTermsOfUse() {
-      this.$store.commit('acceptTermsOfUse');
+      this.$store.commit('acceptTermsOfUse', true);
       this.$router.push('/');
     },
 
     rejectTermsOfUse() {
-      window.location = 'https://phenotypr.com/index.html';
+      window.location.href = 'https://phenotypr.com/index.html';
     }
   }
 };

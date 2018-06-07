@@ -39,14 +39,14 @@ describe('TermsOfUsePage.vue', () => {
 
     wrapper.vm.acceptTermsOfUse();
     expect(true).toBe(true);
-    expect(mutations.acceptTermsOfUse).toHaveBeenCalledWith(state, undefined);
+    expect(mutations.acceptTermsOfUse).toHaveBeenCalledWith(state, true);
     expect(mocks.$router.push).toHaveBeenCalledWith('/');
   });
 
   test('acceptTermsOfUse mutates termsOfUseAccepted', () => {
     const { mutations } = storeConfig;
     expect(state.termsOfUseAccepted).toBe(false);
-    mutations.acceptTermsOfUse(state, undefined);
+    mutations.acceptTermsOfUse(state, true);
     expect(state.termsOfUseAccepted).toBe(true);
   });
 });
