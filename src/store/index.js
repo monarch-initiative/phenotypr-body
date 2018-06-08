@@ -35,12 +35,11 @@ export default {
     },
 
     /**
-     * Sets the terms of use accepted state.
+     * Sets the terms of use flag to true.
      * @param {Object} state - the current state
-     * @param {Boolean} value - true if the terms of use are accepted
      */
-    acceptTermsOfUse(state, value) {
-      state.termsOfUseAccepted = value;
+    acceptTermsOfUse(state) {
+      state.termsOfUseAccepted = true;
     },
 
     /**

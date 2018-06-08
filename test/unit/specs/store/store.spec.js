@@ -70,7 +70,7 @@ describe('vuex store', () => {
       };
 
       expect(mockState.termsOfUseAccepted).toBe(false);
-      mutations.acceptTermsOfUse(mockState, true);
+      mutations.acceptTermsOfUse(mockState);
       expect(mockState.termsOfUseAccepted).toBe(true);
     });
 
