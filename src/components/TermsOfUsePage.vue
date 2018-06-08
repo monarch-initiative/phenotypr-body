@@ -15,7 +15,7 @@ export default {
   methods: {
     acceptTermsOfUse() {
       this.$store.commit('acceptTermsOfUse');
-      this.$router.push('/');
+      this.$router.push('/search');
     }
   }
 };

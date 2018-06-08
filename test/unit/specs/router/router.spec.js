@@ -1,5 +1,9 @@
 import store from '@/store';
-import { routes, checkTermsAccepted } from '@/router';
+import {
+  routes,
+  checkTermsAccepted,
+  skipWhenAlreadyAccepted
+} from '@/router';
 
 jest.mock('@/store', () => {
   return {
@@ -11,14 +15,15 @@ jest.mock('@/store', () => {
 });
 
 describe('router', () => {
-  describe('checkTermsAccepted() guard', () => {
-    const fromRoute = {};
-    const termsOfUsePath = '/terms-of-use';
-    const toRoute = { path: '/example', meta: { requireTermsOfUse: true } };
-    const noMetaRoute = { path: '/example' };
+  const placeholderRoute = {};
+  const searchRoute = { path: '/search' };
+  const termsRoute = { path: '/terms-of-use' };
+  const termsRequiredRoute = { path: '/example', meta: { requireTermsOfUse: true } };
+  const noMetaRoute = { path: '/example' };
 
+  describe('checkTermsAccepted() guard', () => {
     test('routes have metadata indicating if terms need to be accepted', () => {
-      const unprotected = [ termsOfUsePath ];
+      const unprotected = [ termsRoute.path ];
       routes.forEach(route => {
         if (!unprotected.includes(route.path)) {
           expect(route.meta).toBeTruthy();
@@ -30,11 +35,15 @@ describe('router', () => {
     test('when terms of use have not been accepted', () => {
       const next = jest.fn();
       store.state.termsOfUseAccepted = false;
-      checkTermsAccepted(toRoute, fromRoute, next);
-      expect(next).toHaveBeenCalledWith({ path: termsOfUsePath });
+      checkTermsAccepted(termsRequiredRoute, placeholderRoute, next);
+      expect(next).toHaveBeenCalledWith(termsRoute);
+    });
 
-      next.mockReset();
-      checkTermsAccepted(noMetaRoute, fromRoute, next);
+    test('when route has no metadata', () => {
+      const next = jest.fn();
+      store.state.termsOfUseAccepted = false;
+
+      checkTermsAccepted(noMetaRoute, placeholderRoute, next);
       expect(next).toHaveBeenCalled();
       expect(next.mock.calls[0]).toEqual([]);
     });
@@ -42,9 +51,28 @@ describe('router', () => {
     test('when terms of use have been accepted', () => {
       store.state.termsOfUseAccepted = true;
       const next = jest.fn();
-      checkTermsAccepted(toRoute, fromRoute, next);
+      checkTermsAccepted(termsRequiredRoute, placeholderRoute, next);
       expect(next).toHaveBeenCalled();
       expect(next.mock.calls[0]).toEqual([]);
+    });
+  });
+
+  describe('skipWhenAlreadyAccepted() guard', () => {
+    test('when terms have not been accepted', () => {
+      const next = jest.fn();
+      store.state.termsOfUseAccepted = false;
+
+      skipWhenAlreadyAccepted(termsRoute, placeholderRoute, next);
+      expect(next).toHaveBeenCalled();
+      expect(next.mock.calls[0]).toEqual([]);
+    });
+
+    test('when terms have already been accepted', () => {
+      const next = jest.fn();
+      store.state.termsOfUseAccepted = true;
+
+      skipWhenAlreadyAccepted(termsRoute, placeholderRoute, next);
+      expect(next).toHaveBeenCalledWith(searchRoute);
     });
   });
 });

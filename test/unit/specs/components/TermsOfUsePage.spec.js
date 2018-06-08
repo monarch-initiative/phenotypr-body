@@ -37,7 +37,7 @@ describe('TermsOfUsePage.vue', () => {
   test('clicking Yes changes the route', () => {
     const wrapper = shallow(TermsOfUsePage, { store, localVue, mocks });
     wrapper.find('input[value="Yes"]').trigger('click');
-    expect(mocks.$router.push).toHaveBeenCalledWith('/');
+    expect(mocks.$router.push).toHaveBeenCalledWith('/search');
   });
 
   test('clicking Yes triggers acceptTermsOfUse', () => {
