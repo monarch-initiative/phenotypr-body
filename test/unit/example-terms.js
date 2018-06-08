@@ -1,4 +1,4 @@
-const exampleResponses = [
+const exampleTerms = [
   {
     id: 'HP:0000316',
     label: 'Hypertelorism',
@@ -32,4 +32,4 @@ const exampleResponses = [
   }
 ];
 
-export default exampleResponses;
+export default exampleTerms;
