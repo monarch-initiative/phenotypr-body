@@ -4,7 +4,7 @@ import { shallow, createLocalVue } from '@vue/test-utils';
 import ResultsPage from '@/components/ResultsPage';
 import PdfRenderer from '@/utils/pdf-renderer';
 import isExportDocument from '@/utils/is-export-document';
-import exampleResponses from '../../example-responses';
+import exampleTerms from '../../example-terms';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -22,14 +22,14 @@ describe('ResultsPage.vue', () => {
   beforeEach(() => {
     store = new Vuex.Store({
       state: {
-        selectedTerms: exampleResponses
+        selectedTerms: exampleTerms
       }
     });
   });
 
   test('renders the selected terms', () => {
     const wrapper = shallow(ResultsPage, { store, localVue });
-    expect(wrapper.findAll('tbody tr').length).toEqual(exampleResponses.length);
+    expect(wrapper.findAll('tbody tr').length).toEqual(exampleTerms.length);
   });
 
   test('generates and downloads PDF when the button is clicked', () => {

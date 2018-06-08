@@ -3,7 +3,7 @@ import { shallow, createLocalVue } from '@vue/test-utils';
 
 import SearchPage from '@/components/SearchPage';
 import SearchInput from '@/components/SearchInput';
-import exampleResponses from '../../example-responses';
+import exampleTerms from '../../example-terms';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -18,7 +18,7 @@ describe('SearchPage.vue', () => {
     };
 
     state = {
-      selectedTerms: exampleResponses.slice(2)
+      selectedTerms: exampleTerms.slice(2)
     };
 
     store = new Vuex.Store({ state, mutations });
@@ -38,7 +38,7 @@ describe('SearchPage.vue', () => {
 
   test('selecting an item commits an addTerm mutation', () => {
     const wrapper = shallow(SearchPage, { store, localVue });
-    const expectedItem = exampleResponses[2];
+    const expectedItem = exampleTerms[2];
 
     wrapper.vm.handleSelection(expectedItem);
     expect(mutations.addTerm).toHaveBeenCalledWith(state, expectedItem);

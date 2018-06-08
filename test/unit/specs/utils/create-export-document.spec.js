@@ -1,7 +1,7 @@
 import isExportDocument from '@/utils/is-export-document';
 import createExportDocument from '@/utils/create-export-document';
 
-import exampleResponses from '../../example-responses';
+import exampleTerms from '../../example-terms';
 
 describe('createExportDocument utility', () => {
   test('requires an array of terms', () => {
@@ -19,7 +19,7 @@ describe('createExportDocument utility', () => {
     let doc;
 
     beforeEach(() => {
-      doc = createExportDocument(exampleResponses);
+      doc = createExportDocument(exampleTerms);
     });
 
     test('overall structure is correct', () => {
@@ -35,12 +35,12 @@ describe('createExportDocument utility', () => {
     test('table contains a row for each HPO term', () => {
       const [ tableNode ] = doc.content.filter(tableFilter);
       const { table } = tableNode;
-      expect(table.body.length).toEqual(exampleResponses.length + table.headerRows);
+      expect(table.body.length).toEqual(exampleTerms.length + table.headerRows);
 
       const tableBody = table.body.slice(table.headerRows);
-      for (let i = 0; i < exampleResponses.length; i++) {
+      for (let i = 0; i < exampleTerms.length; i++) {
         const [ symptom, hpoTerm, hpoId ] = tableBody[i];
-        const term = exampleResponses[i];
+        const term = exampleTerms[i];
 
         expect(symptom).toEqual(term.symptomText);
         expect(hpoTerm).toEqual(term.label);

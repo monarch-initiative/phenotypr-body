@@ -1,5 +1,5 @@
 import storeConfig from '@/store';
-import exampleResponses from '../../example-responses';
+import exampleTerms from '../../example-terms';
 
 describe('vuex store', () => {
   test('exports the initial state', () => {
@@ -15,7 +15,7 @@ describe('vuex store', () => {
     const { mutations } = storeConfig;
 
     test('addTerm adds the term to the end of the array', () => {
-      let term = exampleResponses[1];
+      let term = exampleTerms[1];
       const mockState = {
         selectedTerms: []
       };
@@ -24,14 +24,14 @@ describe('vuex store', () => {
       expect(mockState.selectedTerms.length).toEqual(1);
       expect(mockState.selectedTerms).toContain(term);
 
-      term = exampleResponses[3];
+      term = exampleTerms[3];
       mutations.addTerm(mockState, term);
       expect(mockState.selectedTerms.length).toEqual(2);
       expect(mockState.selectedTerms[1]).toEqual(term);
     });
 
     test('addTerm prevents adding duplicate terms', () => {
-      const term = exampleResponses[1];
+      const term = exampleTerms[1];
       const mockState = {
         selectedTerms: [term]
       };
@@ -41,21 +41,19 @@ describe('vuex store', () => {
     });
 
     test('removeTermAtIndex removes the term from the array', () => {
-      const expectedItem = exampleResponses[2];
+      const expectedItem = exampleTerms[2];
       const mockState = {
-        selectedTerms: [...exampleResponses]
+        selectedTerms: [...exampleTerms]
       };
 
       expect(mockState.selectedTerms).toContain(expectedItem);
 
       mutations.removeTermAtIndex(mockState, 2);
-      expect(mockState.selectedTerms.length).toEqual(exampleResponses.length - 1);
+      expect(mockState.selectedTerms.length).toEqual(exampleTerms.length - 1);
       expect(mockState.selectedTerms).not.toContain(expectedItem);
     });
 
     test('acceptTermsOfUse mutates termsOfUseAccepted', () => {
-      const { mutations } = storeConfig;
-
       const mockState = {
         termsOfUseAccepted: false
       };
