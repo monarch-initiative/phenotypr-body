@@ -25,6 +25,14 @@
         </div>
       </div>
 
+      <!-- annotation sufficiency information -->
+      <div class="grid-x grid-margin-x">
+        <!-- TODO: put this in a component -->
+        <div class="cell medium-8 large-6">
+          <p>Profile sufficiency: {{ qualityScore }}</p>
+        </div>
+      </div>
+
       <!-- saved terms -->
       <div class="grid-x grid-margin-x saved-terms">
         <div class="cell">
@@ -58,10 +66,12 @@ export default {
   methods: {
     handleSelection(item) {
       this.$store.commit('addTerm', item);
+      this.$store.dispatch('calculateQualityScore');
     },
 
     removeSelection(index) {
       this.$store.commit('removeTermAtIndex', index);
+      this.$store.dispatch('calculateQualityScore');
     },
 
     goToResults() {
@@ -71,6 +81,7 @@ export default {
 
   computed: mapState({
     selections: 'selectedTerms',
+    qualityScore: state => state.qualityScore,
 
     selectionIsEmpty: state => state.selectedTerms && state.selectedTerms.length < 1
   })

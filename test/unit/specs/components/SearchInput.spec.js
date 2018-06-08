@@ -1,7 +1,7 @@
 import { shallow } from '@vue/test-utils';
 import SearchInput from '@/components/SearchInput';
 
-import exampleResponses from '../../example-responses';
+import exampleTerms from '../../example-terms';
 
 // Stub out debounce to work around Jest timer issue:
 // https://github.com/facebook/jest/issues/3465
@@ -35,9 +35,9 @@ describe('SearchInput.vue', () => {
     // Suggestions are empty by default
     expect(wrapper.contains('li')).toBe(false);
 
-    wrapper.setData({ suggestions: exampleResponses });
+    wrapper.setData({ suggestions: exampleTerms });
 
-    expect(wrapper.findAll('li').length).toEqual(exampleResponses.length);
+    expect(wrapper.findAll('li').length).toEqual(exampleTerms.length);
   });
 
   test('should render a default message if nothing is found', () => {
@@ -52,11 +52,11 @@ describe('SearchInput.vue', () => {
   test('the down arrow key moves to the next suggestion', () => {
     const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleResponses
+        suggestions: exampleTerms
       }
     });
 
-    let expectedSelection = exampleResponses[0];
+    let expectedSelection = exampleTerms[0];
     let input = wrapper.find('input');
 
     // Nothing selected initially
@@ -71,7 +71,7 @@ describe('SearchInput.vue', () => {
 
     input.trigger('keydown.down');
 
-    expectedSelection = exampleResponses[1];
+    expectedSelection = exampleTerms[1];
     expect(wrapper.findAll('li.highlighted').length).toEqual(1);
     selectedItem = wrapper.find('li.highlighted');
     expect(selectedItem.text()).toEqual(expectedSelection.exact_synonym[0]);
@@ -80,13 +80,13 @@ describe('SearchInput.vue', () => {
   test('the up arrow key moves to the previous suggestion', () => {
     const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleResponses,
+        suggestions: exampleTerms,
         currentIndex: 1
       }
     });
 
     const input = wrapper.find('input');
-    let expectedSelection = exampleResponses[1];
+    let expectedSelection = exampleTerms[1];
 
     // Second suggestion should be selected
     expect(wrapper.findAll('li.highlighted').length).toEqual(1);
@@ -96,7 +96,7 @@ describe('SearchInput.vue', () => {
     input.trigger('keydown.up');
 
     // First suggestion should now be selected
-    expectedSelection = exampleResponses[0];
+    expectedSelection = exampleTerms[0];
     expect(wrapper.findAll('li.highlighted').length).toEqual(1);
     selectedItem = wrapper.find('li.highlighted');
     expect(selectedItem.text()).toEqual(expectedSelection.exact_synonym[0]);
@@ -105,7 +105,7 @@ describe('SearchInput.vue', () => {
   test('mousing over a suggestion moves to that suggestion', () => {
     const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleResponses
+        suggestions: exampleTerms
       }
     });
 
@@ -125,7 +125,7 @@ describe('SearchInput.vue', () => {
   test('mousing out of a suggestion clears the selection', () => {
     const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleResponses,
+        suggestions: exampleTerms,
         currentIndex: 2
       }
     });
@@ -146,12 +146,12 @@ describe('SearchInput.vue', () => {
   test('the enter key selects the current suggestion', () => {
     const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleResponses,
+        suggestions: exampleTerms,
         currentIndex: 2
       }
     });
 
-    const expectedSelection = exampleResponses[2];
+    const expectedSelection = exampleTerms[2];
     const input = wrapper.find('input');
     const state = wrapper.vm.$data;
 
@@ -178,11 +178,11 @@ describe('SearchInput.vue', () => {
   test('clicking a suggestion selects it', () => {
     const wrapper = shallow(SearchInput, {
       data: {
-        suggestions: exampleResponses
+        suggestions: exampleTerms
       }
     });
 
-    const expectedSelection = exampleResponses[2];
+    const expectedSelection = exampleTerms[2];
     const suggestions = wrapper.findAll('li');
     const state = wrapper.vm.$data;
 
@@ -202,7 +202,7 @@ describe('SearchInput.vue', () => {
     const wrapper = shallow(SearchInput, {
       data: {
         queryText: 'wide eyes',
-        suggestions: exampleResponses,
+        suggestions: exampleTerms,
         currentIndex: 1
       }
     });
@@ -221,7 +221,7 @@ describe('SearchInput.vue', () => {
     const wrapper = shallow(SearchInput, {
       data: {
         queryText: 'wide eyes',
-        suggestions: exampleResponses,
+        suggestions: exampleTerms,
         currentIndex: 1
       }
     });
@@ -239,7 +239,7 @@ describe('SearchInput.vue', () => {
     const wrapper = shallow(SearchInput, {
       data: {
         queryText: 'wide eyes',
-        suggestions: exampleResponses,
+        suggestions: exampleTerms,
         currentIndex: 1
       }
     });
@@ -254,7 +254,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('calls the search service on input', (done) => {
-    mockService.search.mockReturnValue(Promise.resolve({ docs: exampleResponses }));
+    mockService.search.mockReturnValue(Promise.resolve({ docs: exampleTerms }));
 
     const wrapper = shallow(SearchInput, {
       mocks: {
@@ -271,7 +271,7 @@ describe('SearchInput.vue', () => {
 
     wrapper.vm.$nextTick(() => {
       expect(mockService.search).toHaveBeenCalledWith('wide-set eyes');
-      expect(wrapper.vm.$data.suggestions).toEqual(exampleResponses);
+      expect(wrapper.vm.$data.suggestions).toEqual(exampleTerms);
       done();
     });
   });
@@ -280,7 +280,7 @@ describe('SearchInput.vue', () => {
     const wrapper = shallow(SearchInput);
     expect(wrapper.vm.hasSuggestions).toBe(false);
 
-    wrapper.setData({ suggestions: exampleResponses });
+    wrapper.setData({ suggestions: exampleTerms });
     expect(wrapper.vm.hasSuggestions).toBe(true);
   });
 
@@ -291,7 +291,7 @@ describe('SearchInput.vue', () => {
     expect(wrapper.vm.showDefault).toBe(false);
 
     // Should be false when search is complete and suggestions are available
-    wrapper.setData({ suggestions: exampleResponses, searchComplete: true });
+    wrapper.setData({ suggestions: exampleTerms, searchComplete: true });
     expect(wrapper.vm.showDefault).toBe(false);
 
     // Should be true when search is complete and suggestions array is empty
