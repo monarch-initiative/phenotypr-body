@@ -1,5 +1,12 @@
 import storeConfig from '@/store';
+import scoringService from '@/services/scoring-service';
 import exampleTerms from '../../example-terms';
+
+jest.mock('@/services/scoring-service', () => {
+  return {
+    score: jest.fn()
+  };
+});
 
 describe('vuex store', () => {
   test('exports the initial state', () => {
@@ -9,6 +16,10 @@ describe('vuex store', () => {
 
   test('exports the mutations', () => {
     expect(storeConfig.mutations).toBeDefined();
+  });
+
+  test('exports the actions', () => {
+    expect(storeConfig.actions).toBeDefined();
   });
 
   describe('mutations', () => {
@@ -61,6 +72,65 @@ describe('vuex store', () => {
       expect(mockState.termsOfUseAccepted).toBe(false);
       mutations.acceptTermsOfUse(mockState, true);
       expect(mockState.termsOfUseAccepted).toBe(true);
+    });
+
+    test('setQualityScore sets the specified score value', () => {
+      const mockState = {
+        qualityScore: null
+      };
+
+      const expectedScore = 0.42;
+
+      mutations.setQualityScore(mockState, expectedScore);
+      expect(mockState.qualityScore).toEqual(expectedScore);
+    });
+  });
+
+  describe('actions', () => {
+    const { actions } = storeConfig;
+
+    beforeEach(() => {
+      scoringService.score.mockReset();
+    });
+
+    test('calculateQualityScore: when terms are selected', () => {
+      const commit = jest.fn();
+
+      const mockState = {
+        selectedTerms: exampleTerms.slice(0, 1)
+      };
+
+      const mockResponse = {
+        scaled_score: 1.42
+      };
+
+      scoringService.score.mockReturnValueOnce(Promise.resolve(mockResponse));
+
+      return actions.calculateQualityScore({ commit, state: mockState })
+        .then(() => {
+          // It should call the service
+          expect(scoringService.score).toHaveBeenCalledWith(mockState.selectedTerms);
+
+          // It commits the quality score
+          expect(commit).toHaveBeenCalledWith('setQualityScore', mockResponse.scaled_score);
+        });
+    });
+
+    test('calculateQualityScore: when no terms are selected', () => {
+      const commit = jest.fn();
+
+      const mockState = {
+        selectedTerms: []
+      };
+
+      return actions.calculateQualityScore({ commit, state: mockState })
+        .then(() => {
+          // It should skip calling the service
+          expect(scoringService.score).not.toHaveBeenCalled();
+
+          // It resets the quality score
+          expect(commit).toHaveBeenCalledWith('setQualityScore', 0);
+        });
     });
   });
 });
