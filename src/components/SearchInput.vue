@@ -237,7 +237,7 @@ export default {
 
 .autocomplete .search-results.is-open {
   visibility: visible;
-  max-height: 460px;
+  max-height: 470px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -257,5 +257,10 @@ export default {
 
 .highlighted {
   background-color: #f8f8f8;
+}
+
+em.hilite {
+  /* font-style: normal; */
+  font-weight: bold;
 }
 </style>
