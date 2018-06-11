@@ -17,8 +17,8 @@ export default {
   name: 'TermsOfUsePage',
   methods: {
     acceptTermsOfUse() {
-      this.$store.commit('acceptTermsOfUse', true);
-      this.$router.push('/');
+      this.$store.commit('acceptTermsOfUse');
+      this.$router.push('/search');
     }
   }
 };

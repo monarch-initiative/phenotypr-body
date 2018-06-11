@@ -9,11 +9,29 @@ import TermsOfUsePage from '@/components/TermsOfUsePage';
 Vue.use(Router);
 
 const termsOfUsePath = '/terms-of-use';
+const searchPath = '/search';
 
+/**
+ * Redirect to the terms of use if they have not already been accepted.
+ */
 export const checkTermsAccepted = (to, from, next) => {
-  if (to.meta && to.meta.requireTermsOfUse && !store.state.termsOfUseAccepted) {
+  const { meta = {} } = to;
+  if (meta.requireTermsOfUse && !store.state.termsOfUseAccepted) {
     next({
       path: termsOfUsePath
+    });
+  } else {
+    next();
+  }
+};
+
+/**
+ * Redirect to the search page if terms have already been accepted.
+ */
+export const skipWhenAlreadyAccepted = (to, from, next) => {
+  if (store.state.termsOfUseAccepted) {
+    next({
+      path: searchPath
     });
   } else {
     next();
@@ -23,11 +41,11 @@ export const checkTermsAccepted = (to, from, next) => {
 export const routes = [
   {
     path: '/',
-    redirect: '/search',
+    redirect: termsOfUsePath,
     meta: { requireTermsOfUse: true }
   },
   {
-    path: '/search',
+    path: searchPath,
     component: SearchPage,
     meta: { requireTermsOfUse: true }
   },
@@ -38,7 +56,8 @@ export const routes = [
   },
   {
     path: termsOfUsePath,
-    component: TermsOfUsePage
+    component: TermsOfUsePage,
+    beforeEnter: skipWhenAlreadyAccepted
   }
 ];
 

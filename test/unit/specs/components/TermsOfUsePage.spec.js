@@ -1,5 +1,4 @@
 import Vuex from 'vuex';
-import storeConfig from '@/store';
 import { shallow, createLocalVue } from '@vue/test-utils';
 
 import TermsOfUsePage from '@/components/TermsOfUsePage';
@@ -8,9 +7,15 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe('TermsOfUsePage.vue', () => {
-  let store, state, mutations;
+  let store, state, mutations, mocks;
 
   beforeEach(() => {
+    mocks = {
+      $router: {
+        push: jest.fn()
+      }
+    };
+
     mutations = {
       acceptTermsOfUse: jest.fn()
     };
@@ -29,22 +34,15 @@ describe('TermsOfUsePage.vue', () => {
     expect(wrapper.find({ ref: 'terms-no-button' }).exists()).toBe(true);
   });
 
-  test('clicking Yes commits an acceptTermsOfUse mutation', () => {
-    const mocks = {
-      $router: {
-        push: jest.fn()
-      }
-    };
+  test('clicking Yes changes the route', () => {
     const wrapper = shallow(TermsOfUsePage, { store, localVue, mocks });
-
-    wrapper.vm.acceptTermsOfUse();
-    expect(mutations.acceptTermsOfUse).toHaveBeenCalledWith(state, true);
-    expect(mocks.$router.push).toHaveBeenCalledWith('/');
+    wrapper.find('input[value="Yes"]').trigger('click');
+    expect(mocks.$router.push).toHaveBeenCalledWith('/search');
   });
 
   test('clicking Yes triggers acceptTermsOfUse', () => {
-    const wrapper = shallow(TermsOfUsePage, { store, localVue });
+    const wrapper = shallow(TermsOfUsePage, { store, localVue, mocks });
     wrapper.find('input[value="Yes"]').trigger('click');
-    expect(mutations.acceptTermsOfUse).toHaveBeenCalledWith(state, true);
+    expect(mutations.acceptTermsOfUse).toHaveBeenCalledWith(state, undefined);
   });
 });
