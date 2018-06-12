@@ -3,6 +3,8 @@ import { shallow, createLocalVue } from '@vue/test-utils';
 
 import SearchPage from '@/components/SearchPage';
 import SearchInput from '@/components/SearchInput';
+import AnnotationSufficiency from '@/components/AnnotationSufficiency';
+
 import exampleTerms from '../../example-terms';
 
 const localVue = createLocalVue();
@@ -32,6 +34,11 @@ describe('SearchPage.vue', () => {
     const wrapper = shallow(SearchPage, { store, localVue });
     expect(wrapper.find('form').exists()).toBe(true);
     expect(wrapper.find(SearchInput).exists()).toBe(true);
+  });
+
+  test('renders diagnostic quality feedback (annotation sufficiency)', () => {
+    const wrapper = shallow(SearchPage, { store, localVue });
+    expect(wrapper.find(AnnotationSufficiency).exists()).toBe(true);
   });
 
   test('renders a tag for each selected term', () => {
