@@ -27,10 +27,7 @@
 
       <!-- annotation sufficiency information -->
       <div class="grid-x grid-margin-x">
-        <!-- TODO: put this in a component -->
-        <div class="cell medium-8 large-6">
-          <p>Profile sufficiency: {{ qualityScore }}</p>
-        </div>
+        <AnnotationSufficiency class="cell medium-8 large-6" :score="qualityScore"/>
       </div>
 
       <!-- saved terms -->
@@ -55,12 +52,14 @@
 <script>
 import { mapState } from 'vuex';
 import SearchInput from './SearchInput';
+import AnnotationSufficiency from './AnnotationSufficiency';
 
 export default {
   name: 'SearchPage',
 
   components: {
-    SearchInput
+    SearchInput,
+    AnnotationSufficiency
   },
 
   methods: {
