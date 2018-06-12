@@ -84,7 +84,8 @@ export default {
      * @return {Number}
      */
     categoryCount() {
-      return this.categoryLabels.length;
+      const { categoryLabels } = this;
+      return categoryLabels.length;
     },
 
     /**
@@ -92,7 +93,8 @@ export default {
      * @return {Number}
      */
     scaledScore() {
-      return this.score * this.categoryCount;
+      const { score, categoryCount } = this;
+      return score * categoryCount;
     },
 
     /**
