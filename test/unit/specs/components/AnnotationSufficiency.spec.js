@@ -4,7 +4,7 @@ import AnnotationSufficiency from '@/components/AnnotationSufficiency';
 import StarRating from 'vue-star-rating';
 
 describe('AnnotationSufficiency.vue', () => {
-  test('rendering', () => {
+  test('basic rendering', () => {
     const wrapper = shallow(AnnotationSufficiency, {
       propsData: {
         score: 0.4
@@ -12,7 +12,7 @@ describe('AnnotationSufficiency.vue', () => {
     });
 
     // Renders a span with the score category
-    const categorySpan = wrapper.find('span.score-category');
+    const categorySpan = wrapper.find('.score-category');
     expect(categorySpan.exists()).toBe(true);
     expect(categorySpan.text()).toEqual('Fair');
 
@@ -21,9 +21,27 @@ describe('AnnotationSufficiency.vue', () => {
     expect(scoreComponent.exists()).toBe(true);
 
     // Renders help text
-    const helpText = wrapper.find('p.score-help');
+    const helpText = wrapper.find('.score-help');
     expect(helpText.exists()).toBe(true);
     expect(helpText.find('ul').exists()).toBe(true);
+
+    // Error text is not displayed
+    const errorMessage = wrapper.find('.score-error');
+    expect(errorMessage.exists()).toBe(false);
+  });
+
+  test('renders a warning if there is a scoring error', () => {
+    const wrapper = shallow(AnnotationSufficiency, {
+      propsData: {
+        score: 0.25,
+        error: null
+      }
+    });
+
+    expect(wrapper.find('.score-error').exists()).toBe(false);
+
+    wrapper.setProps({ error: new Error('example') });
+    expect(wrapper.find('.score-error').exists()).toBe(true);
   });
 
   test('clampIndex helper method', () => {
