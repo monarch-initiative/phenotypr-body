@@ -26,6 +26,11 @@ describe('createExportDocument utility', () => {
       expect(isExportDocument(doc)).toBe(true);
     });
 
+    test('contains a header and footer', () => {
+      expect(doc.header).toBeTruthy();
+      expect(doc.footer).toBeTruthy();
+    });
+
     test('contains a single table', () => {
       const [ tableNode, ...rest ] = doc.content.filter(tableFilter);
       expect(tableNode).toBeTruthy();
