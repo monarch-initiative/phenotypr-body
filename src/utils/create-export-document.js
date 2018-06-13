@@ -1,5 +1,3 @@
-const TABLE_PLACEHOLDER = 'TABLE_PLACEHOLDER';
-
 const colors = {
   white: '#ffffff',
   black: '#000000',
@@ -39,10 +37,9 @@ function createBaseDocument() {
 
     content: [
       {
-        text: 'Your HPO Terms',
+        text: 'Your HPO Terms\n\n',
         style: 'heading'
       },
-      '\n',
       {
         text: [
           'The table below shows the symptoms you selected using the ',
@@ -50,11 +47,9 @@ function createBaseDocument() {
           ' and the corresponding HPO terms. Knowing you or your child\'s HPO mapping can ',
           'provide your healthcare provider access to quality, structured phenotyping data. ',
           'Providing this information to your clinicians can assist in diagnosis (e.g., ',
-          'there may be something your medical team doesn\'t know about!).'
+          'there may be something your medical team doesn\'t know about!).\n\n'
         ]
-      },
-      '\n',
-      TABLE_PLACEHOLDER
+      }
     ],
     styles: {
       heading: {
@@ -135,9 +130,7 @@ export default function createExportDocument(terms) {
   }
 
   const doc = createBaseDocument();
-  const termTable = createTermTable(terms);
-
-  doc.content = doc.content.map(item => item === TABLE_PLACEHOLDER ? termTable : item);
+  doc.content.push(createTermTable(terms));
 
   return doc;
 }
