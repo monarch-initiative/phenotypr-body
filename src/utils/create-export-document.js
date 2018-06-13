@@ -18,9 +18,41 @@ const colors = {
  *   terms
  */
 function createBaseDocument() {
+  const url = window.location.origin + window.location.pathname;
+
   return {
+    header: {
+      style: 'pageHeaderOrFooter',
+      columns: [
+        { text: `Phenotypr Body: ${url}`, link: url, style: 'link' },
+        { text: new Date().toLocaleDateString(), alignment: 'right' }
+      ]
+    },
+
+    footer: (currentPage, pageCount) => {
+      return {
+        text: `Page ${currentPage} of ${pageCount}`,
+        style: 'pageHeaderOrFooter',
+        alignment: 'center'
+      };
+    },
+
     content: [
-      { text: 'Your HPO Terms', style: 'heading' },
+      {
+        text: 'Your HPO Terms',
+        style: 'heading'
+      },
+      '\n',
+      {
+        text: [
+          'The table below shows the symptoms you selected using the ',
+          { text: 'Phenotypr Body tool', link: url, style: 'link' },
+          ' and the corresponding HPO terms. Knowing you or your child\'s HPO mapping can ',
+          'provide your healthcare provider access to quality, structured phenotyping data. ',
+          'Providing this information to your clinicians can assist in diagnosis (e.g., ',
+          'there may be something your medical team doesn\'t know about!).'
+        ]
+      },
       '\n',
       TABLE_PLACEHOLDER
     ],
@@ -29,6 +61,18 @@ function createBaseDocument() {
         fontSize: 16,
         bold: true,
         color: colors.heading
+      },
+      link: {
+        color: colors.heading,
+        decoration: 'underline'
+      },
+      pageHeaderOrFooter: {
+        fontSize: 9,
+        italic: true,
+        marginLeft: 40,
+        marginRight: 40,
+        marginTop: 10,
+        marginBottom: 10
       },
       tableHeaderCell: {
         bold: true,
