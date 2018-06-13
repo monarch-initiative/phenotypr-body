@@ -3,7 +3,8 @@ import scoringService from '@/services/scoring-service';
 const initialState = {
   selectedTerms: [],
   termsOfUseAccepted: false,
-  qualityScore: 0
+  qualityScore: 0,
+  scoringError: null
 };
 
 /**
@@ -48,7 +49,17 @@ export default {
      * @param {Number} score - the quality score to set.
      */
     setQualityScore(state, score) {
+      state.scoringError = null;
       state.qualityScore = score;
+    },
+
+    /**
+     * Sets the scoring error to the specified value.
+     * @param {Object} state - the current state.
+     * @param {Error} error - the error received from the scoring service.
+     */
+    setScoringError(state, error) {
+      state.scoringError = error;
     }
   },
 
@@ -62,9 +73,9 @@ export default {
       const { selectedTerms } = state;
 
       if (selectedTerms.length) {
-        // TODO: normalize error response to a sentinel?
         return scoringService.score(selectedTerms)
-          .then(scoreData => commit('setQualityScore', scoreData.scaled_score));
+          .then(scoreData => commit('setQualityScore', scoreData.scaled_score))
+          .catch(reason => commit('setScoringError', reason));
       } else {
         return Promise.resolve(commit('setQualityScore', 0));
       }

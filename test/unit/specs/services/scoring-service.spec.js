@@ -55,10 +55,10 @@ describe('scoring service', () => {
     });
   });
 
-  test('it catches error responses', () => {
+  test('clients must handle error responses', () => {
     const message = 'a bad thing happened';
     axios.post.mockReturnValue(Promise.reject(new Error(message)));
     return scoringService.score(exampleTerms)
-      .then(response => expect(response.error.message).toEqual(message));
+      .catch(reason => expect(reason.message).toEqual(message));
   });
 });

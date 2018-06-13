@@ -84,6 +84,27 @@ describe('vuex store', () => {
       mutations.setQualityScore(mockState, expectedScore);
       expect(mockState.qualityScore).toEqual(expectedScore);
     });
+
+    test('setQualityScore clears any scoring error', () => {
+      const mockState = {
+        qualityScore: null,
+        scoringError: new Error('timeout of 10000ms exceeded')
+      };
+
+      mutations.setQualityScore(mockState, 0.42);
+      expect(mockState.scoringError).toBeNull();
+    });
+
+    test('setScoringError captures the error', () => {
+      const expectedError = new Error('a bad thing happened');
+
+      const mockState = {
+        scoringError: null
+      };
+
+      mutations.setScoringError(mockState, expectedError);
+      expect(mockState.scoringError).toEqual(expectedError);
+    });
   });
 
   describe('actions', () => {
@@ -130,6 +151,23 @@ describe('vuex store', () => {
 
           // It resets the quality score
           expect(commit).toHaveBeenCalledWith('setQualityScore', 0);
+        });
+    });
+
+    test('calculateQualityScore: when an error occurs', () => {
+      const commit = jest.fn();
+
+      const mockState = {
+        selectedTerms: exampleTerms.slice(0, 1)
+      };
+
+      const scoringError = new Error('timeout of 10000ms exceeded');
+
+      scoringService.score.mockReturnValueOnce(Promise.reject(scoringError));
+
+      return actions.calculateQualityScore({ commit, state: mockState })
+        .then(() => {
+          expect(commit).toHaveBeenCalledWith('setScoringError', scoringError);
         });
     });
   });
