@@ -74,6 +74,7 @@ export default {
     },
 
     goToResults() {
+      this.$store.dispatch('saveSelectedTerms');
       this.$router.push('/results');
     }
   },
