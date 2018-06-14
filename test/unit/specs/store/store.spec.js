@@ -11,7 +11,14 @@ jest.mock('@/services/scoring-service', () => {
 describe('vuex store', () => {
   test('exports the initial state', () => {
     expect(storeConfig.state).toBeDefined();
-    expect(storeConfig.state.selectedTerms).toEqual([]);
+
+    const { state } = storeConfig;
+    const uuidPattern = /[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}/i;
+    expect(state.selectedTerms).toEqual([]);
+    expect(state.termsOfUseAccepted).toEqual(false);
+    expect(state.qualityScore).toEqual(0);
+    expect(state.scoringError).toBeNull();
+    expect(state.sessionId).toMatch(uuidPattern);
   });
 
   test('exports the mutations', () => {

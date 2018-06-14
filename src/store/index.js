@@ -1,6 +1,8 @@
+import uuid from 'uuid/v4';
 import scoringService from '@/services/scoring-service';
 
 const initialState = {
+  sessionId: uuid(),
   selectedTerms: [],
   termsOfUseAccepted: false,
   qualityScore: 0,

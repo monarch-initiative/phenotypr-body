@@ -23,6 +23,7 @@
     "pdfmake": "~0.1.36",
     "qs": "^6.5.1",
     "striptags": "^2.2.1",
+    "uuid": "^3.2.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vue-star-rating": "^1.6.0",
