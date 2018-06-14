@@ -1,6 +1,9 @@
 <template>
   <div class="cell medium-8 large-6">
-    <p>Profile sufficiency: <span class="score-category">{{ category }}</span>
+    <p class="score-error" v-if="error">The score could not be calculated due to an error. Please try again.</p>
+
+    <p v-else>Profile sufficiency:
+      <span class="score-category">{{ category }}</span>
       <star-rating
         v-model="scaledScore"
         active-color="#5aa4d2"
@@ -42,7 +45,8 @@ export default {
   },
 
   props: {
-    score: Number
+    score: Number,
+    error: Error
   },
 
   data() {

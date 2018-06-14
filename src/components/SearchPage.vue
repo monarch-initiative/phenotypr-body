@@ -27,7 +27,7 @@
 
       <!-- annotation sufficiency information -->
       <div class="grid-x grid-margin-x">
-        <AnnotationSufficiency class="cell medium-8 large-6" :score="qualityScore"/>
+        <AnnotationSufficiency class="cell medium-8 large-6" :score="qualityScore" :error="scoringError"/>
       </div>
 
       <!-- saved terms -->
@@ -81,7 +81,7 @@ export default {
   computed: mapState({
     selections: 'selectedTerms',
     qualityScore: state => state.qualityScore,
-
+    scoringError: state => state.scoringError,
     selectionIsEmpty: state => state.selectedTerms && state.selectedTerms.length < 1
   })
 };

@@ -24,8 +24,9 @@
         >
         </li>
       </ul>
-      <ul v-if="showDefault">
-        <li>Nothing found.</li>
+      <ul v-else>
+        <li v-if="showDefault">Nothing found.</li>
+        <li v-if="showError">An error occurred. Please try again.</li>
       </ul>
     </div>
   </div>
@@ -42,7 +43,8 @@ export default {
       queryText: '',
       suggestions: [],
       currentIndex: null,
-      searchComplete: false
+      searchComplete: false,
+      searchError: null
     };
   },
 
@@ -59,6 +61,7 @@ export default {
       this.suggestions = [];
       this.currentIndex = null;
       this.searchComplete = false;
+      this.searchError = null;
       this.$refs.dropdown.scrollTop = 0;
     },
 
@@ -82,6 +85,10 @@ export default {
         this.$searchService.search(this.queryText)
           .then(response => {
             this.suggestions = response.docs;
+            this.searchComplete = true;
+          })
+          .catch(reason => {
+            this.searchError = reason;
             this.searchComplete = true;
           });
       } else {
@@ -187,7 +194,14 @@ export default {
      * A computed property that indicates if default output should be displayed.
      */
     showDefault() {
-      return this.searchComplete && !this.hasSuggestions;
+      return this.searchComplete && !this.hasSuggestions && !this.searchError;
+    },
+
+    /**
+     * A computed property that indicates if an error message should be displayed.
+     */
+    showError() {
+      return this.searchComplete && !!this.searchError;
     }
   }
 };

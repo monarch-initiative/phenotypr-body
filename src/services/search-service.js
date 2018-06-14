@@ -126,15 +126,13 @@ export default class SearchService {
    *
    * @param {String} queryText - search terms to query for.
    * @return {Promise -> Object} a promise. On success, resolves to data returned by
-   *   the Solr query. On error, resolves an object with an error key containing the
-   *   reason the request was rejected.
+   *   the Solr query. On error, the error that triggered the rejection is returned.
    */
   search(queryText) {
     const url = this._buildUrl(queryText);
     return axios(url)
       .then(response => response.data)
       .then(this._mergeHighlighting)
-      .then(this._mapSymptomLabels)
-      .catch(reason => ({ error: reason }));
+      .then(this._mapSymptomLabels);
   }
 }

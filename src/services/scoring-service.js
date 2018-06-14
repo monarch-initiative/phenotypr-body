@@ -12,7 +12,8 @@ export default {
    * Gets an annotation sufficiency score for the selected HPO terms.
    *
    * @param {{id: string, label: string}} terms - an array of HPO term objects.
-   * @return {Promise->Object} an object with annotation sufficiency scores.
+   * @return {Promise->Object} on success, resolves to an object with annotation
+   *   sufficiency scores. On error, the error that triggered the rejection is returned.
    * @see example-score.js for an example response
    */
   score(terms) {
@@ -29,10 +30,10 @@ export default {
       };
     });
 
-    const phenotypes = JSON.stringify({ features });
+    const data = { annotation_profile: JSON.stringify({ features }) };
+    const options = { timeout: 5000 };
 
-    return axios.post(SCORING_URL, { annotation_profile: phenotypes })
-      .then(response => response.data)
-      .catch(reason => ({ error: reason }));
+    return axios.post(SCORING_URL, data, options)
+      .then(response => response.data);
   }
 };
