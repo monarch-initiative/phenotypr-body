@@ -49,6 +49,16 @@ describe('SearchInput.vue', () => {
     expect(listItems.at(0).text()).toEqual('Nothing found.');
   });
 
+  test('should render an error message if the search fails', () => {
+    const error = new Error('halp');
+    const wrapper = shallow(SearchInput);
+    wrapper.setData({ searchError: error, searchComplete: true });
+
+    const listItems = wrapper.findAll('li');
+    expect(listItems.length).toEqual(1);
+    expect(listItems.at(0).text()).toEqual('An error occurred. Please try again.');
+  });
+
   test('the down arrow key moves to the next suggestion', () => {
     const wrapper = shallow(SearchInput, {
       data: {
@@ -276,26 +286,47 @@ describe('SearchInput.vue', () => {
     });
   });
 
-  test('hasSuggestions computed property', () => {
-    const wrapper = shallow(SearchInput);
-    expect(wrapper.vm.hasSuggestions).toBe(false);
+  describe('computed properties', () => {
+    test('hasSuggestions', () => {
+      const wrapper = shallow(SearchInput);
+      expect(wrapper.vm.hasSuggestions).toBe(false);
 
-    wrapper.setData({ suggestions: exampleTerms });
-    expect(wrapper.vm.hasSuggestions).toBe(true);
-  });
+      wrapper.setData({ suggestions: exampleTerms });
+      expect(wrapper.vm.hasSuggestions).toBe(true);
+    });
 
-  test('showDefault computed property', () => {
-    const wrapper = shallow(SearchInput);
+    test('showDefault', () => {
+      const wrapper = shallow(SearchInput);
 
-    // Starts off false because suggestions array is empty and no search yet
-    expect(wrapper.vm.showDefault).toBe(false);
+      // Starts off false because suggestions array is empty and no search yet
+      expect(wrapper.vm.showDefault).toBe(false);
 
-    // Should be false when search is complete and suggestions are available
-    wrapper.setData({ suggestions: exampleTerms, searchComplete: true });
-    expect(wrapper.vm.showDefault).toBe(false);
+      // Should be false when search is complete and suggestions are available
+      wrapper.setData({ suggestions: exampleTerms, searchComplete: true });
+      expect(wrapper.vm.showDefault).toBe(false);
 
-    // Should be true when search is complete and suggestions array is empty
-    wrapper.setData({ suggestions: [], searchComplete: true });
-    expect(wrapper.vm.showDefault).toBe(true);
+      // Should be true when search is complete and suggestions array is empty
+      wrapper.setData({ suggestions: [], searchComplete: true });
+      expect(wrapper.vm.showDefault).toBe(true);
+
+      // Should be false when search is complete but an error occurred
+      wrapper.setData({ suggestions: [], searchComplete: true, searchError: new Error('bang') });
+      expect(wrapper.vm.showDefault).toBe(false);
+    });
+
+    test('showError', () => {
+      const wrapper = shallow(SearchInput);
+
+      // Starts off false because error is falsy and no search yet
+      expect(wrapper.vm.showError).toBe(false);
+
+      // Should be false when search is complete and error is falsy
+      wrapper.setData({ searchComplete: true });
+      expect(wrapper.vm.showError).toBe(false);
+
+      // Should be true when search is complete and error is truthy
+      wrapper.setData({ searchComplete: true, searchError: new Error('bang') });
+      expect(wrapper.vm.showError).toBe(true);
+    });
   });
 });

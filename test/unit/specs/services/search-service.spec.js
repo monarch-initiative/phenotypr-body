@@ -42,11 +42,11 @@ describe('search service', () => {
     expect(queryString).toMatch('q=plain%20language%20terms');
   });
 
-  test('it catches error responses', () => {
+  test('clients must handle error responses', () => {
     const message = 'a bad thing happened';
     axios.mockReturnValue(Promise.reject(new Error(message)));
     return service.search('some query')
-      .then(response => expect(response.error.message).toEqual(message));
+      .catch(reason => expect(reason.message).toEqual(message));
   });
 
   describe('response manipulation', () => {
