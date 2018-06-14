@@ -201,7 +201,7 @@ export default {
      * A computed property that indicates if an error message should be displayed.
      */
     showError() {
-      return this.searchComplete && !!(this.searchError);
+      return this.searchComplete && !!this.searchError;
     }
   }
 };
