@@ -1,5 +1,7 @@
 import uuid from 'uuid/v4';
+
 import scoringService from '@/services/scoring-service';
+import termLoggingService from '@/services/term-logging-service';
 
 const initialState = {
   sessionId: uuid(),
@@ -70,6 +72,7 @@ export default {
      * Asynchronously sends selected terms to Monarch Initiative API to calculate their
      * clinical usefulness, then adds the score to the store.
      * @param {Object} context - Vuex action context.
+     * @return {Promise} a promise that resolves when the request is complete.
      */
     calculateQualityScore({ commit, state }) {
       const { selectedTerms } = state;
@@ -81,6 +84,21 @@ export default {
       } else {
         return Promise.resolve(commit('setQualityScore', 0));
       }
+    },
+
+    /**
+     * Asynchronously saves the session ID and selected terms for research analysis.
+     * @param {Object} context - Vuex action context.
+     * @return {Promise} a promise that resolves when the request is complete.
+     */
+    saveSelectedTerms({ commit, state }) {
+      const { sessionId, selectedTerms } = state;
+
+      if (!selectedTerms.length) {
+        return Promise.resolve();
+      }
+
+      return termLoggingService.saveTerms(sessionId, selectedTerms);
     }
   }
 };

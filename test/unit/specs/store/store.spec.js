@@ -1,10 +1,19 @@
 import storeConfig from '@/store';
+
 import scoringService from '@/services/scoring-service';
+import termLoggingService from '@/services/term-logging-service';
+
 import exampleTerms from '../../example-terms';
 
 jest.mock('@/services/scoring-service', () => {
   return {
     score: jest.fn()
+  };
+});
+
+jest.mock('@/services/term-logging-service', () => {
+  return {
+    saveTerms: jest.fn()
   };
 });
 
@@ -176,6 +185,40 @@ describe('vuex store', () => {
         .then(() => {
           expect(commit).toHaveBeenCalledWith('setScoringError', scoringError);
         });
+    });
+
+    test('saveSelectedTerms: does nothing when no terms are selected', () => {
+      const commit = jest.fn();
+
+      const mockState = {
+        sessionId: '00000000-0000-0000-0000-000000000000',
+        selectedTerms: []
+      };
+
+      return actions.saveSelectedTerms({ commit, state: mockState })
+        .then(() => {
+          expect(commit).not.toHaveBeenCalled();
+          expect(termLoggingService.saveTerms).not.toHaveBeenCalled();
+        });
+    });
+
+    test('saveSelectedTerms: when terms have been selected', () => {
+      const commit = jest.fn();
+
+      const mockState = {
+        sessionId: '00000000-0000-0000-0000-000000000000',
+        selectedTerms: exampleTerms.slice(0, 1)
+      };
+
+      termLoggingService.saveTerms.mockReturnValueOnce(Promise.resolve());
+
+      return actions.saveSelectedTerms({ commit, state: mockState })
+        .then(() => {
+          // No mutations should be committed
+          expect(commit).not.toHaveBeenCalled();
+
+          expect(termLoggingService.saveTerms).toHaveBeenCalledWith(mockState.sessionId, mockState.selectedTerms);
+        })
     });
   });
 });
