@@ -21,9 +21,15 @@ describe('router', () => {
   const termsRequiredRoute = { path: '/example', meta: { requireTermsOfUse: true } };
   const noMetaRoute = { path: '/example' };
 
+  test('there is a default route for unmatched paths', () => {
+    const defaultRoute = routes[routes.length - 1];
+    expect(defaultRoute.path).toEqual('*');
+    expect(defaultRoute.redirect).toEqual('/');
+  });
+
   describe('checkTermsAccepted() guard', () => {
     test('routes have metadata indicating if terms need to be accepted', () => {
-      const unprotected = [ termsRoute.path ];
+      const unprotected = [ termsRoute.path, '*' ];
       routes.forEach(route => {
         if (!unprotected.includes(route.path)) {
           expect(route.meta).toBeTruthy();
