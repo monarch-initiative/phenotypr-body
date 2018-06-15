@@ -7,6 +7,9 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe('TermsOfUsePage.vue', () => {
+  const acceptButtonSelector = 'input[type="button"]';
+  const declineLinkSelector = 'a.decline';
+
   let store, state, mutations, mocks;
 
   beforeEach(() => {
@@ -29,20 +32,19 @@ describe('TermsOfUsePage.vue', () => {
 
   test('renders a form with terms of use accept and reject buttons', () => {
     const wrapper = shallow(TermsOfUsePage, { localVue, store });
-    expect(wrapper.find('form').exists()).toBe(true);
-    expect(wrapper.find('input[value="Yes"]').exists()).toBe(true);
-    expect(wrapper.find({ ref: 'terms-no-button' }).exists()).toBe(true);
+    expect(wrapper.find(acceptButtonSelector).exists()).toBe(true);
+    expect(wrapper.find(declineLinkSelector).exists()).toBe(true);
   });
 
-  test('clicking Yes changes the route', () => {
+  test('clicking the accept button changes the route', () => {
     const wrapper = shallow(TermsOfUsePage, { store, localVue, mocks });
-    wrapper.find('input[value="Yes"]').trigger('click');
+    wrapper.find(acceptButtonSelector).trigger('click');
     expect(mocks.$router.push).toHaveBeenCalledWith('/search');
   });
 
-  test('clicking Yes triggers acceptTermsOfUse', () => {
+  test('clicking the accept button triggers acceptTermsOfUse', () => {
     const wrapper = shallow(TermsOfUsePage, { store, localVue, mocks });
-    wrapper.find('input[value="Yes"]').trigger('click');
+    wrapper.find(acceptButtonSelector).trigger('click');
     expect(mutations.acceptTermsOfUse).toHaveBeenCalledWith(state, undefined);
   });
 });
