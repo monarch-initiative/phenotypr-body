@@ -6,5 +6,5 @@
  *   matches one of the types allowed by pdfmake, false otherwise.
  */
 export default function isExportDocument(doc) {
-  return !!doc && !!doc.content && Array.isArray(doc.content);
+  return Boolean(doc && Array.isArray(doc.content));
 }

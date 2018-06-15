@@ -1,8 +1,7 @@
 import axios from 'axios';
+import isValidTerm from '@/utils/is-valid-term';
 
 const SCORING_URL = 'https://monarchinitiative.org/score';
-
-const termIsValid = (term) => term.id && term.label && /HP:\d{7}/.test(term.id);
 
 /**
  * Uses the Monarch Initiative API for annotation sufficiency scoring.
@@ -11,13 +10,13 @@ export default {
   /**
    * Gets an annotation sufficiency score for the selected HPO terms.
    *
-   * @param {{id: string, label: string}} terms - an array of HPO term objects.
+   * @param {{id: string, label: string}[]} terms - an array of HPO term objects.
    * @return {Promise->Object} on success, resolves to an object with annotation
    *   sufficiency scores. On error, the error that triggered the rejection is returned.
    * @see example-score.js for an example response
    */
   score(terms) {
-    if (!terms || !Array.isArray(terms) || !terms.every(termIsValid)) {
+    if (!terms || !Array.isArray(terms) || !terms.every(isValidTerm)) {
       throw new Error('An array of HPO terms is required');
     }
 

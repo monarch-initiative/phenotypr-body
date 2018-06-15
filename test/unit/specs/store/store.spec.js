@@ -1,5 +1,8 @@
 import storeConfig from '@/store';
+
 import scoringService from '@/services/scoring-service';
+import termLoggingService from '@/services/term-logging-service';
+
 import exampleTerms from '../../example-terms';
 
 jest.mock('@/services/scoring-service', () => {
@@ -8,10 +11,23 @@ jest.mock('@/services/scoring-service', () => {
   };
 });
 
+jest.mock('@/services/term-logging-service', () => {
+  return {
+    saveTerms: jest.fn()
+  };
+});
+
 describe('vuex store', () => {
   test('exports the initial state', () => {
     expect(storeConfig.state).toBeDefined();
-    expect(storeConfig.state.selectedTerms).toEqual([]);
+
+    const { state } = storeConfig;
+    const uuidPattern = /[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}/i;
+    expect(state.selectedTerms).toEqual([]);
+    expect(state.termsOfUseAccepted).toEqual(false);
+    expect(state.qualityScore).toEqual(0);
+    expect(state.scoringError).toBeNull();
+    expect(state.sessionId).toMatch(uuidPattern);
   });
 
   test('exports the mutations', () => {
@@ -169,6 +185,40 @@ describe('vuex store', () => {
         .then(() => {
           expect(commit).toHaveBeenCalledWith('setScoringError', scoringError);
         });
+    });
+
+    test('saveSelectedTerms: does nothing when no terms are selected', () => {
+      const commit = jest.fn();
+
+      const mockState = {
+        sessionId: '00000000-0000-0000-0000-000000000000',
+        selectedTerms: []
+      };
+
+      return actions.saveSelectedTerms({ commit, state: mockState })
+        .then(() => {
+          expect(commit).not.toHaveBeenCalled();
+          expect(termLoggingService.saveTerms).not.toHaveBeenCalled();
+        });
+    });
+
+    test('saveSelectedTerms: when terms have been selected', () => {
+      const commit = jest.fn();
+
+      const mockState = {
+        sessionId: '00000000-0000-0000-0000-000000000000',
+        selectedTerms: exampleTerms.slice(0, 1)
+      };
+
+      termLoggingService.saveTerms.mockReturnValueOnce(Promise.resolve());
+
+      return actions.saveSelectedTerms({ commit, state: mockState })
+        .then(() => {
+          // No mutations should be committed
+          expect(commit).not.toHaveBeenCalled();
+
+          expect(termLoggingService.saveTerms).toHaveBeenCalledWith(mockState.sessionId, mockState.selectedTerms);
+        })
     });
   });
 });

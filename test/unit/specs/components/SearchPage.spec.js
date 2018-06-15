@@ -20,7 +20,8 @@ describe('SearchPage.vue', () => {
     };
 
     actions = {
-      calculateQualityScore: jest.fn()
+      calculateQualityScore: jest.fn(),
+      saveSelectedTerms: jest.fn()
     };
 
     state = {
@@ -104,6 +105,19 @@ describe('SearchPage.vue', () => {
 
       wrapper.find('input[type=button]').trigger('click');
       expect(mocks.$router.push).toHaveBeenCalledWith('/results');
+    });
+
+    test('clicking the button saves the selected terms', () => {
+      const mocks = {
+        $router: {
+          push: jest.fn()
+        }
+      };
+
+      const wrapper = shallow(SearchPage, { store, localVue, mocks });
+
+      wrapper.find('input[type=button]').trigger('click');
+      expect(actions.saveSelectedTerms).toHaveBeenCalled();
     });
   });
 
