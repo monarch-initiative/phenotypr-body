@@ -9,6 +9,6 @@
  * properties, and the ID is a string matching the pattern of an HPO term. False otherwise.
  */
 export default function isValidTerm(input) {
-  return !!(input && input.id && input.label && input.symptomText &&
+  return Boolean(input && input.id && input.label && input.symptomText &&
       /HP:\d{7}/.test(input.id));
 }
