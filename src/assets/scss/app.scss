@@ -78,7 +78,7 @@
   cursor: pointer;
 }
 .saved-terms {
-  margin-top:45px;
+  margin-top:15px;
 }
 
 
@@ -123,4 +123,43 @@
 }
 .body-search-content tbody tr:nth-child(even) {
   background-color:#ecf4fa;
+}
+
+
+// TERMS CONTENT
+.terms-action {
+  margin-top:40px;
+}
+.terms-action .button.success {
+  background-color: #4B6F92;
+  border-color:  #4B6F92;
+  color:#fff;
+}
+.terms-action .button.success:hover {
+  background-color: #4F5A63;
+  border-color: #4F5A63;
+  color:#fff;
+}  
+.terms-action .decline {
+  font-size:90%;
+  line-height:4em;
+}
+
+
+// PROFILE SUFFICIENCY
+.quality-score { 
+  color:#7e7e7e;
+  margin-top:35px;
+}
+.define-score {
+  display:block;
+  font-size:80%;
+  line-height:1.2em;
+}
+p.display-tips {
+  margin-bottom:0;
+  font-size:90%;
+}
+ul.tips-list li {
+  font-size:90%;
 }
