@@ -58,6 +58,10 @@ export const routes = [
     path: termsOfUsePath,
     component: TermsOfUsePage,
     beforeEnter: skipWhenAlreadyAccepted
+  },
+  {
+    path: '*',
+    redirect: '/'
   }
 ];
 
