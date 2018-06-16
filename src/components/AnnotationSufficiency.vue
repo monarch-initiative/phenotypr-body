@@ -13,10 +13,15 @@
         :inline="true"
         :star-size="16"
         :rounded-corners="true"/>
+      <span class="define-score">The profile sufficiency rating represents how diagnostically useful your profile will be based on the symptoms you've added.</span>
     </p>
 
-    <p class="score-help">To help your doctor diagnose you most accurately:
-      <ul>
+    <!-- Toggles the list of tips -->
+    <!-- TODO: check the ARIA documentation -->
+    <p class="display-tips"><a @click="toggleTips">Tips for adding symptoms</a> to help your doctor diagnose you most accurately</p>
+
+    <div class="callout secondary" v-if="showTips">
+      <ul class="tips-list">
         <li>Enter as many symptoms as you can</li>
         <li>Be as specific as you can be</li>
         <li>Try to cover as many body symptoms as apply to you (e.g. symptoms in the head
@@ -26,7 +31,7 @@
         <li>Don't forget conditions like sleep disturbances, memory loss, cognitive disability,
           developmental delay</li>
       </ul>
-    </p>
+    </div>
   </div>
 </template>
 
@@ -57,7 +62,8 @@ export default {
         'Fair',
         'Good',
         'Very Good'
-      ]
+      ],
+      showTips: false
     };
   },
 
@@ -79,6 +85,13 @@ export default {
       } else {
         return input;
       }
+    },
+
+    /**
+     * Toggles display of the tips for adding symptoms.
+     */
+    toggleTips() {
+      this.showTips = !this.showTips;
     }
   },
 

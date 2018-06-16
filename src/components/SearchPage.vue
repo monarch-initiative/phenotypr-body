@@ -26,7 +26,7 @@
       </div>
 
       <!-- annotation sufficiency information -->
-      <div class="grid-x grid-margin-x">
+      <div class="grid-x grid-margin-x quality-score">
         <AnnotationSufficiency class="cell medium-8 large-6" :score="qualityScore" :error="scoringError"/>
       </div>
 
