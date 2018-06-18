@@ -13,20 +13,32 @@
         :inline="true"
         :star-size="16"
         :rounded-corners="true"/>
+      <span class="define-score">The profile sufficiency rating represents how diagnostically useful your profile will be based on the symptoms you've added.</span>
     </p>
 
-    <p class="score-help">To help your doctor diagnose you most accurately:
-      <ul>
-        <li>Enter as many symptoms as you can</li>
-        <li>Be as specific as you can be</li>
-        <li>Try to cover as many body symptoms as apply to you (e.g. symptoms in the head
-          and neck, face, eyes, ears, muscles, joints, bones, internal organs, etc.)</li>
-        <li>Don't forget conditions that are not local to a specific body part (e.g. stroke,
-          fever, numbness, sensitivity to pain, etc.)</li>
-        <li>Don't forget conditions like sleep disturbances, memory loss, cognitive disability,
-          developmental delay</li>
-      </ul>
-    </p>
+    <!-- Toggles the list of tips -->
+    <p class="display-tips">
+      <a href="#"
+         role="button"
+         aria-controls="symptom-tips"
+         :aria-expanded="showTips"
+         @keydown.space.prevent="toggleTips"
+         @click.prevent="toggleTips">Tips for adding symptoms</a> to help your doctor diagnose you most accurately</p>
+
+    <transition name="collapse">
+      <div id="symptom-tips" class="callout secondary" v-if="showTips">
+        <ul class="tips-list">
+          <li>Enter as many symptoms as you can</li>
+          <li>Be as specific as you can be</li>
+          <li>Try to cover as many body symptoms as apply to you (e.g. symptoms in the head
+            and neck, face, eyes, ears, muscles, joints, bones, internal organs, etc.)</li>
+          <li>Don't forget conditions that are not local to a specific body part (e.g. stroke,
+            fever, numbness, sensitivity to pain, etc.)</li>
+          <li>Don't forget conditions like sleep disturbances, memory loss, cognitive disability,
+            developmental delay</li>
+        </ul>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -57,7 +69,8 @@ export default {
         'Fair',
         'Good',
         'Very Good'
-      ]
+      ],
+      showTips: false
     };
   },
 
@@ -79,6 +92,13 @@ export default {
       } else {
         return input;
       }
+    },
+
+    /**
+     * Toggles display of the tips for adding symptoms.
+     */
+    toggleTips() {
+      this.showTips = !this.showTips;
     }
   },
 

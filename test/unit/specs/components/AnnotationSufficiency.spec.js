@@ -20,10 +20,10 @@ describe('AnnotationSufficiency.vue', () => {
     const scoreComponent = wrapper.find(StarRating);
     expect(scoreComponent.exists()).toBe(true);
 
-    // Renders help text
-    const helpText = wrapper.find('.score-help');
-    expect(helpText.exists()).toBe(true);
-    expect(helpText.find('ul').exists()).toBe(true);
+    // The link to toggle the tips is displayed, but the tips are not
+    const tipsToggle = wrapper.find('.display-tips');
+    expect(tipsToggle.exists()).toBe(true);
+    expect(wrapper.find('.tips-list').exists()).toBe(false);
 
     // Error text is not displayed
     const errorMessage = wrapper.find('.score-error');
@@ -52,6 +52,30 @@ describe('AnnotationSufficiency.vue', () => {
     expect(wrapper.vm._clampIndex(2)).toEqual(2);
     expect(wrapper.vm._clampIndex(4)).toEqual(4);
     expect(wrapper.vm._clampIndex(5)).toEqual(4);
+  });
+
+  describe('actions', () => {
+    test('toggling the list of tips', () => {
+      const tipsSelector = '.tips-list';
+      const wrapper = shallow(AnnotationSufficiency, {
+        propsData: {
+          score: 0.4
+        }
+      });
+
+      // tips start out hidden
+      expect(wrapper.find(tipsSelector).exists()).toBe(false);
+
+      const toggleLink = wrapper.find('.display-tips a');
+
+      // click the toggle to display the tips
+      toggleLink.trigger('click');
+      expect(wrapper.find(tipsSelector).exists()).toBe(true);
+
+      // click the toggle to hide the tips again
+      toggleLink.trigger('click');
+      expect(wrapper.find(tipsSelector).exists()).toBe(false);
+    });
   });
 
   describe('computed properties', () => {

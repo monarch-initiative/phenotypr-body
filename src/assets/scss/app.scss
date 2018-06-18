@@ -139,7 +139,7 @@
   background-color: #4F5A63;
   border-color: #4F5A63;
   color:#fff;
-}  
+}
 .terms-action .decline {
   font-size:90%;
   line-height:4em;
@@ -147,7 +147,7 @@
 
 
 // PROFILE SUFFICIENCY
-.quality-score { 
+.quality-score {
   color:#7e7e7e;
   margin-top:35px;
 }
@@ -162,4 +162,20 @@ p.display-tips {
 }
 ul.tips-list li {
   font-size:90%;
+}
+@keyframes collapse-open {
+    0% { transform: scaleY(0); }
+  100% { transform: scaleY(1); }
+}
+@keyframes collapse-close {
+    0% { transform: scaleY(1); }
+  100% { transform: scaleY(0); }
+}
+.collapse-enter-active {
+  transform-origin: top;
+  animation: collapse-open .35s ease;
+}
+.collapse-leave-active {
+  transform-origin: top;
+  animation: collapse-close .35s ease;
 }
