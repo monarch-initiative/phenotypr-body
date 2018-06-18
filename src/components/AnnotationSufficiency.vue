@@ -17,21 +17,28 @@
     </p>
 
     <!-- Toggles the list of tips -->
-    <!-- TODO: check the ARIA documentation -->
-    <p class="display-tips"><a @click="toggleTips">Tips for adding symptoms</a> to help your doctor diagnose you most accurately</p>
+    <p class="display-tips">
+      <a href="#"
+         role="button"
+         aria-controls="symptom-tips"
+         :aria-expanded="showTips"
+         @keydown.space.prevent="toggleTips"
+         @click.prevent="toggleTips">Tips for adding symptoms</a> to help your doctor diagnose you most accurately</p>
 
-    <div class="callout secondary" v-if="showTips">
-      <ul class="tips-list">
-        <li>Enter as many symptoms as you can</li>
-        <li>Be as specific as you can be</li>
-        <li>Try to cover as many body symptoms as apply to you (e.g. symptoms in the head
-          and neck, face, eyes, ears, muscles, joints, bones, internal organs, etc.)</li>
-        <li>Don't forget conditions that are not local to a specific body part (e.g. stroke,
-          fever, numbness, sensitivity to pain, etc.)</li>
-        <li>Don't forget conditions like sleep disturbances, memory loss, cognitive disability,
-          developmental delay</li>
-      </ul>
-    </div>
+    <transition name="collapse">
+      <div id="symptom-tips" class="callout secondary" v-if="showTips">
+        <ul class="tips-list">
+          <li>Enter as many symptoms as you can</li>
+          <li>Be as specific as you can be</li>
+          <li>Try to cover as many body symptoms as apply to you (e.g. symptoms in the head
+            and neck, face, eyes, ears, muscles, joints, bones, internal organs, etc.)</li>
+          <li>Don't forget conditions that are not local to a specific body part (e.g. stroke,
+            fever, numbness, sensitivity to pain, etc.)</li>
+          <li>Don't forget conditions like sleep disturbances, memory loss, cognitive disability,
+            developmental delay</li>
+        </ul>
+      </div>
+    </transition>
   </div>
 </template>
 
