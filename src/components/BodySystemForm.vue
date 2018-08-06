@@ -1,0 +1,177 @@
+<template>
+  <div class="grid-container body-search-content">
+    <div class="grid-x grid-margin-x terms-subheading">
+      <div class="cell large-12">
+        <h2>Choose the Abnormality of concern</h2>
+      </div>
+    </div>
+    <div class="grid-x grid-margin-x ">
+      <!-- TODO: iterate objects representing systems to generate each checkbox -->
+      <div class="cell small-3">
+        <!-- TODO: bind the checked property -->
+        <input type="checkbox"
+          id="HP:0500014"
+          value="HP:0500014"
+          @change="toggleSystem">
+        <label for="HP:0500014">Test result</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox"
+        id="HP:0001939"
+        value="HP:0001939"
+        @change="toggleSystem">
+        <label for="HP:0001939">Metabolism/homeostasis</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox"
+        id="HP:0002086"
+        value="HP:0002086"
+        @change="toggleSystem">
+        <label for="HP:0002086">Respiratory system</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox"
+        id="HP:0045027"
+        value="HP:0045027"
+        @change="toggleSystem">
+        <label for="HP:0045027">Thoracic cavity</label>
+      </div>
+    </div>
+    <div class="grid-x grid-margin-x ">
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0003011" value="HP:0003011">
+        <label for="HP:0003011">Musculature</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0000598" value="HP:0000598">
+        <label for="HP:0000598">Ear</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0002715" value="HP:0002715">
+        <label for="HP:0002715">Immune system</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0025142" value="HP:0025142">
+        <label for="HP:0025142">Constitutional symptom</label>
+      </div>
+    </div>
+    <div class="grid-x grid-margin-x ">
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0003549" value="HP:0003549">
+        <label for="HP:0003549">Connective tissue</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0002664" value="HP:0002664">
+        <label for="HP:0002664">Neoplasm</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0001608" value="HP:0001608">
+        <label for="HP:0001608">Voice</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0001574" value="HP:0001574">
+        <label for="HP:0001574">Integument</label>
+      </div>
+    </div>
+    <div class="grid-x grid-margin-x ">
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0000924" value="HP:0000924">
+        <label for="HP:0000924">Skeletal system</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0001197" value="HP:0001197">
+        <label for="HP:0001197">Prenatal development or birth</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0001507" value="HP:0001507">
+        <label for="HP:0001507">Growth abnormality</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0040064" value="HP:0040064">
+        <label for="HP:0040064">Limbs</label>
+      </div>
+    </div>
+    <div class="grid-x grid-margin-x ">
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0000818" value="HP:0000818">
+        <label for="HP:0000818">Endocrine system</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0000152" value="HP:0000152">
+        <label for="HP:0000152">Head or neck</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0000478" value="HP:0000478">
+        <label for="HP:0000478">Eye</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0000769" value="HP:0000769">
+        <label for="HP:0000769">Breast</label>
+      </div>
+    </div>
+    <div class="grid-x grid-margin-x ">
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0000119" value="HP:0000119">
+        <label for="HP:0000119">Genitourinary system</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0001626" value="HP:0001626">
+        <label for="HP:0001626">Cardiovascular system</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0025031" value="HP:0025031">
+        <label for="HP:0025031">Digestive system</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0025354" value="HP:0025354">
+        <label for="HP:0025354">Cellular phenotype</label>
+      </div>
+    </div>
+    <div class="grid-x grid-margin-x ">
+      <div class="cell small-3">
+        &nbsp;
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0001871" value="HP:0001871">
+        <label for="HP:0001871">Blood &amp; blood-forming tissues</label>
+      </div>
+      <div class="cell small-3">
+        <input type="checkbox" id="HP:0000707" value="HP:0000707">
+        <label for="HP:0000707">Nervous system</label>
+      </div>
+      <div class="cell small-3">
+        &nbsp;
+      </div>
+    </div>
+    <div class="grid-x grid-margin-x button-container">
+      <div class="cell large-8 text-right">
+        <!-- TODO: hook up route transition -->
+        <input value="Done adding abnormalities" class="button rounded" type="button">
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapState } from 'vuex';
+
+export default {
+  name: 'BodySystemForm',
+
+  methods: {
+    isSystemSelected(id) {
+      const { selectedSystems } = this;
+      return Boolean(selectedSystems.find(item => item.id === id));
+    },
+
+    toggleSystem(evt) {
+      // TODO: component needs state for the high-level terms; pass object for system to mutation
+      this.$store.commit('toggleSystem', { id: evt.target.value });
+    }
+  },
+
+  computed: mapState({
+    selectedSystems: 'selectedSystems'
+  })
+};
+</script>
