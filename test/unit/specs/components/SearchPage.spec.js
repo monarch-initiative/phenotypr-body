@@ -25,6 +25,7 @@ describe('SearchPage.vue', () => {
     };
 
     state = {
+      selectedSystems: [{ id: 'HP:0000077' }],
       selectedTerms: exampleTerms.slice(2),
       qualityScore: 0.25,
       scoringError: new Error('example')
@@ -127,6 +128,7 @@ describe('SearchPage.vue', () => {
       expect(wrapper.vm.selections).toEqual(state.selectedTerms);
       expect(wrapper.vm.qualityScore).toEqual(state.qualityScore);
       expect(wrapper.vm.scoringError).toEqual(state.scoringError);
+      expect(wrapper.vm.selectedSystems).toEqual(state.selectedSystems);
     });
 
     test('selectionIsEmpty', () => {
@@ -135,6 +137,15 @@ describe('SearchPage.vue', () => {
 
       state.selectedTerms = [];
       expect(wrapper.vm.selectionIsEmpty).toBe(true);
+    });
+
+    test('selectedSystemIds', () => {
+      const selectedSystem = state.selectedSystems[0];
+      const wrapper = shallow(SearchPage, { store, localVue });
+      expect(wrapper.vm.selectedSystemIds).toEqual([selectedSystem.id]);
+
+      state.selectedSystems = [];
+      expect(wrapper.vm.selectedSystemIds).toEqual([]);
     });
   });
 });
