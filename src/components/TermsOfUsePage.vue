@@ -33,7 +33,7 @@ export default {
   methods: {
     acceptTermsOfUse() {
       this.$store.commit('acceptTermsOfUse');
-      this.$router.push('/search');
+      this.$router.push('/body-systems');
     }
   }
 };
