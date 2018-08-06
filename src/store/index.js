@@ -5,6 +5,7 @@ import termLoggingService from '@/services/term-logging-service';
 
 const initialState = {
   sessionId: uuid(),
+  selectedSystems: [],
   selectedTerms: [],
   termsOfUseAccepted: false,
   qualityScore: 0,
@@ -18,6 +19,23 @@ export default {
   state: initialState,
 
   mutations: {
+    /**
+     * Add a body system to the list of selected systems if it is not already present.
+     * If already selected, remove the system from the the list.
+     * @param {Object} state - the current state.
+     * @param {Object{id: string, label: string}} system - an id/label pair representing
+     *   a high-level body system in the HPO.
+     */
+    toggleSystem(state, system) {
+      const { selectedSystems } = state;
+      const index = selectedSystems.findIndex(current => current.id === system.id);
+      if (index !== -1) {
+        selectedSystems.splice(index, 1);
+      } else {
+        selectedSystems.push(system);
+      }
+    },
+
     /**
      * Add an HPO term to the selected terms if it is not already present.
      * @param {Object} state - the current state.
