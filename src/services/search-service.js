@@ -58,16 +58,36 @@ export default class SearchService {
   }
 
   /**
+   * Constructs a parameter that limits the terms searched to ones that are related to
+   * those in the provided list.
+   *
+   * @param {String[]} filterTerms - array of HPO ID strings.
+   * @return {String} the string to use for the query's `fq` parameter
+   * @private
+   */
+  _buildFilter(filterTerms) {
+    return filterTerms
+      .map(term => `phenotype_closure:"${term}"`)
+      .join(' OR ');
+  }
+
+  /**
    * Constructs the URL to query the Solr index for the given terms.
    *
-   * TODO: HBCA-12 escape input to Solr
-   *
    * @param {String} queryText - search terms to query. Required.
+   * @param {String[]} filterTerms - array of HPO ID strings. Used to limit the documents
+   *   searched for matches.
    * @return {String} URL with query string to use to query the index.
    * @private
    */
-  _buildUrl(queryText) {
-    const params = Object.assign({}, defaultParams, { q: queryText });
+  _buildUrl(queryText, filterTerms) {
+    let filterObject = {};
+
+    if (Array.isArray(filterTerms) && filterTerms.length) {
+      filterObject = { fq: this._buildFilter(filterTerms) };
+    }
+
+    const params = Object.assign({}, defaultParams, { q: queryText }, filterObject);
     const queryString = qs.stringify(params, { addQueryPrefix: true });
 
     return `${this.searchUrl}${queryString}`;
@@ -125,11 +145,13 @@ export default class SearchService {
    * Queries the Solr index with the given search terms.
    *
    * @param {String} queryText - search terms to query for.
+   * @param {String[]} filterTerms - array of HPO ID strings. Used to limit the documents
+   *   searched for matches.
    * @return {Promise -> Object} a promise. On success, resolves to data returned by
    *   the Solr query. On error, the error that triggered the rejection is returned.
    */
-  search(queryText) {
-    const url = this._buildUrl(queryText);
+  search(queryText, filterTerms = []) {
+    const url = this._buildUrl(queryText, filterTerms);
     return axios(url)
       .then(response => response.data)
       .then(this._mergeHighlighting)
