@@ -5,6 +5,7 @@ import SearchPage from '@/components/SearchPage';
 import SearchInput from '@/components/SearchInput';
 import AnnotationSufficiency from '@/components/AnnotationSufficiency';
 
+import bodySystems from '@/store/systems';
 import exampleTerms from '../../example-terms';
 
 const localVue = createLocalVue();
@@ -25,7 +26,7 @@ describe('SearchPage.vue', () => {
     };
 
     state = {
-      selectedSystems: [{ id: 'HP:0000077' }],
+      selectedSystems: bodySystems.slice(0, 1),
       selectedTerms: exampleTerms.slice(2),
       qualityScore: 0.25,
       scoringError: new Error('example')
