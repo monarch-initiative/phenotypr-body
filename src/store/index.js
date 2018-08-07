@@ -7,6 +7,7 @@ const initialState = {
   sessionId: uuid(),
   selectedSystems: [],
   selectedTerms: [],
+  foundAllConditions: null,
   termsOfUseAccepted: false,
   qualityScore: 0,
   scoringError: null
@@ -82,6 +83,15 @@ export default {
      */
     setScoringError(state, error) {
       state.scoringError = error;
+    },
+
+    /**
+     * Sets the flag indicating whether the user found all their conditions.
+     * @param {Object} state - the current state.
+     * @param {Boolean} value - whether the user found all their conditions.
+     */
+    setFoundAllConditions(state, value) {
+      state.foundAllConditions = value;
     }
   },
 
