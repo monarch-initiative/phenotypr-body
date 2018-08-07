@@ -56,6 +56,10 @@
   font-size:1.4em;
   font-weight:600;
 }
+.body-search-content h2 small {
+  color:#536f89;
+  font-weight:400;
+}
 
 
 // BODY-SEARCH-CONTENT FORM
@@ -86,6 +90,7 @@
 .body-search-content form .button-container {
   margin-top:65px;
 }
+
 .body-search-content .button-container .button {
   background-color: #5aa4d2;
   border:2px solid #5aa4d2;
@@ -104,7 +109,9 @@
   border-color:#333;
   color:#333;
 }
-
+.body-search-content .button-container.terms-filter {
+  margin-right:35px;
+}
 
 // BODY-SEARCH-CONTENT RESULTS
 .body-search-content table,
@@ -179,3 +186,37 @@ ul.tips-list li {
   transform-origin: top;
   animation: collapse-close .35s ease;
 }
+
+
+// BUTTONIZE BODY SEARCH
+.body-search-content .terms-filter {
+  margin-top:20px;
+  margin-bottom:60px;
+}
+.body-search-content .checkbox-container {
+  position:relative;
+  margin-bottom:8px;
+}
+.body-search-content .checkbox-container input[type="checkbox"] {
+    opacity: 0;
+}
+.body-search-content .checkbox-container label {
+  background:#ddd;
+  border:1px solid #999;
+  border-radius: 10px !important;
+  display:block;
+  font-weight:400;
+  padding:3px 10px;
+  text-align:center;
+  position:absolute;
+  left:20px;
+  top:0px;
+  width:80%;
+}
+.body-search-content .checkbox-container label:hover,
+.body-search-content .checkbox-container input:checked + label {
+  background:#090;
+  border-color:#090;
+  color:#fff;
+}
+
