@@ -6,21 +6,19 @@
       </div>
     </div>
 
-    <!-- TODO: iterate objects representing systems to generate each checkbox -->
-    <!-- TODO: bind the checked property -->
     <div class="grid-x grid-margin-x">
-      <div class="cell small-4" v-for="system in systems" :key="system.id">
-
+      <div class="cell small-4" v-for="system in bodySystems" :key="system.id">
         <input type="checkbox"
           :id="system.id"
           :value="system.id"
-          @change="toggleSystem">
+          @change="toggleSystem"
+          :checked="isSystemSelected(system.id)">
         <label :for="system.id">{{system.label}}</label>
       </div>
     </div>
     <div class="grid-x grid-margin-x button-container">
       <div class="cell large-12 text-center">
-        <input value="Done adding abnormalities" class="button rounded" type="button" @click="goToSearch">
+        <input value="Done adding abnormalities" class="button rounded" type="button" :disabled="selectionIsEmpty" @click="goToSearch">
       </div>
     </div>
   </div>
@@ -34,7 +32,9 @@ export default {
   name: 'BodySystemForm',
 
   data() {
-    return systems;
+    return {
+      bodySystems: systems
+    };
   },
   methods: {
     isSystemSelected(id) {
@@ -43,7 +43,6 @@ export default {
     },
 
     toggleSystem(evt) {
-      // TODO: component needs state for the high-level terms; pass object for system to mutation
       this.$store.commit('toggleSystem', { id: evt.target.value });
     },
 
@@ -53,7 +52,8 @@ export default {
   },
 
   computed: mapState({
-    selectedSystems: 'selectedSystems'
+    selectedSystems: 'selectedSystems',
+    selectionIsEmpty: state => state.selectedSystems && state.selectedSystems.length < 1
   })
 };
 </script>
