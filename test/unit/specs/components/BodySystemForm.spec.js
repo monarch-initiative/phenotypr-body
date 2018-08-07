@@ -37,7 +37,19 @@ describe('BodySystemForm.vue', () => {
       expect(submitButton.attributes().disabled).toBeDefined();
     });
 
-    // TODO if the system is in the store it is checked
+    test('if the system is in the store it is checked', () => {
+      const selectedSystems = bodySystems.slice(0, 3);
+      state.selectedSystems = selectedSystems;
+      const wrapper = shallow(BodySystemForm, { localVue, store });
+      selectedSystems.forEach(system => {
+        const inputSelector = `input#${system.id.replace(':', '\\:')}`;
+        const checkbox = wrapper.find(inputSelector);
+        // NOTE: the line below is incorrect and gives a false result
+        // because checkbox.attributes() is truthy
+        // expect(checkbox.attributes('checked')).toBeTruthy();
+        expect(checkbox.is(':checked')).toBeTruthy(); // correct
+      });
+    });
 
   });
 
@@ -77,7 +89,9 @@ describe('BodySystemForm.vue', () => {
       const wrapper = shallow(BodySystemForm, { store, localVue });
       expect(wrapper.vm.selectionIsEmpty).toBe(false);
 
-      // TODO Perform the inverse test.
+      state.selectedSystems = [];
+      expect(wrapper.vm.selectionIsEmpty).toBe(true);
+
     });
   });
 

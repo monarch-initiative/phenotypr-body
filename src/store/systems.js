@@ -1,3 +1,7 @@
+/**
+ * Array of high-level HPO terms that are used to constrain the search criteria.
+ * @type {Array}
+ */
 const systems = [
   {id: 'HP:0000708', label: 'Behavioral / psychiatric'},
   {id: 'HP:0001871', label: 'Blood / bleeding'},
