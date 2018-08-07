@@ -32,21 +32,54 @@ describe('search service', () => {
     expect(axios).toHaveBeenCalled();
   });
 
-  test('it constructs the URL and query string as expected', () => {
-    mockQueryResponse();
-    service.search('plain language terms');
-    expect(axios).toHaveBeenCalled();
-    const searchUrl = axios.mock.calls[0][0];
-    const queryString = searchUrl.split('?')[1];
-    expect(searchUrl.startsWith(mockUrl)).toBe(true);
-    expect(queryString).toMatch('q=plain%20language%20terms');
-  });
-
   test('clients must handle error responses', () => {
     const message = 'a bad thing happened';
     axios.mockReturnValue(Promise.reject(new Error(message)));
     return service.search('some query')
       .catch(reason => expect(reason.message).toEqual(message));
+  });
+
+  describe('request construction', () => {
+    test('the search URL is prepended to the query', () => {
+      mockQueryResponse();
+      service.search('example');
+      expect(axios).toHaveBeenCalled();
+      const searchUrl = axios.mock.calls[0][0];
+      expect(searchUrl.startsWith(mockUrl)).toBe(true);
+    });
+
+    test('it adds search terms to the q parameter', () => {
+      mockQueryResponse();
+      service.search('plain language terms');
+      expect(axios).toHaveBeenCalled();
+      const searchUrl = axios.mock.calls[0][0];
+      const queryString = searchUrl.split('?')[1];
+      expect(queryString).toMatch('q=plain%20language%20terms');
+    });
+
+    test('it adds selected high level terms to the fq parameter', () => {
+      const expectedFilter = [
+        'fq=phenotype_closure%3A%22HP%3A0000077%22%20OR%20',
+        'phenotype_closure%3A%22HP%3A0003011%22%20OR%20',
+        'phenotype_closure%3A%22HP%3A0000951%22'
+      ].join('');
+
+      mockQueryResponse();
+      service.search('other terms', ['HP:0000077', 'HP:0003011', 'HP:0000951']);
+      expect(axios).toHaveBeenCalled();
+      const searchUrl = axios.mock.calls[0][0];
+      const queryString = searchUrl.split('?')[1];
+      expect(queryString).toMatch(expectedFilter);
+    });
+
+    test('it does not add fq parameter if no filter terms are provided', () => {
+      mockQueryResponse();
+      service.search('no filter search');
+      expect(axios).toHaveBeenCalled();
+      const searchUrl = axios.mock.calls[0][0];
+      const queryString = searchUrl.split('?')[1];
+      expect(queryString).not.toMatch('fq');
+    });
   });
 
   describe('response manipulation', () => {

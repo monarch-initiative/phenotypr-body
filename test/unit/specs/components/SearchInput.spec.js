@@ -264,11 +264,15 @@ describe('SearchInput.vue', () => {
   });
 
   test('calls the search service on input', (done) => {
+    const mockFilterTerms = ['HP:0000077'];
     mockService.search.mockReturnValue(Promise.resolve({ docs: exampleTerms }));
 
     const wrapper = shallow(SearchInput, {
       mocks: {
         $searchService: mockService
+      },
+      propsData: {
+        filterTerms: mockFilterTerms
       }
     });
 
@@ -280,7 +284,8 @@ describe('SearchInput.vue', () => {
     input.trigger('input');
 
     wrapper.vm.$nextTick(() => {
-      expect(mockService.search).toHaveBeenCalledWith('wide-set eyes');
+      // search text and filter terms should be passed to search service
+      expect(mockService.search).toHaveBeenCalledWith('wide-set eyes', mockFilterTerms);
       expect(wrapper.vm.$data.suggestions).toEqual(exampleTerms);
       done();
     });

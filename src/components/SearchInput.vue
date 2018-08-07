@@ -38,6 +38,18 @@ import debounce from 'lodash/debounce';
 export default {
   name: 'SearchInput',
 
+  props: {
+    /**
+     * Array of HPO IDs. Used to restrict search results to related terms.
+     */
+    filterTerms: {
+      type: Array,
+      default() {
+        return [];
+      }
+    }
+  },
+
   data() {
     return {
       queryText: '',
@@ -82,7 +94,7 @@ export default {
       if (this.queryText) {
         this.suggestions = [];
         this.searchComplete = false;
-        this.$searchService.search(this.queryText)
+        this.$searchService.search(this.queryText, this.filterTerms)
           .then(response => {
             this.suggestions = response.docs;
             this.searchComplete = true;

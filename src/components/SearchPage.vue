@@ -21,7 +21,7 @@
     <form @submit.prevent>
       <div class="grid-x grid-margin-x">
         <div class="cell medium-8 large-6">
-          <SearchInput @itemSelected="handleSelection"/>
+          <SearchInput :filterTerms="selectedSystemIds" @itemSelected="handleSelection"/>
         </div>
       </div>
 
@@ -79,11 +79,19 @@ export default {
     }
   },
 
-  computed: mapState({
-    selections: 'selectedTerms',
-    qualityScore: state => state.qualityScore,
-    scoringError: state => state.scoringError,
-    selectionIsEmpty: state => state.selectedTerms && state.selectedTerms.length < 1
-  })
+  computed: {
+    ...mapState({
+      selections: 'selectedTerms',
+      selectedSystems: 'selectedSystems',
+      qualityScore: 'qualityScore',
+      scoringError: 'scoringError',
+      selectionIsEmpty: state => state.selectedTerms && state.selectedTerms.length < 1
+    }),
+
+    selectedSystemIds() {
+      const { selectedSystems } = this;
+      return selectedSystems.map(system => system.id);
+    }
+  }
 };
 </script>
