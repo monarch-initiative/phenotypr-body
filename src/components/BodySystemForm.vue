@@ -7,7 +7,7 @@
     </div>
 
     <div class="grid-x grid-margin-x">
-      <div class="cell small-4" v-for="system in bodySystems" :key="system.id">
+      <div class="cell small-4 checkbox-container" v-for="system in bodySystems" :key="system.id">
         <input type="checkbox"
           :id="system.id"
           :value="system.id"
@@ -16,8 +16,8 @@
         <label :for="system.id">{{system.label}}</label>
       </div>
     </div>
-    <div class="grid-x grid-margin-x button-container">
-      <div class="cell large-12 text-center">
+    <div class="grid-x grid-margin-x button-container terms-filter">
+      <div class="cell large-12 text-right">
         <input type="button"
           value="Done adding abnormalities"
           class="button rounded"
