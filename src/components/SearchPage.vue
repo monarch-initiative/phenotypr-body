@@ -39,10 +39,13 @@
         </div>
       </div>
 
-      <!-- forms -->
+      <!-- buttons -->
       <div class="grid-x grid-margin-x button-container">
-        <div class="cell large-8 text-right">
-          <input type="button" value="Done adding symptoms" class="button rounded" :disabled="selectionIsEmpty" @click="goToResults">
+        <div class="cell large-4 text-left">
+          <input type="button" name="backButton" value="Go Back" class="button rounded" @click="goToSystems">
+        </div>
+        <div class="cell large-4 text-right">
+          <input type="button" name="submitButton" value="Done adding symptoms" class="button rounded" :disabled="selectionIsEmpty" @click="goToResults">
         </div>
       </div>
     </form>
@@ -76,6 +79,10 @@ export default {
     goToResults() {
       this.$store.dispatch('saveSelectedTerms');
       this.$router.push('/results');
+    },
+
+    goToSystems() {
+      this.$router.push('/body-systems');
     }
   },
 

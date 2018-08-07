@@ -53,9 +53,9 @@ describe('SearchPage.vue', () => {
       expect(wrapper.findAll('.symptom-tag').length).toEqual(tagCount);
     });
 
-    test('the button is disabled when no terms are selected', () => {
+    test('the submit button is disabled when no terms are selected', () => {
       const wrapper = shallow(SearchPage, { store, localVue });
-      const submitButton = wrapper.find('input[type=button]');
+      const submitButton = wrapper.find('input[name=submitButton]');
       expect(submitButton.attributes().disabled).toBeUndefined();
 
       state.selectedTerms = [];
@@ -96,7 +96,7 @@ describe('SearchPage.vue', () => {
       expect(actions.calculateQualityScore).toHaveBeenCalled();
     });
 
-    test('clicking the button transitions to the results route', () => {
+    test('clicking the back button transitions to the body systems route', () => {
       const mocks = {
         $router: {
           push: jest.fn()
@@ -105,11 +105,24 @@ describe('SearchPage.vue', () => {
 
       const wrapper = shallow(SearchPage, { store, localVue, mocks });
 
-      wrapper.find('input[type=button]').trigger('click');
+      wrapper.find('input[name=backButton]').trigger('click');
+      expect(mocks.$router.push).toHaveBeenCalledWith('/body-systems');
+    });
+
+    test('clicking the submit button transitions to the results route', () => {
+      const mocks = {
+        $router: {
+          push: jest.fn()
+        }
+      };
+
+      const wrapper = shallow(SearchPage, { store, localVue, mocks });
+
+      wrapper.find('input[name=submitButton]').trigger('click');
       expect(mocks.$router.push).toHaveBeenCalledWith('/results');
     });
 
-    test('clicking the button saves the selected terms', () => {
+    test('clicking the submit button saves the selected terms', () => {
       const mocks = {
         $router: {
           push: jest.fn()
@@ -118,7 +131,7 @@ describe('SearchPage.vue', () => {
 
       const wrapper = shallow(SearchPage, { store, localVue, mocks });
 
-      wrapper.find('input[type=button]').trigger('click');
+      wrapper.find('input[name=submitButton]').trigger('click');
       expect(actions.saveSelectedTerms).toHaveBeenCalled();
     });
   });
