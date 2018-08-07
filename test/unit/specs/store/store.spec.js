@@ -23,6 +23,7 @@ describe('vuex store', () => {
 
     const { state } = storeConfig;
     const uuidPattern = /[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}/i;
+    expect(state.selectedSystems).toEqual([]);
     expect(state.selectedTerms).toEqual([]);
     expect(state.termsOfUseAccepted).toEqual(false);
     expect(state.qualityScore).toEqual(0);
@@ -121,6 +122,36 @@ describe('vuex store', () => {
       mutations.setScoringError(mockState, expectedError);
       expect(mockState.scoringError).toEqual(expectedError);
     });
+
+    test('toggleSystem: when system is not already selected', () => {
+      let system = { id: 'HP:0002664', label: 'Cancer' };
+      const mockState = {
+        selectedSystems: []
+      };
+
+      mutations.toggleSystem(mockState, system);
+      expect(mockState.selectedSystems.length).toEqual(1);
+      expect(mockState.selectedSystems).toContain(system);
+
+      system = { id: 'HP:0000818', label: 'Hormone / Endocrine' };
+      mutations.toggleSystem(mockState, system);
+      expect(mockState.selectedSystems.length).toEqual(2);
+      expect(mockState.selectedSystems[1]).toEqual(system);
+    });
+
+    test('toggleSystem: when system is already selected', () => {
+      const mockState = {
+        selectedSystems: [
+          { id: 'HP:0002664', label: 'Cancer' },
+          { id: 'HP:0000818', label: 'Hormone / Endocrine' }
+        ]
+      };
+
+      let system = mockState.selectedSystems[1];
+      mutations.toggleSystem(mockState, system);
+      expect(mockState.selectedSystems.length).toEqual(1);
+      expect(mockState.selectedSystems).not.toContain(system);
+    });
   });
 
   describe('actions', () => {
@@ -218,7 +249,7 @@ describe('vuex store', () => {
           expect(commit).not.toHaveBeenCalled();
 
           expect(termLoggingService.saveTerms).toHaveBeenCalledWith(mockState.sessionId, mockState.selectedTerms);
-        })
+        });
     });
   });
 });

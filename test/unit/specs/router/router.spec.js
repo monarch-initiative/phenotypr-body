@@ -16,7 +16,7 @@ jest.mock('@/store', () => {
 
 describe('router', () => {
   const placeholderRoute = {};
-  const searchRoute = { path: '/search' };
+  const bodySystemsRoute = { path: '/body-systems' };
   const termsRoute = { path: '/terms-of-use' };
   const termsRequiredRoute = { path: '/example', meta: { requireTermsOfUse: true } };
   const noMetaRoute = { path: '/example' };
@@ -78,7 +78,7 @@ describe('router', () => {
       store.state.termsOfUseAccepted = true;
 
       skipWhenAlreadyAccepted(termsRoute, placeholderRoute, next);
-      expect(next).toHaveBeenCalledWith(searchRoute);
+      expect(next).toHaveBeenCalledWith(bodySystemsRoute);
     });
   });
 });

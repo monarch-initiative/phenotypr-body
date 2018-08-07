@@ -5,11 +5,13 @@ import store from '@/store';
 import SearchPage from '@/components/SearchPage';
 import ResultsPage from '@/components/ResultsPage';
 import TermsOfUsePage from '@/components/TermsOfUsePage';
+import BodySystemForm from '@/components/BodySystemForm';
 
 Vue.use(Router);
 
 const termsOfUsePath = '/terms-of-use';
 const searchPath = '/search';
+const bodySystemPath = '/body-systems';
 
 /**
  * Redirect to the terms of use if they have not already been accepted.
@@ -31,7 +33,7 @@ export const checkTermsAccepted = (to, from, next) => {
 export const skipWhenAlreadyAccepted = (to, from, next) => {
   if (store.state.termsOfUseAccepted) {
     next({
-      path: searchPath
+      path: bodySystemPath
     });
   } else {
     next();
@@ -42,6 +44,11 @@ export const routes = [
   {
     path: '/',
     redirect: termsOfUsePath,
+    meta: { requireTermsOfUse: true }
+  },
+  {
+    path: bodySystemPath,
+    component: BodySystemForm,
     meta: { requireTermsOfUse: true }
   },
   {
