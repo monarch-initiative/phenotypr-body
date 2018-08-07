@@ -12,13 +12,17 @@
           :id="system.id"
           :value="system.id"
           @change="toggleSystem"
-          :checked="isSystemSelected(system.id)">
+          :checked="isSystemSelected(system.id)" />
         <label :for="system.id">{{system.label}}</label>
       </div>
     </div>
     <div class="grid-x grid-margin-x button-container">
       <div class="cell large-12 text-center">
-        <input value="Done adding abnormalities" class="button rounded" type="button" :disabled="selectionIsEmpty" @click="goToSearch">
+        <input type="button"
+          value="Done adding abnormalities"
+          class="button rounded"
+          :disabled="selectionIsEmpty"
+          @click="goToSearch" />
       </div>
     </div>
   </div>
