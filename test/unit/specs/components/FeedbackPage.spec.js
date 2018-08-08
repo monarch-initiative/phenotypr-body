@@ -7,7 +7,7 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe('FeedbackPage.vue', () => {
-  let store, state, mutations;
+  let store, state, mutations, actions;
 
   beforeEach(() => {
     mutations = {
@@ -18,7 +18,11 @@ describe('FeedbackPage.vue', () => {
       foundAllConditions: null
     };
 
-    store = new Vuex.Store({ state, mutations });
+    actions = {
+      saveSelectedTerms: jest.fn()
+    };
+
+    store = new Vuex.Store({ state, mutations, actions });
   });
 
   test('renders a pair of radio buttons', () => {
@@ -59,17 +63,17 @@ describe('FeedbackPage.vue', () => {
 
   test('submit button is disabled until feedback is complete', () => {
     const wrapper = shallow(FeedbackPage, { store, localVue });
-    const submitButton = wrapper.find('input[name=submitButton]');
+    const forwardButton = wrapper.find('input[name=forwardButton]');
 
     // should be disabled if nothing has been chosen
-    expect(submitButton.attributes().disabled).toBeTruthy();
+    expect(forwardButton.attributes().disabled).toBeTruthy();
 
     // should be enabled if feedback has been provided
     state.foundAllConditions = true;
-    expect(submitButton.attributes().disabled).toBeFalsy();
+    expect(forwardButton.attributes().disabled).toBeFalsy();
 
     state.foundAllConditions = false;
-    expect(submitButton.attributes().disabled).toBeFalsy();
+    expect(forwardButton.attributes().disabled).toBeFalsy();
   });
 
   test('clicking the back button transitions to the search route', () => {
@@ -85,7 +89,7 @@ describe('FeedbackPage.vue', () => {
     expect(mocks.$router.push).toHaveBeenCalledWith('/search');
   });
 
-  test('clicking the submit button transitions to the results route', () => {
+  test('clicking the forward button transitions to the results route', () => {
     const mocks = {
       $router: {
         push: jest.fn()
@@ -95,8 +99,22 @@ describe('FeedbackPage.vue', () => {
     state.foundAllConditions = true;
     const wrapper = shallow(FeedbackPage, { store, localVue, mocks });
 
-    wrapper.find('input[name=submitButton]').trigger('click');
+    wrapper.find('input[name=forwardButton]').trigger('click');
     expect(mocks.$router.push).toHaveBeenCalledWith('/results');
+  });
+
+  test('clicking the forward button saves the selected terms', () => {
+    const mocks = {
+      $router: {
+        push: jest.fn()
+      }
+    };
+
+    state.foundAllConditions = true;
+    const wrapper = shallow(FeedbackPage, { store, localVue, mocks });
+
+    wrapper.find('input[name=forwardButton]').trigger('click');
+    expect(actions.saveSelectedTerms).toHaveBeenCalled();
   });
 
   describe('computed properties', () => {

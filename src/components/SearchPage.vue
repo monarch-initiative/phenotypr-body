@@ -42,10 +42,10 @@
       <!-- buttons -->
       <div class="grid-x grid-margin-x button-container">
         <div class="cell large-4 text-left">
-          <input type="button" name="backButton" value="Go Back" class="button rounded" @click="goToSystems">
+          <input type="button" name="backButton" value="Go Back" class="button rounded" @click="goBack">
         </div>
         <div class="cell large-4 text-right">
-          <input type="button" name="submitButton" value="Done adding symptoms" class="button rounded" :disabled="selectionIsEmpty" @click="goToResults">
+          <input type="button" name="forwardButton" value="Done adding symptoms" class="button rounded" :disabled="selectionIsEmpty" @click="goForward">
         </div>
       </div>
     </form>
@@ -76,12 +76,11 @@ export default {
       this.$store.dispatch('calculateQualityScore');
     },
 
-    goToResults() {
-      this.$store.dispatch('saveSelectedTerms');
-      this.$router.push('/results');
+    goForward() {
+      this.$router.push('/feedback');
     },
 
-    goToSystems() {
+    goBack() {
       this.$router.push('/body-systems');
     }
   },

@@ -38,7 +38,7 @@
         <input type="button" name="backButton" value="Go Back" class="button rounded" @click="goBack">
       </div>
       <div class="cell large-4 text-right">
-        <input type="button" name="submitButton" value="Done" class="button rounded" :disabled="feedbackIncomplete" @click="goToResults">
+        <input type="button" name="forwardButton" value="Done" class="button rounded" :disabled="feedbackIncomplete" @click="goForward">
       </div>
     </div>
   </div>
@@ -60,7 +60,8 @@ export default {
       this.$router.push('/search');
     },
 
-    goToResults() {
+    goForward() {
+      this.$store.dispatch('saveSelectedTerms');
       this.$router.push('/results');
     }
   },

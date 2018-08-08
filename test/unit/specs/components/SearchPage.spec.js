@@ -21,8 +21,7 @@ describe('SearchPage.vue', () => {
     };
 
     actions = {
-      calculateQualityScore: jest.fn(),
-      saveSelectedTerms: jest.fn()
+      calculateQualityScore: jest.fn()
     };
 
     state = {
@@ -55,11 +54,11 @@ describe('SearchPage.vue', () => {
 
     test('the submit button is disabled when no terms are selected', () => {
       const wrapper = shallow(SearchPage, { store, localVue });
-      const submitButton = wrapper.find('input[name=submitButton]');
-      expect(submitButton.attributes().disabled).toBeUndefined();
+      const forwardButton = wrapper.find('input[name=forwardButton]');
+      expect(forwardButton.attributes().disabled).toBeUndefined();
 
       state.selectedTerms = [];
-      expect(submitButton.attributes().disabled).toBeDefined();
+      expect(forwardButton.attributes().disabled).toBeDefined();
     });
   });
 
@@ -118,21 +117,8 @@ describe('SearchPage.vue', () => {
 
       const wrapper = shallow(SearchPage, { store, localVue, mocks });
 
-      wrapper.find('input[name=submitButton]').trigger('click');
-      expect(mocks.$router.push).toHaveBeenCalledWith('/results');
-    });
-
-    test('clicking the submit button saves the selected terms', () => {
-      const mocks = {
-        $router: {
-          push: jest.fn()
-        }
-      };
-
-      const wrapper = shallow(SearchPage, { store, localVue, mocks });
-
-      wrapper.find('input[name=submitButton]').trigger('click');
-      expect(actions.saveSelectedTerms).toHaveBeenCalled();
+      wrapper.find('input[name=forwardButton]').trigger('click');
+      expect(mocks.$router.push).toHaveBeenCalledWith('/feedback');
     });
   });
 
