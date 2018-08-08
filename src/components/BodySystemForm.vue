@@ -4,7 +4,7 @@
 
     <div class="grid-x grid-margin-x terms-subheading">
       <div class="cell large-12">
-        <h2>Choose the Abnormality of concern</h2>
+        <h2>Choose the Body Systems of interest</h2>
       </div>
     </div>
 
@@ -15,8 +15,8 @@
           :value="system.id"
           @change="toggleSystem"
           :checked="isSystemSelected(system.id)">
-        <label :for="system.id">{{system.label}}</label>
-        <span class="help-text">{{system.helpText}}</span>
+        <label :for="system.id">{{system.label}}:</label>
+        <span class="help-text truncate">{{system.helpText}}</span>
       </div>
     </div>
     <div class="grid-x grid-margin-x button-container terms-filter">
