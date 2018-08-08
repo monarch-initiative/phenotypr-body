@@ -27,7 +27,7 @@
       <!-- buttons -->
       <div class="grid-x grid-margin-x button-container">
         <div class="cell large-4 text-left">
-          <input type="button" name="backButton" value="Go Back" class="button rounded" @click="goBack">
+          <input type="button" name="backButton" value="Go back" class="button rounded" @click="goBack">
         </div>
         <div class="cell large-4 text-right">
           <input type="button" name="forwardButton" value="Done adding symptoms" class="button rounded" :disabled="selectionIsEmpty" @click="goForward">
