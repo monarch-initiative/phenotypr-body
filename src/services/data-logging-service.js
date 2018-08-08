@@ -1,4 +1,4 @@
-import isValidTerm from '@/utils/is-valid-term';
+import { isValidTerm } from '@/utils/term-utils';
 
 /**
  * A service that performs HTTP requests to save the terms selected by the user.
