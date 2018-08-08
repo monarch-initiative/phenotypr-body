@@ -48,7 +48,7 @@
 import { mapState } from 'vuex';
 
 export default {
-  name: 'FeedbackForm',
+  name: 'FeedbackPage',
 
   methods: {
     setFeedback(evt) {

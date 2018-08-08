@@ -6,7 +6,7 @@ import SearchPage from '@/components/SearchPage';
 import ResultsPage from '@/components/ResultsPage';
 import TermsOfUsePage from '@/components/TermsOfUsePage';
 import BodySystemForm from '@/components/BodySystemForm';
-import FeedbackForm from '@/components/FeedbackForm';
+import FeedbackPage from '@/components/FeedbackPage';
 
 Vue.use(Router);
 
@@ -68,7 +68,7 @@ export const routes = [
   }),
   protectedRoute({
     path: '/feedback',
-    component: FeedbackForm
+    component: FeedbackPage
   }),
   protectedRoute({
     path: '/results',

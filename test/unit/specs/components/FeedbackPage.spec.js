@@ -1,12 +1,12 @@
 import Vuex from 'vuex';
 import { shallow, createLocalVue } from '@vue/test-utils';
 
-import FeedbackForm from '@/components/FeedbackForm';
+import FeedbackPage from '@/components/FeedbackPage';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-describe('FeedbackForm.vue', () => {
+describe('FeedbackPage.vue', () => {
   let store, state, mutations;
 
   beforeEach(() => {
@@ -22,13 +22,13 @@ describe('FeedbackForm.vue', () => {
   });
 
   test('renders a pair of radio buttons', () => {
-    const wrapper = shallow(FeedbackForm, { store, localVue });
+    const wrapper = shallow(FeedbackPage, { store, localVue });
     expect(wrapper.findAll('input[type=radio]').length).toEqual(2);
   });
 
   test('checked radio button matches state', () => {
     const checkedRadioSelector = 'input[type=radio]:checked';
-    const wrapper = shallow(FeedbackForm, { store, localVue });
+    const wrapper = shallow(FeedbackPage, { store, localVue });
 
     // nothing selected initially
     let checkedRadios = wrapper.findAll(checkedRadioSelector);
@@ -46,7 +46,7 @@ describe('FeedbackForm.vue', () => {
   });
 
   test('clicking radio buttons mutates the state', () => {
-    const wrapper = shallow(FeedbackForm, { store, localVue });
+    const wrapper = shallow(FeedbackPage, { store, localVue });
     const checkBoxes = wrapper.findAll('input[type=radio]');
 
     checkBoxes.at(0).trigger('click');
@@ -58,7 +58,7 @@ describe('FeedbackForm.vue', () => {
   });
 
   test('submit button is disabled until feedback is complete', () => {
-    const wrapper = shallow(FeedbackForm, { store, localVue });
+    const wrapper = shallow(FeedbackPage, { store, localVue });
     const submitButton = wrapper.find('input[name=submitButton]');
 
     // should be disabled if nothing has been chosen
@@ -79,7 +79,7 @@ describe('FeedbackForm.vue', () => {
       }
     };
 
-    const wrapper = shallow(FeedbackForm, { store, localVue, mocks });
+    const wrapper = shallow(FeedbackPage, { store, localVue, mocks });
 
     wrapper.find('input[name=backButton]').trigger('click');
     expect(mocks.$router.push).toHaveBeenCalledWith('/search');
@@ -93,7 +93,7 @@ describe('FeedbackForm.vue', () => {
     };
 
     state.foundAllConditions = true;
-    const wrapper = shallow(FeedbackForm, { store, localVue, mocks });
+    const wrapper = shallow(FeedbackPage, { store, localVue, mocks });
 
     wrapper.find('input[name=submitButton]').trigger('click');
     expect(mocks.$router.push).toHaveBeenCalledWith('/results');
@@ -101,7 +101,7 @@ describe('FeedbackForm.vue', () => {
 
   describe('computed properties', () => {
     test('state mapping', () => {
-      const wrapper = shallow(FeedbackForm, { store, localVue });
+      const wrapper = shallow(FeedbackPage, { store, localVue });
       expect(wrapper.vm.foundAllConditions).toBeNull();
 
       state.foundAllConditions = true;
@@ -109,7 +109,7 @@ describe('FeedbackForm.vue', () => {
     });
 
     test('feedbackIncomplete', () => {
-      const wrapper = shallow(FeedbackForm, { store, localVue });
+      const wrapper = shallow(FeedbackPage, { store, localVue });
 
       // is true if foundAllConditions is null
       expect(wrapper.vm.feedbackIncomplete).toBe(true);
@@ -122,7 +122,7 @@ describe('FeedbackForm.vue', () => {
     });
 
     test('trueChecked', () => {
-      const wrapper = shallow(FeedbackForm, { store, localVue });
+      const wrapper = shallow(FeedbackPage, { store, localVue });
 
       // false when foundAllConditions is null or false
       expect(wrapper.vm.trueChecked).toBe(false);
@@ -135,7 +135,7 @@ describe('FeedbackForm.vue', () => {
     });
 
     test('falseChecked', () => {
-      const wrapper = shallow(FeedbackForm, { store, localVue });
+      const wrapper = shallow(FeedbackPage, { store, localVue });
 
       // false when foundAllConditions is null or true
       expect(wrapper.vm.falseChecked).toBe(false);
