@@ -1,21 +1,6 @@
 <template>
   <div class="grid-container body-search-content">
-    <!-- heading -->
-    <div class="grid-x grid-margin-x">
-      <div class="cell">
-        <div class="media-object">
-          <div class="media-object-section">
-            <div>
-              <img src="../../static/body.svg">
-            </div>
-          </div>
-
-          <div class="media-object-section">
-            <h1><strong>Body:</strong> Symptoms Search</h1>
-          </div>
-        </div>
-      </div>
-    </div>
+    <PageHeading title="Symptoms Search"/>
 
     <!-- search form -->
     <form @submit.prevent>
@@ -54,6 +39,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import PageHeading from './PageHeading';
 import SearchInput from './SearchInput';
 import AnnotationSufficiency from './AnnotationSufficiency';
 
@@ -61,6 +47,7 @@ export default {
   name: 'SearchPage',
 
   components: {
+    PageHeading,
     SearchInput,
     AnnotationSufficiency
   },

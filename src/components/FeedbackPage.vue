@@ -1,21 +1,6 @@
 <template>
   <div class="grid-container body-search-content">
-    <!-- heading -->
-    <div class="grid-x grid-margin-x">
-      <div class="cell">
-        <div class="media-object">
-          <div class="media-object-section">
-            <div>
-              <img src="../../static/body.svg">
-            </div>
-          </div>
-
-          <div class="media-object-section">
-            <h1><strong>Body:</strong> Application Feedback</h1>
-          </div>
-        </div>
-      </div>
-    </div>
+    <PageHeading title="Application Feedback"/>
 
     <div class="grid-x grid-margin-x">
       <div class="cell medium-8 large-6">
@@ -46,9 +31,14 @@
 
 <script>
 import { mapState } from 'vuex';
+import PageHeading from './PageHeading';
 
 export default {
   name: 'FeedbackPage',
+
+  components: {
+    PageHeading
+  },
 
   methods: {
     setFeedback(evt) {
