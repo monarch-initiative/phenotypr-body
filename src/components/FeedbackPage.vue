@@ -54,7 +54,7 @@ export default {
     },
 
     goForward() {
-      this.$store.dispatch('saveSelectedTerms');
+      this.$store.dispatch('saveSessionData');
       this.$router.push('/results');
     }
   },

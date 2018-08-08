@@ -19,7 +19,7 @@ describe('FeedbackPage.vue', () => {
     };
 
     actions = {
-      saveSelectedTerms: jest.fn()
+      saveSessionData: jest.fn()
     };
 
     store = new Vuex.Store({ state, mutations, actions });
@@ -103,7 +103,7 @@ describe('FeedbackPage.vue', () => {
     expect(mocks.$router.push).toHaveBeenCalledWith('/results');
   });
 
-  test('clicking the forward button saves the selected terms', () => {
+  test('clicking the forward button saves the session', () => {
     const mocks = {
       $router: {
         push: jest.fn()
@@ -114,7 +114,7 @@ describe('FeedbackPage.vue', () => {
     const wrapper = shallowMount(FeedbackPage, { store, localVue, mocks });
 
     wrapper.find('input[name=forwardButton]').trigger('click');
-    expect(actions.saveSelectedTerms).toHaveBeenCalled();
+    expect(actions.saveSessionData).toHaveBeenCalled();
   });
 
   describe('computed properties', () => {

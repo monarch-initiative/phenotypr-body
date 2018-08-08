@@ -115,18 +115,24 @@ export default {
     },
 
     /**
-     * Asynchronously saves the session ID and selected terms for research analysis.
+     * Asynchronously saves the session ID, selected body systems, selected terms, and
+     * application feedback for research analysis.
      * @param {Object} context - Vuex action context.
      * @return {Promise} a promise that resolves when the request is complete.
      */
-    saveSelectedTerms({ commit, state }) {
-      const { sessionId, selectedTerms } = state;
+    saveSessionData({ commit, state }) {
+      const {
+        sessionId,
+        selectedTerms,
+        selectedSystems,
+        foundAllConditions
+      } = state;
 
       if (!selectedTerms.length) {
         return Promise.resolve();
       }
 
-      return dataLoggingService.saveSession(sessionId, selectedTerms);
+      return dataLoggingService.saveSession(sessionId, selectedTerms, selectedSystems, foundAllConditions);
     }
   }
 };

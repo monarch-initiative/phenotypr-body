@@ -1,4 +1,5 @@
 import storeConfig from '@/store';
+import bodySystems from '@/store/systems';
 
 import scoringService from '@/services/scoring-service';
 import dataLoggingService from '@/services/data-logging-service';
@@ -236,37 +237,43 @@ describe('vuex store', () => {
         });
     });
 
-    test('saveSelectedTerms: does nothing when no terms are selected', () => {
+    test('saveSessionData: does nothing when no terms are selected', () => {
       const commit = jest.fn();
 
       const mockState = {
         sessionId: '00000000-0000-0000-0000-000000000000',
-        selectedTerms: []
+        selectedTerms: [],
+        selectedSystems: [],
+        foundAllConditions: false
       };
 
-      return actions.saveSelectedTerms({ commit, state: mockState })
+      return actions.saveSessionData({ commit, state: mockState })
         .then(() => {
           expect(commit).not.toHaveBeenCalled();
           expect(dataLoggingService.saveSession).not.toHaveBeenCalled();
         });
     });
 
-    test('saveSelectedTerms: when terms have been selected', () => {
+    test('saveSessionData: when terms have been selected', () => {
       const commit = jest.fn();
 
       const mockState = {
         sessionId: '00000000-0000-0000-0000-000000000000',
-        selectedTerms: exampleTerms.slice(0, 1)
+        selectedTerms: exampleTerms.slice(0, 1),
+        selectedSystems: bodySystems.slice(0, 1).map(system => system.id),
+        foundAllConditions: true
       };
 
       dataLoggingService.saveSession.mockReturnValueOnce(Promise.resolve());
 
-      return actions.saveSelectedTerms({ commit, state: mockState })
+      return actions.saveSessionData({ commit, state: mockState })
         .then(() => {
           // No mutations should be committed
           expect(commit).not.toHaveBeenCalled();
 
-          expect(dataLoggingService.saveSession).toHaveBeenCalledWith(mockState.sessionId, mockState.selectedTerms);
+          const { sessionId, selectedTerms, selectedSystems, foundAllConditions } = mockState;
+          expect(dataLoggingService.saveSession)
+            .toHaveBeenCalledWith(sessionId, selectedTerms, selectedSystems, foundAllConditions);
         });
     });
   });
