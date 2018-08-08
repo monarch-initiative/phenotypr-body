@@ -126,7 +126,7 @@ export default {
         return Promise.resolve();
       }
 
-      return dataLoggingService.saveTerms(sessionId, selectedTerms);
+      return dataLoggingService.saveSession(sessionId, selectedTerms);
     }
   }
 };

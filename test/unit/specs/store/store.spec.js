@@ -13,7 +13,7 @@ jest.mock('@/services/scoring-service', () => {
 
 jest.mock('@/services/data-logging-service', () => {
   return {
-    saveTerms: jest.fn()
+    saveSession: jest.fn()
   };
 });
 
@@ -247,7 +247,7 @@ describe('vuex store', () => {
       return actions.saveSelectedTerms({ commit, state: mockState })
         .then(() => {
           expect(commit).not.toHaveBeenCalled();
-          expect(dataLoggingService.saveTerms).not.toHaveBeenCalled();
+          expect(dataLoggingService.saveSession).not.toHaveBeenCalled();
         });
     });
 
@@ -259,14 +259,14 @@ describe('vuex store', () => {
         selectedTerms: exampleTerms.slice(0, 1)
       };
 
-      dataLoggingService.saveTerms.mockReturnValueOnce(Promise.resolve());
+      dataLoggingService.saveSession.mockReturnValueOnce(Promise.resolve());
 
       return actions.saveSelectedTerms({ commit, state: mockState })
         .then(() => {
           // No mutations should be committed
           expect(commit).not.toHaveBeenCalled();
 
-          expect(dataLoggingService.saveTerms).toHaveBeenCalledWith(mockState.sessionId, mockState.selectedTerms);
+          expect(dataLoggingService.saveSession).toHaveBeenCalledWith(mockState.sessionId, mockState.selectedTerms);
         });
     });
   });

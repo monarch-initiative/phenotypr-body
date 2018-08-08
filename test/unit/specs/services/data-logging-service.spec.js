@@ -10,22 +10,22 @@ describe('data logging service', () => {
     const expectedMessage = 'A string session ID is required';
 
     // Missing ID
-    expect(() => { dataLoggingService.saveTerms(); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveSession(); }).toThrow(expectedMessage);
 
     // Falsy ID
-    expect(() => { dataLoggingService.saveTerms(null); }).toThrow(expectedMessage);
-    expect(() => { dataLoggingService.saveTerms(''); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveSession(null); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveSession(''); }).toThrow(expectedMessage);
 
     // Wrong type
-    expect(() => { dataLoggingService.saveTerms(42); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveSession(42); }).toThrow(expectedMessage);
   });
 
   test('it validates that terms are provided', () => {
     const expectedMessage = 'An array of HPO terms is required';
-    expect(() => { dataLoggingService.saveTerms(testId); }).toThrow(expectedMessage);
-    expect(() => { dataLoggingService.saveTerms(testId, null); }).toThrow(expectedMessage);
-    expect(() => { dataLoggingService.saveTerms(testId, {}); }).toThrow(expectedMessage);
-    expect(() => { dataLoggingService.saveTerms(testId, [{ nope: 'not a term' }]); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveSession(testId); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveSession(testId, null); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveSession(testId, {}); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveSession(testId, [{ nope: 'not a term' }]); }).toThrow(expectedMessage);
   });
 
   // TODO: when we have an endpoint to post to:
@@ -33,7 +33,7 @@ describe('data logging service', () => {
   // - update request body test
 
   test('it constructs the request body as expected', () => {
-    return dataLoggingService.saveTerms(testId, exampleTerms)
+    return dataLoggingService.saveSession(testId, exampleTerms)
       .then(response => {
         expect(response.session_id).toEqual(testId);
         expect(Array.isArray(response.selected_terms)).toBe(true);

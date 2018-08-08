@@ -21,7 +21,7 @@ export default {
   },
 
   /**
-   * Persist the terms selected during the session.
+   * Persist the user's session data.
    *
    * TODO: This is currently a stub. Implement the actual HTTP request.
    *
@@ -30,7 +30,7 @@ export default {
    * @return {Promise->Object} on success, resolves to an object. On error, the error that
    *   triggered the rejection is returned.
    */
-  saveTerms(sessionId, terms) {
+  saveSession(sessionId, terms) {
     this._validateInput(sessionId, terms);
     const requestBody = {
       session_id: sessionId,
