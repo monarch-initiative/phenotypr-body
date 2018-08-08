@@ -1,33 +1,18 @@
 <template>
   <div class="grid-container body-search-content">
-    <!-- heading -->
-    <div class="grid-x grid-margin-x">
-      <div class="cell">
-        <div class="media-object">
-          <div class="media-object-section">
-            <div>
-              <img src="../../static/body.svg">
-            </div>
-          </div>
-
-          <div class="media-object-section">
-            <h1><strong>Body:</strong> Symptoms Search</h1>
-          </div>
-        </div>
-      </div>
-    </div>
+    <PageHeading title="Symptoms Search"/>
 
     <!-- search form -->
     <form @submit.prevent>
       <div class="grid-x grid-margin-x">
         <div class="cell medium-8 large-6">
           <SearchInput :filterTerms="selectedSystemIds" @itemSelected="handleSelection"/>
-        </div>
-      </div>
 
-      <!-- annotation sufficiency information -->
-      <div class="grid-x grid-margin-x quality-score">
-        <AnnotationSufficiency class="cell medium-8 large-6" :score="qualityScore" :error="scoringError"/>
+          <!-- annotation sufficiency information -->
+          <div class="quality-score">
+            <AnnotationSufficiency class="cell medium-8 large-6" :score="qualityScore" :error="scoringError"/>
+          </div>
+        </div>
       </div>
 
       <!-- saved terms -->
@@ -39,10 +24,13 @@
         </div>
       </div>
 
-      <!-- forms -->
+      <!-- buttons -->
       <div class="grid-x grid-margin-x button-container">
-        <div class="cell large-8 text-right">
-          <input type="button" value="Done adding symptoms" class="button rounded" :disabled="selectionIsEmpty" @click="goToResults">
+        <div class="cell large-4 text-left">
+          <input type="button" name="backButton" value="Go back" class="button rounded" @click="goBack">
+        </div>
+        <div class="cell large-4 text-right">
+          <input type="button" name="forwardButton" value="Done adding symptoms" class="button rounded" :disabled="selectionIsEmpty" @click="goForward">
         </div>
       </div>
     </form>
@@ -51,6 +39,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import PageHeading from './PageHeading';
 import SearchInput from './SearchInput';
 import AnnotationSufficiency from './AnnotationSufficiency';
 
@@ -58,6 +47,7 @@ export default {
   name: 'SearchPage',
 
   components: {
+    PageHeading,
     SearchInput,
     AnnotationSufficiency
   },
@@ -73,9 +63,12 @@ export default {
       this.$store.dispatch('calculateQualityScore');
     },
 
-    goToResults() {
-      this.$store.dispatch('saveSelectedTerms');
-      this.$router.push('/results');
+    goForward() {
+      this.$router.push('/feedback');
+    },
+
+    goBack() {
+      this.$router.push('/body-systems');
     }
   },
 

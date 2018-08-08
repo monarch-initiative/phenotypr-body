@@ -220,9 +220,19 @@ ul.tips-list li {
   color:#fff;
 }
 
+
+// FEEDBACK CONTROLS
+.feedback-inputs {
+  margin-top:15px;
+}
+
 .truncate {
-  width: 150px;
+  width: 800px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.body-search-content label {
+  font-weight: bold;
 }

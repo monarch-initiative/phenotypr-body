@@ -1,22 +1,6 @@
 <template>
   <div class="grid-container body-search-content">
-
-    <!-- heading -->
-    <div class="grid-x grid-margin-x">
-      <div class="cell">
-        <div class="media-object">
-          <div class="media-object-section">
-            <div>
-              <img src="../../static/body.svg">
-            </div>
-          </div>
-
-          <div class="media-object-section">
-            <h1><strong>Body:</strong> Symptoms Search</h1>
-          </div>
-        </div>
-      </div>
-    </div>
+    <PageHeading title="Results"/>
 
     <!-- sub heading -->
     <div class="grid-x grid-margin-x terms-subheading">
@@ -58,11 +42,16 @@
 
 <script>
 import { mapState } from 'vuex';
+import PageHeading from './PageHeading';
 import PdfRenderer from '@/utils/pdf-renderer';
 import createExportDocument from '@/utils/create-export-document';
 
 export default {
   name: 'ResultsPage',
+
+  components: {
+    PageHeading
+  },
 
   methods: {
     downloadPdf() {
