@@ -29,6 +29,7 @@ describe('vuex store', () => {
     expect(state.qualityScore).toEqual(0);
     expect(state.scoringError).toBeNull();
     expect(state.sessionId).toMatch(uuidPattern);
+    expect(state.foundAllConditions).toBeNull();
   });
 
   test('exports the mutations', () => {
@@ -151,6 +152,23 @@ describe('vuex store', () => {
       mutations.toggleSystem(mockState, system);
       expect(mockState.selectedSystems.length).toEqual(1);
       expect(mockState.selectedSystems).not.toContain(system);
+    });
+
+    test('setFoundAllConditions sets the specified value', () => {
+      const mockState = {
+        foundAllConditions: null
+      };
+
+      // the flag starts out null
+      expect(mockState.foundAllConditions).toBeNull();
+
+      // the flag can be set to true
+      mutations.setFoundAllConditions(mockState, true);
+      expect(mockState.foundAllConditions).toBe(true);
+
+      // the flag can be set to false
+      mutations.setFoundAllConditions(mockState, false);
+      expect(mockState.foundAllConditions).toBe(false);
     });
   });
 

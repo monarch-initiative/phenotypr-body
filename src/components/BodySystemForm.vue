@@ -1,5 +1,7 @@
 <template>
   <div class="grid-container body-search-content">
+    <PageHeading title="Body Systems"/>
+
     <div class="grid-x grid-margin-x terms-subheading">
       <div class="cell large-12">
         <h2>Choose the Abnormality of concern</h2>
@@ -31,15 +33,21 @@
 <script>
 import { mapState } from 'vuex';
 import systems from '@/store/systems';
+import PageHeading from './PageHeading';
 
 export default {
   name: 'BodySystemForm',
+
+  components: {
+    PageHeading
+  },
 
   data() {
     return {
       bodySystems: systems
     };
   },
+
   methods: {
     isSystemSelected(id) {
       const { selectedSystems } = this;

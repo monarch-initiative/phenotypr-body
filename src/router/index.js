@@ -6,6 +6,7 @@ import SearchPage from '@/components/SearchPage';
 import ResultsPage from '@/components/ResultsPage';
 import TermsOfUsePage from '@/components/TermsOfUsePage';
 import BodySystemForm from '@/components/BodySystemForm';
+import FeedbackPage from '@/components/FeedbackPage';
 
 Vue.use(Router);
 
@@ -40,27 +41,39 @@ export const skipWhenAlreadyAccepted = (to, from, next) => {
   }
 };
 
+/**
+ * Adds a meta block to the provided route definition so that terms of use must be
+ * accepted before the route can be entered.
+ * @param {Object} routeDefinition - the route definition to decorate
+ * @return {Object} the route definition, with a `meta` block that requires accepting
+ *   terms of use
+ */
+function protectedRoute(routeDefinition) {
+  const termsMeta = { meta: { requireTermsOfUse: true } };
+  return Object.assign({}, routeDefinition, termsMeta);
+}
+
 export const routes = [
-  {
+  protectedRoute({
     path: '/',
-    redirect: termsOfUsePath,
-    meta: { requireTermsOfUse: true }
-  },
-  {
+    redirect: termsOfUsePath
+  }),
+  protectedRoute({
     path: bodySystemPath,
-    component: BodySystemForm,
-    meta: { requireTermsOfUse: true }
-  },
-  {
+    component: BodySystemForm
+  }),
+  protectedRoute({
     path: searchPath,
-    component: SearchPage,
-    meta: { requireTermsOfUse: true }
-  },
-  {
+    component: SearchPage
+  }),
+  protectedRoute({
+    path: '/feedback',
+    component: FeedbackPage
+  }),
+  protectedRoute({
     path: '/results',
-    component: ResultsPage,
-    meta: { requireTermsOfUse: true }
-  },
+    component: ResultsPage
+  }),
   {
     path: termsOfUsePath,
     component: TermsOfUsePage,
