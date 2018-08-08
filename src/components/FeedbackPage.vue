@@ -6,14 +6,17 @@
       <div class="cell medium-8 large-6">
         Did you find all the symptoms you were searching for?
 
-        <label>
-          Yes
-          <input type="radio" name="foundAllConditions" value="1" :checked="trueChecked" @click="setFeedback">
-        </label>
-        <label>
-          No
-          <input type="radio" name="foundAllConditions" value="0" :checked="falseChecked" @click="setFeedback">
-        </label>
+        <div class="input-group feedback-inputs">
+          <label>
+            Yes
+            <input type="radio" name="foundAllConditions" value="1" :checked="trueChecked" @click="setFeedback">
+          </label>
+          <label>
+            No
+            <input type="radio" name="foundAllConditions" value="0" :checked="falseChecked" @click="setFeedback">
+          </label>
+        </div>
+
       </div>
     </div>
 
