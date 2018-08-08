@@ -7,12 +7,12 @@
       <div class="grid-x grid-margin-x">
         <div class="cell medium-8 large-6">
           <SearchInput :filterTerms="selectedSystemIds" @itemSelected="handleSelection"/>
-        </div>
-      </div>
 
-      <!-- annotation sufficiency information -->
-      <div class="grid-x grid-margin-x quality-score">
-        <AnnotationSufficiency class="cell medium-8 large-6" :score="qualityScore" :error="scoringError"/>
+          <!-- annotation sufficiency information -->
+          <div class="quality-score">
+            <AnnotationSufficiency class="cell medium-8 large-6" :score="qualityScore" :error="scoringError"/>
+          </div>
+        </div>
       </div>
 
       <!-- saved terms -->
