@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 
 import scoringService from '@/services/scoring-service';
-import termLoggingService from '@/services/term-logging-service';
+import dataLoggingService from '@/services/data-logging-service';
 
 const initialState = {
   sessionId: uuid(),
@@ -126,7 +126,7 @@ export default {
         return Promise.resolve();
       }
 
-      return termLoggingService.saveTerms(sessionId, selectedTerms);
+      return dataLoggingService.saveTerms(sessionId, selectedTerms);
     }
   }
 };

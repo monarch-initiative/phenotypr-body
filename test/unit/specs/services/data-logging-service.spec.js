@@ -1,31 +1,31 @@
 import uuid from 'uuid/v4';
-import termLoggingService from '@/services/term-logging-service';
+import dataLoggingService from '@/services/data-logging-service';
 
 import exampleTerms from '../../example-terms';
 
 const testId = uuid();
 
-describe('term logging service', () => {
+describe('data logging service', () => {
   test('it validates that a session ID is provided', () => {
     const expectedMessage = 'A string session ID is required';
 
     // Missing ID
-    expect(() => { termLoggingService.saveTerms(); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveTerms(); }).toThrow(expectedMessage);
 
     // Falsy ID
-    expect(() => { termLoggingService.saveTerms(null); }).toThrow(expectedMessage);
-    expect(() => { termLoggingService.saveTerms(''); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveTerms(null); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveTerms(''); }).toThrow(expectedMessage);
 
     // Wrong type
-    expect(() => { termLoggingService.saveTerms(42); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveTerms(42); }).toThrow(expectedMessage);
   });
 
   test('it validates that terms are provided', () => {
     const expectedMessage = 'An array of HPO terms is required';
-    expect(() => { termLoggingService.saveTerms(testId); }).toThrow(expectedMessage);
-    expect(() => { termLoggingService.saveTerms(testId, null); }).toThrow(expectedMessage);
-    expect(() => { termLoggingService.saveTerms(testId, {}); }).toThrow(expectedMessage);
-    expect(() => { termLoggingService.saveTerms(testId, [{ nope: 'not a term' }]); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveTerms(testId); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveTerms(testId, null); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveTerms(testId, {}); }).toThrow(expectedMessage);
+    expect(() => { dataLoggingService.saveTerms(testId, [{ nope: 'not a term' }]); }).toThrow(expectedMessage);
   });
 
   // TODO: when we have an endpoint to post to:
@@ -33,7 +33,7 @@ describe('term logging service', () => {
   // - update request body test
 
   test('it constructs the request body as expected', () => {
-    return termLoggingService.saveTerms(testId, exampleTerms)
+    return dataLoggingService.saveTerms(testId, exampleTerms)
       .then(response => {
         expect(response.session_id).toEqual(testId);
         expect(Array.isArray(response.selected_terms)).toBe(true);
