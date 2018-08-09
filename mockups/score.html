@@ -59,32 +59,52 @@
       
       <!-- search form -->
       <form>
-        
         <div class="grid-x grid-margin-x">
-        
-          <div class="cell medium-8 large-6">
+          
+          <!-- <div class="cell medium-10 large-8 filter-search-msg">
+
+            <span class="title">About this Search</span> Your search will be filtered by the terms you selected: <span class="filter-terms">term one, term two, term three, term four, term five, term six, term seven, term eight, term nine, term ten</span>
+
+          </div> -->
+          
+        </div>   
+         
+        <div class="grid-x grid-margin-x">
+          
+          <div class="cell medium-6 large-6">
             
-            <label class="lead">What symptoms are you experiencing?</label>
+            <div class="search">
+              
+              <label class="lead">Enter your symtoms <small>(do not include family history)</small></label>
             
-            <input type="search" placeholder="Search for a symptom">
+              <input type="search" placeholder="Search for a symptom">
+            
+            </div>
+            
+            <!-- profile sufficiency score -->
+            <div class="quality-score">
+           
+             <p>Profile sufficiency: <span class="score-category">Very Poor</span>
+             <span class="define-score">The profile sufficiency rating represents how diagnostically useful your profile will be based on the symptoms you've added.</span></p>
+           
+              <p class="display-tips"><a href="#">Tips for adding symptoms</a> to help your doctor diagnose you most accurately</p>
+
+            </div>
+            
+          </div>
+          
+          <!-- filtered search message -->
+          <div class="cell medium-4 large-4 large-offset-1">
+            
+            <div class="callout success filter-search-msg">
+              <p><span class="title">About this Search</span> Your search will be filtered by the systems you selected: <span class="filter-terms">term one, term two, term three, term four, term five, term six, term seven, term eight, term nine, term ten</span></p>
+            </div>
           
           </div>
           
         </div>
         
-        <!-- profile sufficiency score -->
-        <div class="grid-x grid-margin-x quality-score">
-          
-          <div class="cell medium-8 large-6">
-           
-           <p>Profile sufficiency: <span class="score-category">Very Poor</span>
-           <span class="define-score">The profile sufficiency rating represents how diagnostically useful your profile will be based on the symptoms you've added.</span></p>
-           
-            <p class="display-tips"><a href="#">Tips for adding symptoms</a> to help your doctor diagnose you most accurately</p>
-
-          </div>
-          
-        </div
+       
         
         <!-- saved terms -->
         <div class="grid-x grid-margin-x saved-terms">

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en" dir="ltr">
 
 <head>
@@ -48,7 +49,7 @@
 
           <div class="media-object-section">
 
-            <h1><strong>Body:</strong> Symptoms Search</h1>
+            <h1><strong>Body:</strong> Select Body System / Category</h1>
 
           </div>
 
@@ -58,88 +59,111 @@
 
     </div>
 
-    <!-- sub heading -->
-    <div class="grid-x grid-margin-x terms-subheading">
-
-      <div class="cell large-12">
-        <h2>Choose the Abnormailty of Concern <small>(click on a button to make a selection)</small></h2>
-      </div>
+    <!-- 
+      - Click on check box or label to select and unselect 
+      - Click on elipsis more info to display contextual help
+    -->
+    <div class="grid-x grid-margin-x select-systems">
       
-    </div>
+      <div class="cell medium-5 large-6">
+        
+        <h2>Select at least one body system</h2>
+
+        <div class="checkbox-container">
+          <input id="HP:0001507" value="HP:0001507" type="checkbox">
+          <label for="HP:0001507">Growth</label><!-- User clicks on more info link to reveal and hide contextual help --><a href="#" class="show-help">...more info</a>
+          <!-- User clicks on more info to opens and close this help content --> 
+          <div class="help-content">For example you are much shorter or taller than expected for your family, you have had significant and/or lifelong problems gaining weight, or you have significant and/or lifelong problems with obesity. You may have seen an endocrinologist or other specialist for these issues.</div>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0000818" value="HP:0000818" type="checkbox">
+          <label for="HP:0000818">Hormone / Endocrine</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0002664" value="HP:0002664" type="checkbox">
+          <label for="HP:0002664">Cancer</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0000152" value="HP:0000152" type="checkbox">
+          <label for="HP:0000152">Head/Face/Neck</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0000478" value="HP:0000478" type="checkbox">
+          <label for="HP:0000478">Eyes / vision</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0000598" value="HP:0000598" type="checkbox">
+          <label for="HP:0000598">Ears / hearing</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0000707" value="HP:0000707" type="checkbox">
+          <label for="HP:0000707">Brain / nervous system</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0000708" value="HP:0000708" type="checkbox">
+          <label for="HP:0000708">Behavioral / psychiatric</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0001574" value="HP:0001574" type="checkbox">
+          <label for="HP:0001574">Skin</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0000924" value="HP:0000924" type="checkbox">
+          <label for="HP:0000924">Bones / cartilage / connective tissue</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0003011" value="HP:0003011" type="checkbox">
+          <label for="HP:0003011">Muscles</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0001626" value="HP:0001626" type="checkbox">
+          <label for="HP:0001626">Heart / blood vessels</label><a href="#" class="show-help">...</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0002086" value="HP:0002086" type="checkbox">
+          <label for="HP:0002086">Lungs / breathing</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0025031" value="HP:0025031" type="checkbox">
+          <label for="HP:0025031">Digestive / gastrointestinal (GI)</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0000119" value="HP:0000119" type="checkbox">
+          <label for="HP:0000119">Kidneys / bladder / genitals</label><a href="#" class="show-help">...more info</a>
+        </div>
+        <div class="checkbox-container">
+          <input id="HP:0002715" value="HP:0002715" type="checkbox">
+          <label for="HP:0002715">Immune system</label><a href="#" class="show-help">...more info</a>
+        </div>  
+        <div class="checkbox-container">
+          <input id="HP:0001871" value="HP:0001871" type="checkbox">
+          <label for="HP:0001871">Blood / bleeding</label><a href="#" class="show-help">...more info</a>
+        </div>
+      
+      </div>
     
-    <div class="grid-x terms-filter">
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0000708" value="HP:0000708" type="checkbox">
-        <label for="HP:0000708">Behavioral / psychiatric</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0001871" value="HP:0001871" type="checkbox">
-        <label for="HP:0001871">Blood / bleeding</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0000924" value="HP:0000924" type="checkbox">
-        <label for="HP:0000924">Bones / cartilage / connective tissue</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0000707" value="HP:0000707" type="checkbox">
-        <label for="HP:0000707">Brain / nervous system</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0002664" value="HP:0002664" type="checkbox">
-        <label for="HP:0002664">Cancer</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0025031" value="HP:0025031" type="checkbox">
-        <label for="HP:0025031">Digestive / gastrointestinal (GI)</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0000598" value="HP:0000598" type="checkbox">
-        <label for="HP:0000598">Ears / hearing</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0000478" value="HP:0000478" type="checkbox">
-        <label for="HP:0000478">Eyes / vision</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0001507" value="HP:0001507" type="checkbox">
-        <label for="HP:0001507">Growth</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0000152" value="HP:0000152" type="checkbox">
-        <label for="HP:0000152">Head/Face/Neck</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0001626" value="HP:0001626" type="checkbox">
-        <label for="HP:0001626">Heart / blood vessels</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0000818" value="HP:0000818" type="checkbox">
-        <label for="HP:0000818">Hormone / Endocrine</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0002715" value="HP:0002715" type="checkbox">
-        <label for="HP:0002715">Immune system</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0000119" value="HP:0000119" type="checkbox">
-        <label for="HP:0000119">Kidneys / bladder / genitals</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0002086" value="HP:0002086" type="checkbox">
-        <label for="HP:0002086">Lungs / breathing</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0003011" value="HP:0003011" type="checkbox">
-        <label for="HP:0003011">Muscles</label>
-      </div>
-      <div class="cell small-4 checkbox-container">
-        <input id="HP:0001574" value="HP:0001574" type="checkbox">
-        <label for="HP:0001574">Skin</label>
+      <div class="cell medium-4 large-5 large-offset-1">
+      
+        <div class="callout secondary systems-help">
+        
+          <h5>Help</h5>
+          
+          <div class="help-content">
+            To get HPO terms related to your disease:
+            <ol>
+              <li>Select a body system / category.</li>
+              <li>Click on <span class="show-help">...more info</span> for more information about the system / category.</li>
+              <li>On the next page, enter search terms related to the systems / categories you selected.</li>
+            </ol>  
+          </div>
+          
+        </div>  
       </div>
     </div>
+      
     <div class="grid-x grid-margin-x button-container terms-filter">
-      <div class="cell large-12 text-right">
-        <input value="Done adding abnormalities" class="button rounded" type="button">
+      <div class="cell large-12">
+        <input value="Done adding systems" class="button rounded" type="button">
       </div>
     </div>
   

@@ -84,7 +84,18 @@
 .saved-terms {
   margin-top:15px;
 }
-
+.callout.success.filter-search-msg {
+  border-color:#a4f2be;
+  border-radius:5px;
+  font-size:1em;
+}
+.filter-search-msg .title {
+  display:block;
+  font-weight:700;
+}
+.filter-search-msg .filter-terms {
+  color:#933;
+}
 
 // BODY-SEARCH-CONTENT BUTTONS
 .body-search-content form .button-container {
@@ -109,9 +120,7 @@
   border-color:#333;
   color:#333;
 }
-.body-search-content .button-container.terms-filter {
-  margin-right:35px;
-}
+
 
 // BODY-SEARCH-CONTENT RESULTS
 .body-search-content table,
@@ -187,38 +196,22 @@ ul.tips-list li {
   animation: collapse-close .35s ease;
 }
 
+// SELECT SYSTEMS 
+.select-systems {
+  margin-bottom:20px;
+}
+.callout.secondary.systems-help {
+  color:#666;
+  border:none;
+  border-radius:4px;
+}
+a.show-help {
+  font-size:0.6666em;
+}
+span.show-help {
+  color:#1779ba;
+}
 
-// BUTTONIZE BODY SEARCH
-.body-search-content .terms-filter {
-  margin-top:20px;
-  margin-bottom:60px;
-}
-.body-search-content .checkbox-container {
-  position:relative;
-  margin-bottom:8px;
-}
-.body-search-content .checkbox-container input[type="checkbox"] {
-    opacity: 0;
-}
-.body-search-content .checkbox-container label {
-  background:#ddd;
-  border:1px solid #999;
-  border-radius: 10px !important;
-  display:block;
-  font-weight:400;
-  padding:3px 10px;
-  text-align:center;
-  position:absolute;
-  left:20px;
-  top:0px;
-  width:80%;
-}
-.body-search-content .checkbox-container label:hover,
-.body-search-content .checkbox-container input:checked + label {
-  background:#090;
-  border-color:#090;
-  color:#fff;
-}
 
 
 // FEEDBACK CONTROLS
@@ -233,6 +226,20 @@ ul.tips-list li {
   text-overflow: ellipsis;
 }
 
-.body-search-content label {
-  font-weight: bold;
+.select-systems .checkbox-container label {
+  margin-right:0.25em;
 }
+.callout.secondary.systems-help .help-content {
+  font-size:0.815em;
+}
+.help-text {
+  color:#666;
+  font-size:0.775;
+  margin-left:8em;
+}
+.checkbox-container .help-content {
+  color:#777;
+  font-size:0.78em;
+  margin-top:-1.1em;
+}
+
