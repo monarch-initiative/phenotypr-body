@@ -128,11 +128,20 @@ export default {
         foundAllConditions
       } = state;
 
-      if (!selectedTerms.length) {
-        return Promise.resolve();
-      }
+      const sessionData = {
+        session_id: sessionId,
+        selected_systems: selectedSystems.map(system => system.id),
+        selected_terms: selectedTerms.map(term => {
+          return {
+            id: term.id,
+            label: term.label,
+            symptom: term.symptomText
+          };
+        }),
+        found_all: foundAllConditions
+      };
 
-      return dataLoggingService.saveSession(sessionId, selectedTerms, selectedSystems, foundAllConditions);
+      return dataLoggingService.saveSession(sessionData);
     }
   }
 };

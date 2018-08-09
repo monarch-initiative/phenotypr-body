@@ -1,31 +1,78 @@
-import uuid from 'uuid/v4';
 import dataLoggingService from '@/services/data-logging-service';
 
-import exampleTerms from '../../example-terms';
-
-const testId = uuid();
+import exampleSession from '../../example-session-data';
 
 describe('data logging service', () => {
-  test('it validates that a session ID is provided', () => {
-    const expectedMessage = 'A string session ID is required';
+  let testInput;
 
-    // Missing ID
-    expect(() => { dataLoggingService.saveSession(); }).toThrow(expectedMessage);
+  beforeEach(() => {
+    testInput = Object.assign({}, exampleSession);
+  });
+
+  test('it validates that a session ID is provided', () => {
+    const expectedMessage = 'session_id: A string session ID is required';
 
     // Falsy ID
-    expect(() => { dataLoggingService.saveSession(null); }).toThrow(expectedMessage);
-    expect(() => { dataLoggingService.saveSession(''); }).toThrow(expectedMessage);
+    testInput.session_id = null;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    testInput.session_id = '';
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
 
     // Wrong type
-    expect(() => { dataLoggingService.saveSession(42); }).toThrow(expectedMessage);
+    testInput.session_id = 42;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    // Missing ID
+    delete testInput.session_id;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
   });
 
   test('it validates that terms are provided', () => {
-    const expectedMessage = 'An array of HPO terms is required';
-    expect(() => { dataLoggingService.saveSession(testId); }).toThrow(expectedMessage);
-    expect(() => { dataLoggingService.saveSession(testId, null); }).toThrow(expectedMessage);
-    expect(() => { dataLoggingService.saveSession(testId, {}); }).toThrow(expectedMessage);
-    expect(() => { dataLoggingService.saveSession(testId, [{ nope: 'not a term' }]); }).toThrow(expectedMessage);
+    const expectedMessage = 'selected_terms: An array of HPO terms is required';
+
+    testInput.selected_terms = null;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    testInput.selected_terms = {};
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    testInput.selected_terms = [{ nope: 'not a term' }];
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    delete testInput.selected_terms;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+  });
+
+  test('it validates that body systems are provided', () => {
+    const expectedMessage = 'selected_systems: An array of HPO IDs is required';
+
+    testInput.selected_systems = null;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    testInput.selected_systems = {};
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    testInput.selected_systems = ['not an ID'];
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    delete testInput.selected_systems;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+  });
+
+  test('it validates that the feedback flag is provided', () => {
+    const expectedMessage = 'found_all: Should be true or false';
+
+    testInput.found_all = null;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    testInput.found_all = {};
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    testInput.found_all = 42;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    delete testInput.found_all;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
   });
 
   // TODO: when we have an endpoint to post to:
@@ -33,17 +80,9 @@ describe('data logging service', () => {
   // - update request body test
 
   test('it constructs the request body as expected', () => {
-    return dataLoggingService.saveSession(testId, exampleTerms)
+    return dataLoggingService.saveSession(testInput)
       .then(response => {
-        expect(response.session_id).toEqual(testId);
-        expect(Array.isArray(response.selected_terms)).toBe(true);
-
-        response.selected_terms.forEach((term, i) => {
-          const sourceTerm = exampleTerms[i];
-          expect(term.id).toEqual(sourceTerm.id);
-          expect(term.label).toEqual(sourceTerm.label);
-          expect(term.symptom).toEqual(sourceTerm.symptomText);
-        });
+        expect(response).toEqual(testInput);
       });
   });
 });

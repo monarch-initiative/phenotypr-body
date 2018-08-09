@@ -237,30 +237,13 @@ describe('vuex store', () => {
         });
     });
 
-    test('saveSessionData: does nothing when no terms are selected', () => {
-      const commit = jest.fn();
-
-      const mockState = {
-        sessionId: '00000000-0000-0000-0000-000000000000',
-        selectedTerms: [],
-        selectedSystems: [],
-        foundAllConditions: false
-      };
-
-      return actions.saveSessionData({ commit, state: mockState })
-        .then(() => {
-          expect(commit).not.toHaveBeenCalled();
-          expect(dataLoggingService.saveSession).not.toHaveBeenCalled();
-        });
-    });
-
     test('saveSessionData: when terms have been selected', () => {
       const commit = jest.fn();
 
       const mockState = {
         sessionId: '00000000-0000-0000-0000-000000000000',
         selectedTerms: exampleTerms.slice(0, 1),
-        selectedSystems: bodySystems.slice(0, 1).map(system => system.id),
+        selectedSystems: bodySystems.slice(0, 1),
         foundAllConditions: true
       };
 
@@ -271,9 +254,19 @@ describe('vuex store', () => {
           // No mutations should be committed
           expect(commit).not.toHaveBeenCalled();
 
-          const { sessionId, selectedTerms, selectedSystems, foundAllConditions } = mockState;
+          const expectedData = {
+            session_id: '00000000-0000-0000-0000-000000000000',
+            selected_systems: ['HP:0000708'],
+            selected_terms: [{
+              id: 'HP:0000316',
+              label: 'Hypertelorism',
+              symptom: 'Widely spaced eyes'
+            }],
+            found_all: true
+          };
+
           expect(dataLoggingService.saveSession)
-            .toHaveBeenCalledWith(sessionId, selectedTerms, selectedSystems, foundAllConditions);
+            .toHaveBeenCalledWith(expectedData);
         });
     });
   });
