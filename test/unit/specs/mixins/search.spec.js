@@ -1,6 +1,8 @@
 import Vue from 'vue';
-import { mount, createLocalVue } from '@vue/test-utils';
+import { config, mount, createLocalVue } from '@vue/test-utils';
 import SearchMixin from '@/mixins/search';
+
+config.logModifiedComponents = false;
 
 /**
  * Tests in this file use render functions because we're using Webpack, and the template

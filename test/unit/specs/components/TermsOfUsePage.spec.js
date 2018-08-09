@@ -1,5 +1,5 @@
 import Vuex from 'vuex';
-import { shallow, createLocalVue } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 
 import TermsOfUsePage from '@/components/TermsOfUsePage';
 
@@ -31,19 +31,19 @@ describe('TermsOfUsePage.vue', () => {
   });
 
   test('renders a form with terms of use accept and reject buttons', () => {
-    const wrapper = shallow(TermsOfUsePage, { localVue, store });
+    const wrapper = shallowMount(TermsOfUsePage, { localVue, store });
     expect(wrapper.find(acceptButtonSelector).exists()).toBe(true);
     expect(wrapper.find(declineLinkSelector).exists()).toBe(true);
   });
 
   test('clicking the accept button changes the route', () => {
-    const wrapper = shallow(TermsOfUsePage, { store, localVue, mocks });
+    const wrapper = shallowMount(TermsOfUsePage, { store, localVue, mocks });
     wrapper.find(acceptButtonSelector).trigger('click');
     expect(mocks.$router.push).toHaveBeenCalledWith('/body-systems');
   });
 
   test('clicking the accept button triggers acceptTermsOfUse', () => {
-    const wrapper = shallow(TermsOfUsePage, { store, localVue, mocks });
+    const wrapper = shallowMount(TermsOfUsePage, { store, localVue, mocks });
     wrapper.find(acceptButtonSelector).trigger('click');
     expect(mutations.acceptTermsOfUse).toHaveBeenCalledWith(state, undefined);
   });

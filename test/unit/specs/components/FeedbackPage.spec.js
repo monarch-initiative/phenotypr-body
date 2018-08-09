@@ -1,5 +1,5 @@
 import Vuex from 'vuex';
-import { shallow, createLocalVue } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 
 import FeedbackPage from '@/components/FeedbackPage';
 
@@ -26,13 +26,13 @@ describe('FeedbackPage.vue', () => {
   });
 
   test('renders a pair of radio buttons', () => {
-    const wrapper = shallow(FeedbackPage, { store, localVue });
+    const wrapper = shallowMount(FeedbackPage, { store, localVue });
     expect(wrapper.findAll('input[type=radio]').length).toEqual(2);
   });
 
   test('checked radio button matches state', () => {
     const checkedRadioSelector = 'input[type=radio]:checked';
-    const wrapper = shallow(FeedbackPage, { store, localVue });
+    const wrapper = shallowMount(FeedbackPage, { store, localVue });
 
     // nothing selected initially
     let checkedRadios = wrapper.findAll(checkedRadioSelector);
@@ -50,7 +50,7 @@ describe('FeedbackPage.vue', () => {
   });
 
   test('clicking radio buttons mutates the state', () => {
-    const wrapper = shallow(FeedbackPage, { store, localVue });
+    const wrapper = shallowMount(FeedbackPage, { store, localVue });
     const checkBoxes = wrapper.findAll('input[type=radio]');
 
     checkBoxes.at(0).trigger('click');
@@ -62,7 +62,7 @@ describe('FeedbackPage.vue', () => {
   });
 
   test('submit button is disabled until feedback is complete', () => {
-    const wrapper = shallow(FeedbackPage, { store, localVue });
+    const wrapper = shallowMount(FeedbackPage, { store, localVue });
     const forwardButton = wrapper.find('input[name=forwardButton]');
 
     // should be disabled if nothing has been chosen
@@ -83,7 +83,7 @@ describe('FeedbackPage.vue', () => {
       }
     };
 
-    const wrapper = shallow(FeedbackPage, { store, localVue, mocks });
+    const wrapper = shallowMount(FeedbackPage, { store, localVue, mocks });
 
     wrapper.find('input[name=backButton]').trigger('click');
     expect(mocks.$router.push).toHaveBeenCalledWith('/search');
@@ -97,7 +97,7 @@ describe('FeedbackPage.vue', () => {
     };
 
     state.foundAllConditions = true;
-    const wrapper = shallow(FeedbackPage, { store, localVue, mocks });
+    const wrapper = shallowMount(FeedbackPage, { store, localVue, mocks });
 
     wrapper.find('input[name=forwardButton]').trigger('click');
     expect(mocks.$router.push).toHaveBeenCalledWith('/results');
@@ -111,7 +111,7 @@ describe('FeedbackPage.vue', () => {
     };
 
     state.foundAllConditions = true;
-    const wrapper = shallow(FeedbackPage, { store, localVue, mocks });
+    const wrapper = shallowMount(FeedbackPage, { store, localVue, mocks });
 
     wrapper.find('input[name=forwardButton]').trigger('click');
     expect(actions.saveSelectedTerms).toHaveBeenCalled();
@@ -119,7 +119,7 @@ describe('FeedbackPage.vue', () => {
 
   describe('computed properties', () => {
     test('state mapping', () => {
-      const wrapper = shallow(FeedbackPage, { store, localVue });
+      const wrapper = shallowMount(FeedbackPage, { store, localVue });
       expect(wrapper.vm.foundAllConditions).toBeNull();
 
       state.foundAllConditions = true;
@@ -127,7 +127,7 @@ describe('FeedbackPage.vue', () => {
     });
 
     test('feedbackIncomplete', () => {
-      const wrapper = shallow(FeedbackPage, { store, localVue });
+      const wrapper = shallowMount(FeedbackPage, { store, localVue });
 
       // is true if foundAllConditions is null
       expect(wrapper.vm.feedbackIncomplete).toBe(true);
@@ -140,7 +140,7 @@ describe('FeedbackPage.vue', () => {
     });
 
     test('trueChecked', () => {
-      const wrapper = shallow(FeedbackPage, { store, localVue });
+      const wrapper = shallowMount(FeedbackPage, { store, localVue });
 
       // false when foundAllConditions is null or false
       expect(wrapper.vm.trueChecked).toBe(false);
@@ -153,7 +153,7 @@ describe('FeedbackPage.vue', () => {
     });
 
     test('falseChecked', () => {
-      const wrapper = shallow(FeedbackPage, { store, localVue });
+      const wrapper = shallowMount(FeedbackPage, { store, localVue });
 
       // false when foundAllConditions is null or true
       expect(wrapper.vm.falseChecked).toBe(false);

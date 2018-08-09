@@ -1,5 +1,5 @@
 import Vuex from 'vuex';
-import { shallow, createLocalVue } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 
 import SearchPage from '@/components/SearchPage';
 import SearchInput from '@/components/SearchInput';
@@ -36,24 +36,24 @@ describe('SearchPage.vue', () => {
 
   describe('rendering', () => {
     test('renders a form with a search input', () => {
-      const wrapper = shallow(SearchPage, { store, localVue });
+      const wrapper = shallowMount(SearchPage, { store, localVue });
       expect(wrapper.find('form').exists()).toBe(true);
       expect(wrapper.find(SearchInput).exists()).toBe(true);
     });
 
     test('renders diagnostic quality feedback (annotation sufficiency)', () => {
-      const wrapper = shallow(SearchPage, { store, localVue });
+      const wrapper = shallowMount(SearchPage, { store, localVue });
       expect(wrapper.find(AnnotationSufficiency).exists()).toBe(true);
     });
 
     test('renders a tag for each selected term', () => {
       const tagCount = store.state.selectedTerms.length;
-      const wrapper = shallow(SearchPage, { store, localVue });
+      const wrapper = shallowMount(SearchPage, { store, localVue });
       expect(wrapper.findAll('.symptom-tag').length).toEqual(tagCount);
     });
 
     test('the submit button is disabled when no terms are selected', () => {
-      const wrapper = shallow(SearchPage, { store, localVue });
+      const wrapper = shallowMount(SearchPage, { store, localVue });
       const forwardButton = wrapper.find('input[name=forwardButton]');
       expect(forwardButton.attributes().disabled).toBeUndefined();
 
@@ -64,7 +64,7 @@ describe('SearchPage.vue', () => {
 
   describe('actions', () => {
     test('selecting an item adds the term to the store', () => {
-      const wrapper = shallow(SearchPage, { store, localVue });
+      const wrapper = shallowMount(SearchPage, { store, localVue });
       const expectedItem = exampleTerms[2];
 
       wrapper.vm.handleSelection(expectedItem);
@@ -72,7 +72,7 @@ describe('SearchPage.vue', () => {
     });
 
     test('selecting an item recalculates the quality score', () => {
-      const wrapper = shallow(SearchPage, { store, localVue });
+      const wrapper = shallowMount(SearchPage, { store, localVue });
       const expectedItem = exampleTerms[2];
 
       wrapper.vm.handleSelection(expectedItem);
@@ -80,7 +80,7 @@ describe('SearchPage.vue', () => {
     });
 
     test('clicking the X on a tag removes it from the store', () => {
-      const wrapper = shallow(SearchPage, { store, localVue });
+      const wrapper = shallowMount(SearchPage, { store, localVue });
       const tagRemovalButtons = wrapper.findAll('.symptom-tag strong');
 
       tagRemovalButtons.at(1).trigger('click');
@@ -88,7 +88,7 @@ describe('SearchPage.vue', () => {
     });
 
     test('clicking the X on a tag recalculates the quality score', () => {
-      const wrapper = shallow(SearchPage, { store, localVue });
+      const wrapper = shallowMount(SearchPage, { store, localVue });
       const tagRemovalButtons = wrapper.findAll('.symptom-tag strong');
 
       tagRemovalButtons.at(1).trigger('click');
@@ -102,7 +102,7 @@ describe('SearchPage.vue', () => {
         }
       };
 
-      const wrapper = shallow(SearchPage, { store, localVue, mocks });
+      const wrapper = shallowMount(SearchPage, { store, localVue, mocks });
 
       wrapper.find('input[name=backButton]').trigger('click');
       expect(mocks.$router.push).toHaveBeenCalledWith('/body-systems');
@@ -115,7 +115,7 @@ describe('SearchPage.vue', () => {
         }
       };
 
-      const wrapper = shallow(SearchPage, { store, localVue, mocks });
+      const wrapper = shallowMount(SearchPage, { store, localVue, mocks });
 
       wrapper.find('input[name=forwardButton]').trigger('click');
       expect(mocks.$router.push).toHaveBeenCalledWith('/feedback');
@@ -124,7 +124,7 @@ describe('SearchPage.vue', () => {
 
   describe('computed properties', () => {
     test('state mapping', () => {
-      const wrapper = shallow(SearchPage, { store, localVue });
+      const wrapper = shallowMount(SearchPage, { store, localVue });
       expect(wrapper.vm.selections).toEqual(state.selectedTerms);
       expect(wrapper.vm.qualityScore).toEqual(state.qualityScore);
       expect(wrapper.vm.scoringError).toEqual(state.scoringError);
@@ -132,7 +132,7 @@ describe('SearchPage.vue', () => {
     });
 
     test('selectionIsEmpty', () => {
-      const wrapper = shallow(SearchPage, { store, localVue });
+      const wrapper = shallowMount(SearchPage, { store, localVue });
       expect(wrapper.vm.selectionIsEmpty).toBe(false);
 
       state.selectedTerms = [];
@@ -141,7 +141,7 @@ describe('SearchPage.vue', () => {
 
     test('selectedSystemIds', () => {
       const selectedSystem = state.selectedSystems[0];
-      const wrapper = shallow(SearchPage, { store, localVue });
+      const wrapper = shallowMount(SearchPage, { store, localVue });
       expect(wrapper.vm.selectedSystemIds).toEqual([selectedSystem.id]);
 
       state.selectedSystems = [];
