@@ -1,4 +1,4 @@
-import { shallow } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import SearchInput from '@/components/SearchInput';
 
 import bodySystems from '@/store/systems';
@@ -18,7 +18,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('should render a div with input and dropdown for suggestions', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     expect(wrapper.is('div')).toBe(true);
     expect(wrapper.contains('label')).toBe(true);
     expect(wrapper.contains('input')).toBe(true);
@@ -26,7 +26,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('should render a list of categories if enabled', () => {
-    const wrapper = shallow(SearchInput, {
+    const wrapper = shallowMount(SearchInput, {
       propsData: {
         enableCategoryList: true
       }
@@ -38,12 +38,12 @@ describe('SearchInput.vue', () => {
   });
 
   test('should focus the input', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     expect(wrapper.find('input').is(':focus')).toBe(true);
   });
 
   test('should render a list item for each search result', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
 
     // Suggestions are empty by default
     expect(wrapper.contains('li')).toBe(false);
@@ -54,7 +54,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('should render a default message if nothing is found', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     wrapper.setData({ suggestions: [], searchComplete: true });
 
     const listItems = wrapper.findAll('li');
@@ -64,7 +64,7 @@ describe('SearchInput.vue', () => {
 
   test('should render an error message if the search fails', () => {
     const error = new Error('halp');
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     wrapper.setData({ searchError: error, searchComplete: true });
 
     const listItems = wrapper.findAll('li');
@@ -73,7 +73,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('the down arrow key moves to the next suggestion', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     wrapper.setData({ suggestions: exampleTerms });
 
     let expectedSelection = exampleTerms[0];
@@ -98,7 +98,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('the up arrow key moves to the previous suggestion', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     wrapper.setData({ suggestions: exampleTerms, currentIndex: 1 });
 
     const input = wrapper.find('input');
@@ -119,7 +119,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('mousing over a suggestion moves to that suggestion', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     wrapper.setData({ suggestions: exampleTerms });
 
     const suggestions = wrapper.findAll('li');
@@ -136,7 +136,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('mousing out of a suggestion clears the selection', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     wrapper.setData({ suggestions: exampleTerms, currentIndex: 2 });
 
     const suggestions = wrapper.findAll('li');
@@ -153,7 +153,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('the enter key selects the current suggestion', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     wrapper.setData({ suggestions: exampleTerms, currentIndex: 2 });
 
     const expectedSelection = exampleTerms[2];
@@ -172,7 +172,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('hitting enter without a selection does not emit an item', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
 
     const input = wrapper.find('input');
     input.trigger('keydown.enter');
@@ -181,7 +181,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('clicking a suggestion selects it', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     wrapper.setData({ suggestions: exampleTerms });
 
     const expectedSelection = exampleTerms[2];
@@ -201,7 +201,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('clears the suggestions when input is cleared', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     wrapper.setData({
       queryText: 'wide eyes',
       suggestions: exampleTerms,
@@ -219,7 +219,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('clears the search when the icon is clicked', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     wrapper.setData({
       queryText: 'wide eyes',
       suggestions: exampleTerms,
@@ -236,7 +236,7 @@ describe('SearchInput.vue', () => {
   });
 
   test('clears the search on escape key', () => {
-    const wrapper = shallow(SearchInput);
+    const wrapper = shallowMount(SearchInput);
     wrapper.setData({
       queryText: 'wide eyes',
       suggestions: exampleTerms,
@@ -256,7 +256,7 @@ describe('SearchInput.vue', () => {
     const mockFilterCategories = ['HP:0000077'];
     mockService.search.mockReturnValue(Promise.resolve({ docs: exampleTerms }));
 
-    const wrapper = shallow(SearchInput, {
+    const wrapper = shallowMount(SearchInput, {
       mocks: {
         $searchService: mockService
       },
@@ -285,7 +285,7 @@ describe('SearchInput.vue', () => {
     const expectedFilter = [bodySystems[filterIndex].id];
     mockService.search.mockReturnValue(Promise.resolve({ docs: exampleTerms }));
 
-    const wrapper = shallow(SearchInput, {
+    const wrapper = shallowMount(SearchInput, {
       mocks: {
         $searchService: mockService
       },
@@ -315,7 +315,7 @@ describe('SearchInput.vue', () => {
 
   describe('computed properties', () => {
     test('hasSuggestions', () => {
-      const wrapper = shallow(SearchInput);
+      const wrapper = shallowMount(SearchInput);
       expect(wrapper.vm.hasSuggestions).toBe(false);
 
       wrapper.setData({ suggestions: exampleTerms });
@@ -323,7 +323,7 @@ describe('SearchInput.vue', () => {
     });
 
     test('showDefault', () => {
-      const wrapper = shallow(SearchInput);
+      const wrapper = shallowMount(SearchInput);
 
       // Starts off false because suggestions array is empty and no search yet
       expect(wrapper.vm.showDefault).toBe(false);
@@ -342,7 +342,7 @@ describe('SearchInput.vue', () => {
     });
 
     test('showError', () => {
-      const wrapper = shallow(SearchInput);
+      const wrapper = shallowMount(SearchInput);
 
       // Starts off false because error is falsy and no search yet
       expect(wrapper.vm.showError).toBe(false);
@@ -358,7 +358,7 @@ describe('SearchInput.vue', () => {
 
     test('searchCategories', () => {
       const mockFilterCategories = ['HP:0000077'];
-      const wrapper = shallow(SearchInput, {
+      const wrapper = shallowMount(SearchInput, {
         propsData: {
           filterCategories: mockFilterCategories
         }

@@ -1,5 +1,5 @@
 import Vuex from 'vuex';
-import { shallow, createLocalVue } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 
 import ResultsPage from '@/components/ResultsPage';
 import PdfRenderer from '@/utils/pdf-renderer';
@@ -28,7 +28,7 @@ describe('ResultsPage.vue', () => {
   });
 
   test('renders the selected terms', () => {
-    const wrapper = shallow(ResultsPage, { store, localVue });
+    const wrapper = shallowMount(ResultsPage, { store, localVue });
     expect(wrapper.findAll('tbody tr').length).toEqual(exampleTerms.length);
   });
 
@@ -43,7 +43,7 @@ describe('ResultsPage.vue', () => {
       };
     });
 
-    const wrapper = shallow(ResultsPage, { store, localVue });
+    const wrapper = shallowMount(ResultsPage, { store, localVue });
     wrapper.find('input.button').trigger('click');
 
     expect(PdfRenderer).toHaveBeenCalled();
