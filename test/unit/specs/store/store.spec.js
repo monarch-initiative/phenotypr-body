@@ -254,14 +254,17 @@ describe('vuex store', () => {
           // No mutations should be committed
           expect(commit).not.toHaveBeenCalled();
 
+          const expectedSystem = [bodySystems[0].id];
+          const expectedTerms = [{
+            id: 'HP:0000316',
+            label: 'Hypertelorism',
+            symptom: 'Widely spaced eyes'
+          }];
+
           const expectedData = {
             session_id: '00000000-0000-0000-0000-000000000000',
-            selected_systems: ['HP:0000708'],
-            selected_terms: [{
-              id: 'HP:0000316',
-              label: 'Hypertelorism',
-              symptom: 'Widely spaced eyes'
-            }],
+            selected_systems: expectedSystem,
+            selected_terms: expectedTerms,
             found_all: true
           };
 
