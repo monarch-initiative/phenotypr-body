@@ -1,6 +1,7 @@
 import { shallow } from '@vue/test-utils';
 import SearchInput from '@/components/SearchInput';
 
+import bodySystems from '@/store/systems';
 import exampleTerms from '../../example-terms';
 
 // Stub out debounce to work around Jest timer issue:
@@ -22,6 +23,18 @@ describe('SearchInput.vue', () => {
     expect(wrapper.contains('label')).toBe(true);
     expect(wrapper.contains('input')).toBe(true);
     expect(wrapper.contains('.search-results')).toBe(true);
+  });
+
+  test('should render a list of categories if enabled', () => {
+    const wrapper = shallow(SearchInput, {
+      propsData: {
+        enableCategoryList: true
+      }
+    });
+    expect(wrapper.contains('select')).toBe(true);
+
+    // has an option for each system / category, plus a prompt
+    expect(wrapper.findAll('select option').length).toEqual(bodySystems.length + 1);
   });
 
   test('should focus the input', () => {
@@ -60,11 +73,8 @@ describe('SearchInput.vue', () => {
   });
 
   test('the down arrow key moves to the next suggestion', () => {
-    const wrapper = shallow(SearchInput, {
-      data: {
-        suggestions: exampleTerms
-      }
-    });
+    const wrapper = shallow(SearchInput);
+    wrapper.setData({ suggestions: exampleTerms });
 
     let expectedSelection = exampleTerms[0];
     let input = wrapper.find('input');
@@ -88,12 +98,8 @@ describe('SearchInput.vue', () => {
   });
 
   test('the up arrow key moves to the previous suggestion', () => {
-    const wrapper = shallow(SearchInput, {
-      data: {
-        suggestions: exampleTerms,
-        currentIndex: 1
-      }
-    });
+    const wrapper = shallow(SearchInput);
+    wrapper.setData({ suggestions: exampleTerms, currentIndex: 1 });
 
     const input = wrapper.find('input');
     let expectedSelection = exampleTerms[1];
@@ -113,18 +119,15 @@ describe('SearchInput.vue', () => {
   });
 
   test('mousing over a suggestion moves to that suggestion', () => {
-    const wrapper = shallow(SearchInput, {
-      data: {
-        suggestions: exampleTerms
-      }
-    });
+    const wrapper = shallow(SearchInput);
+    wrapper.setData({ suggestions: exampleTerms });
 
     const suggestions = wrapper.findAll('li');
 
     // Nothing should be highlighted
     expect(wrapper.findAll('li.highlighted').length).toEqual(0);
 
-    const selectedItem = suggestions.wrappers[3];
+    const selectedItem = suggestions.at(3);
     selectedItem.trigger('mouseover');
 
     // Item should now be the current item
@@ -133,15 +136,11 @@ describe('SearchInput.vue', () => {
   });
 
   test('mousing out of a suggestion clears the selection', () => {
-    const wrapper = shallow(SearchInput, {
-      data: {
-        suggestions: exampleTerms,
-        currentIndex: 2
-      }
-    });
+    const wrapper = shallow(SearchInput);
+    wrapper.setData({ suggestions: exampleTerms, currentIndex: 2 });
 
     const suggestions = wrapper.findAll('li');
-    const selectedItem = suggestions.wrappers[2];
+    const selectedItem = suggestions.at(2);
 
     // Item should be highlighted
     expect(selectedItem.classes()).toContain('highlighted');
@@ -154,12 +153,8 @@ describe('SearchInput.vue', () => {
   });
 
   test('the enter key selects the current suggestion', () => {
-    const wrapper = shallow(SearchInput, {
-      data: {
-        suggestions: exampleTerms,
-        currentIndex: 2
-      }
-    });
+    const wrapper = shallow(SearchInput);
+    wrapper.setData({ suggestions: exampleTerms, currentIndex: 2 });
 
     const expectedSelection = exampleTerms[2];
     const input = wrapper.find('input');
@@ -186,11 +181,8 @@ describe('SearchInput.vue', () => {
   });
 
   test('clicking a suggestion selects it', () => {
-    const wrapper = shallow(SearchInput, {
-      data: {
-        suggestions: exampleTerms
-      }
-    });
+    const wrapper = shallow(SearchInput);
+    wrapper.setData({ suggestions: exampleTerms });
 
     const expectedSelection = exampleTerms[2];
     const suggestions = wrapper.findAll('li');
@@ -209,12 +201,11 @@ describe('SearchInput.vue', () => {
   });
 
   test('clears the suggestions when input is cleared', () => {
-    const wrapper = shallow(SearchInput, {
-      data: {
-        queryText: 'wide eyes',
-        suggestions: exampleTerms,
-        currentIndex: 1
-      }
+    const wrapper = shallow(SearchInput);
+    wrapper.setData({
+      queryText: 'wide eyes',
+      suggestions: exampleTerms,
+      currentIndex: 1
     });
 
     const input = wrapper.find('input');
@@ -228,12 +219,11 @@ describe('SearchInput.vue', () => {
   });
 
   test('clears the search when the icon is clicked', () => {
-    const wrapper = shallow(SearchInput, {
-      data: {
-        queryText: 'wide eyes',
-        suggestions: exampleTerms,
-        currentIndex: 1
-      }
+    const wrapper = shallow(SearchInput);
+    wrapper.setData({
+      queryText: 'wide eyes',
+      suggestions: exampleTerms,
+      currentIndex: 1
     });
 
     const clearIcon = wrapper.find('span.clear-search');
@@ -246,12 +236,11 @@ describe('SearchInput.vue', () => {
   });
 
   test('clears the search on escape key', () => {
-    const wrapper = shallow(SearchInput, {
-      data: {
-        queryText: 'wide eyes',
-        suggestions: exampleTerms,
-        currentIndex: 1
-      }
+    const wrapper = shallow(SearchInput);
+    wrapper.setData({
+      queryText: 'wide eyes',
+      suggestions: exampleTerms,
+      currentIndex: 1
     });
 
     const input = wrapper.find('input');
@@ -263,8 +252,8 @@ describe('SearchInput.vue', () => {
     expect(state.currentIndex).toEqual(null);
   });
 
-  test('calls the search service on input', (done) => {
-    const mockFilterTerms = ['HP:0000077'];
+  test('filtered search: calls the search service on input', (done) => {
+    const mockFilterCategories = ['HP:0000077'];
     mockService.search.mockReturnValue(Promise.resolve({ docs: exampleTerms }));
 
     const wrapper = shallow(SearchInput, {
@@ -272,7 +261,7 @@ describe('SearchInput.vue', () => {
         $searchService: mockService
       },
       propsData: {
-        filterTerms: mockFilterTerms
+        filterCategories: mockFilterCategories
       }
     });
 
@@ -285,7 +274,40 @@ describe('SearchInput.vue', () => {
 
     wrapper.vm.$nextTick(() => {
       // search text and filter terms should be passed to search service
-      expect(mockService.search).toHaveBeenCalledWith('wide-set eyes', mockFilterTerms);
+      expect(mockService.search).toHaveBeenCalledWith('wide-set eyes', mockFilterCategories);
+      expect(wrapper.vm.$data.suggestions).toEqual(exampleTerms);
+      done();
+    });
+  });
+
+  test('optional filter search: calls the search service on input', (done) => {
+    const filterIndex = 8;
+    const expectedFilter = [bodySystems[filterIndex].id];
+    mockService.search.mockReturnValue(Promise.resolve({ docs: exampleTerms }));
+
+    const wrapper = shallow(SearchInput, {
+      mocks: {
+        $searchService: mockService
+      },
+      propsData: {
+        enableCategoryList: true
+      }
+    });
+
+    // Suggestions should start out empty
+    expect(wrapper.vm.$data.suggestions).toEqual([]);
+
+    // Select the category to filter by
+    wrapper.findAll('select option').at(filterIndex + 1).setSelected();
+
+    // Enter search terms
+    const input = wrapper.find('input');
+    input.element.value = 'wide-set eyes';
+    input.trigger('input');
+
+    wrapper.vm.$nextTick(() => {
+      // search text and filter terms should be passed to search service
+      expect(mockService.search).toHaveBeenCalledWith('wide-set eyes', expectedFilter);
       expect(wrapper.vm.$data.suggestions).toEqual(exampleTerms);
       done();
     });
@@ -332,6 +354,29 @@ describe('SearchInput.vue', () => {
       // Should be true when search is complete and error is truthy
       wrapper.setData({ searchComplete: true, searchError: new Error('bang') });
       expect(wrapper.vm.showError).toBe(true);
+    });
+
+    test('searchCategories', () => {
+      const mockFilterCategories = ['HP:0000077'];
+      const wrapper = shallow(SearchInput, {
+        propsData: {
+          filterCategories: mockFilterCategories
+        }
+      });
+
+      // uses filterCategories if enableCategoryList is false
+      expect(wrapper.vm.searchCategories).toEqual(mockFilterCategories);
+
+      // uses the selected category if enableCategoryList is true
+      wrapper.setProps({ enableCategoryList: true });
+
+      // should be unconstrained with nothing selected
+      expect(wrapper.vm.searchCategories).toEqual([]);
+
+      // should match the selected item if an item is selected
+      const selectedIndex = 4;
+      wrapper.findAll('select option').at(selectedIndex).setSelected();
+      expect(wrapper.vm.searchCategories).toEqual([bodySystems[selectedIndex - 1].id]);
     });
   });
 });
