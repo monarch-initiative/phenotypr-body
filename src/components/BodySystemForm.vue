@@ -4,7 +4,7 @@
 
     <div class="grid-x grid-margin-x terms-subheading">
       <div class="cell large-12">
-        <h2>Choose the Body Systems of interest</h2>
+        <h2>Please choose the categories of symptoms that apply to you</h2>
       </div>
     </div>
 
@@ -22,7 +22,7 @@
     <div class="grid-x grid-margin-x button-container terms-filter">
       <div class="cell large-12 text-left">
         <input type="button"
-          value="Done adding abnormalities"
+          value="Done adding categories"
           class="button rounded"
           :disabled="selectionIsEmpty"
           @click="goToSearch">
