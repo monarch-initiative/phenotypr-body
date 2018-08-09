@@ -1,48 +1,67 @@
 <template>
   <div class="autocomplete">
     <label class="lead">What symptoms are you experiencing?</label>
-    <input type="search"
-           v-model.trim="queryText"
-           @input="refreshSuggestions"
-           @keydown.enter="enter"
-           @keydown.down="down"
-           @keydown.up="up"
-           @keydown.esc="resetSearch"
-           placeholder="Search for a symptom"
-           ref="input"
-    >
-    <span class="clear-search" :class="{ 'is-visible': searchComplete }" @click="resetSearch">X</span>
-    <div ref="dropdown" class="search-results" :class="{ 'is-open': searchComplete }" data-dropdown>
-      <ul ref="suggestionList" v-if="hasSuggestions">
-        <li v-for="(suggestion, index) in suggestions"
-            :key="suggestion.id"
-            :class="{ highlighted: isActive(index) }"
-            @click="suggestionClick(index)"
-            @mouseover="mouseOver(index)"
-            @mouseout="mouseOut()"
-            v-html="suggestion.symptomHtml"
-        >
-        </li>
-      </ul>
-      <ul v-else>
-        <li v-if="showDefault">Nothing found.</li>
-        <li v-if="showError">An error occurred. Please try again.</li>
-      </ul>
+    <div class="input-group">
+      <select class="input-group-field category-list" v-if="enableCategoryList" v-model="selectedCategory">
+        <option value="">Any category</option>
+        <option v-for="system in bodySystems" :key="system.id" :value="system.id">
+          {{ system.label }}
+        </option>
+      </select>
+      <input type="search"
+             class="input-group-field search-input"
+             v-model.trim="queryText"
+             @input="refreshSuggestions"
+             @keydown.enter="enter"
+             @keydown.down="down"
+             @keydown.up="up"
+             @keydown.esc="resetSearch"
+             placeholder="Search for a symptom"
+             ref="input"
+      >
+      <span class="clear-search" :class="{ 'is-visible': searchComplete }" @click="resetSearch">X</span>
+      <div ref="dropdown" class="search-results" :class="{ 'is-open': searchComplete }" data-dropdown>
+        <ul ref="suggestionList" v-if="hasSuggestions">
+          <li v-for="(suggestion, index) in suggestions"
+              :key="suggestion.id"
+              :class="{ highlighted: isActive(index) }"
+              @click="suggestionClick(index)"
+              @mouseover="mouseOver(index)"
+              @mouseout="mouseOut()"
+              v-html="suggestion.symptomHtml"
+          >
+          </li>
+        </ul>
+        <ul v-else>
+          <li v-if="showDefault">Nothing found.</li>
+          <li v-if="showError">An error occurred. Please try again.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import debounce from 'lodash/debounce';
+import bodySystems from '@/store/systems';
 
 export default {
   name: 'SearchInput',
 
   props: {
     /**
-     * Array of HPO IDs. Used to restrict search results to related terms.
+     * Flag to enable list used to filter search by category.
      */
-    filterTerms: {
+    enableCategoryList: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
+     * Array of HPO IDs. Used to restrict search results to related terms. Will only be
+     * used if `enableCategoryList` is false.
+     */
+    filterCategories: {
       type: Array,
       default() {
         return [];
@@ -56,7 +75,9 @@ export default {
       suggestions: [],
       currentIndex: null,
       searchComplete: false,
-      searchError: null
+      searchError: null,
+      bodySystems,
+      selectedCategory: ''
     };
   },
 
@@ -94,7 +115,7 @@ export default {
       if (this.queryText) {
         this.suggestions = [];
         this.searchComplete = false;
-        this.$searchService.search(this.queryText, this.filterTerms)
+        this.$searchService.search(this.queryText, this.searchCategories)
           .then(response => {
             this.suggestions = response.docs;
             this.searchComplete = true;
@@ -214,6 +235,15 @@ export default {
      */
     showError() {
       return this.searchComplete && Boolean(this.searchError);
+    },
+
+    searchCategories() {
+      const { enableCategoryList, filterCategories, selectedCategory } = this;
+      if (enableCategoryList) {
+        return selectedCategory ? [selectedCategory] : [];
+      } else {
+        return filterCategories;
+      }
     }
   }
 };
@@ -288,5 +318,13 @@ export default {
 em.hilite {
   /* font-style: normal; */
   font-weight: bold;
+}
+
+.input-group-field.category-list {
+  flex-grow: 1;
+}
+
+.input-group-field.search-input {
+  flex-grow: 3;
 }
 </style>

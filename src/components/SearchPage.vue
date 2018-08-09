@@ -6,7 +6,7 @@
     <form @submit.prevent>
       <div class="grid-x grid-margin-x">
         <div class="cell medium-8 large-6">
-          <SearchInput :filterTerms="selectedSystemIds" @itemSelected="handleSelection"/>
+          <SearchInput :filterCategories="selectedSystemIds" @itemSelected="handleSelection"/>
 
           <!-- annotation sufficiency information -->
           <div class="quality-score">
