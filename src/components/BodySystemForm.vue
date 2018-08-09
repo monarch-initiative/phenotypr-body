@@ -4,24 +4,25 @@
 
     <div class="grid-x grid-margin-x terms-subheading">
       <div class="cell large-12">
-        <h2>Choose the Abnormality of concern</h2>
+        <h2>Please choose the categories of symptoms that apply to you</h2>
       </div>
     </div>
 
-    <div class="grid-x grid-margin-x">
-      <div class="cell small-4 checkbox-container" v-for="system in bodySystems" :key="system.id">
+    <div class="grid-y grid-margin-x">
+      <div class="cell small-4 truncate" v-for="system in bodySystems" :key="system.id">
         <input type="checkbox"
           :id="system.id"
           :value="system.id"
           @change="toggleSystem"
           :checked="isSystemSelected(system.id)">
-        <label :for="system.id">{{system.label}}</label>
+        <label :for="system.id">{{system.label}}:</label>
+        <span class="help-text truncate">{{system.helpText}}</span>
       </div>
     </div>
     <div class="grid-x grid-margin-x button-container terms-filter">
-      <div class="cell large-12 text-right">
+      <div class="cell large-12 text-left">
         <input type="button"
-          value="Done adding abnormalities"
+          value="Done adding categories"
           class="button rounded"
           :disabled="selectionIsEmpty"
           @click="goToSearch">
