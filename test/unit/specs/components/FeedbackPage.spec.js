@@ -76,19 +76,6 @@ describe('FeedbackPage.vue', () => {
     expect(forwardButton.attributes().disabled).toBeFalsy();
   });
 
-  test('clicking the back button transitions to the search route', () => {
-    const mocks = {
-      $router: {
-        push: jest.fn()
-      }
-    };
-
-    const wrapper = shallowMount(FeedbackPage, { store, localVue, mocks });
-
-    wrapper.find('input[name=backButton]').trigger('click');
-    expect(mocks.$router.push).toHaveBeenCalledWith('/search');
-  });
-
   test('clicking the forward button transitions to the results route', () => {
     const mocks = {
       $router: {

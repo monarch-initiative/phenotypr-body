@@ -95,19 +95,6 @@ describe('SearchPage.vue', () => {
       expect(actions.calculateQualityScore).toHaveBeenCalled();
     });
 
-    test('clicking the back button transitions to the body systems route', () => {
-      const mocks = {
-        $router: {
-          push: jest.fn()
-        }
-      };
-
-      const wrapper = shallowMount(SearchPage, { store, localVue, mocks });
-
-      wrapper.find('input[name=backButton]').trigger('click');
-      expect(mocks.$router.push).toHaveBeenCalledWith('/body-systems');
-    });
-
     test('clicking the submit button transitions to the results route', () => {
       const mocks = {
         $router: {
