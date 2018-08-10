@@ -16,7 +16,7 @@ export default {
    * @see example-score.js for an example response
    */
   score(terms) {
-    if (!terms || !Array.isArray(terms) || !terms.every(isValidTerm)) {
+    if (!Array.isArray(terms) || !terms.every(isValidTerm)) {
       throw new Error('An array of HPO terms is required');
     }
 
