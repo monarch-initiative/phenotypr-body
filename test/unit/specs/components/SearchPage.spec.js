@@ -95,7 +95,7 @@ describe('SearchPage.vue', () => {
       expect(actions.calculateQualityScore).toHaveBeenCalled();
     });
 
-    test('clicking the submit button transitions to the results route', () => {
+    test('clicking the submit button transitions to the feedback route', () => {
       const mocks = {
         $router: {
           push: jest.fn()
@@ -103,9 +103,26 @@ describe('SearchPage.vue', () => {
       };
 
       const wrapper = shallowMount(SearchPage, { store, localVue, mocks });
+      const forwardButton = wrapper.find('input[name=forwardButton]');
 
-      wrapper.find('input[name=forwardButton]').trigger('click');
+      forwardButton.trigger('click');
       expect(mocks.$router.push).toHaveBeenCalledWith('/feedback');
+    });
+
+    test('clicking the submit button transitions to the feedback route with props', () => {
+      const mocks = {
+        $router: {
+          push: jest.fn()
+        }
+      };
+
+      const wrapper = shallowMount(SearchPage, { store, localVue, mocks });
+      const forwardButton = wrapper.find('input[name=forwardButton]');
+      const mockRoute = { path: '/feedback', query: { finishSearch: true } };
+
+      wrapper.setProps({ enableFilter: true });
+      forwardButton.trigger('click');
+      expect(mocks.$router.push).toHaveBeenCalledWith(mockRoute);
     });
   });
 
@@ -133,6 +150,13 @@ describe('SearchPage.vue', () => {
 
       state.selectedSystems = [];
       expect(wrapper.vm.selectedSystemIds).toEqual([]);
+    });
+
+    test('categoriesEnabled', () => {
+      const wrapper = shallowMount(SearchPage, { store, localVue });
+      expect(wrapper.vm.categoriesEnabled).toBe(false);
+      wrapper.setProps({ enableFilter: true });
+      expect(wrapper.vm.categoriesEnabled).toBe(true);
     });
   });
 });

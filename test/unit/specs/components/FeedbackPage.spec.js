@@ -82,12 +82,31 @@ describe('FeedbackPage.vue', () => {
         push: jest.fn()
       }
     };
+    const wrapper = shallowMount(FeedbackPage, { store, localVue, mocks });
+    const forwardButton = wrapper.find('input[name=forwardButton]');
 
     state.foundAllConditions = true;
+    forwardButton.trigger('click');
+    expect(mocks.$router.push).toHaveBeenCalledWith('/results');
+
+    state.foundAllConditions = false;
+    wrapper.setProps({ finishSearch: true });
+    forwardButton.trigger('click');
+    expect(mocks.$router.push).toHaveBeenCalledWith('/results');
+  });
+
+  test('clicking the forward button transitions to the search route if not done searching', () => {
+    const mocks = {
+      $router: {
+        push: jest.fn()
+      }
+    };
+    const mockRoute = { path: '/search', query: { enableFilter: true } };
     const wrapper = shallowMount(FeedbackPage, { store, localVue, mocks });
 
+    state.foundAllConditions = false;
     wrapper.find('input[name=forwardButton]').trigger('click');
-    expect(mocks.$router.push).toHaveBeenCalledWith('/results');
+    expect(mocks.$router.push).toHaveBeenCalledWith(mockRoute);
   });
 
   test('clicking the forward button saves the session', () => {
@@ -150,6 +169,20 @@ describe('FeedbackPage.vue', () => {
       // true when foundAllConditions is false
       state.foundAllConditions = false;
       expect(wrapper.vm.falseChecked).toBe(true);
+    });
+
+    test('doneSearching', () => {
+      const wrapper = shallowMount(FeedbackPage, { store, localVue });
+      expect(wrapper.props().finishSearch).toBe(false);
+      expect(wrapper.vm.doneSearching).toBe(false);
+
+      state.foundAllConditions = true;
+      expect(wrapper.vm.doneSearching).toBe(true);
+
+      state.foundAllConditions = false;
+      wrapper.setProps({ finishSearch: true });
+      expect(wrapper.props().finishSearch).toBe(true);
+      expect(wrapper.vm.doneSearching).toBe(true);
     });
   });
 });
