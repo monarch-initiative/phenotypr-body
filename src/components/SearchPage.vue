@@ -6,7 +6,7 @@
     <form @submit.prevent>
       <div class="grid-x grid-margin-x">
         <div class="cell medium-8 large-6">
-          <SearchInput :filterCategories="selectedSystemIds" @itemSelected="handleSelection" :enableCategoryList="categoriesEnabled"/>
+          <SearchInput :filterCategories="selectedSystemIds" @itemSelected="handleSelection" :enableCategoryList="enableFilter"/>
 
           <!-- annotation sufficiency information -->
           <div class="quality-score">
@@ -58,7 +58,8 @@ export default {
 
   methods: {
     handleSelection(item) {
-      this.$store.commit('addTerm', item);
+      const { enableFilter } = this;
+      this.$store.commit('addTerm', { term: item, filterEnabled: enableFilter });
       this.$store.dispatch('calculateQualityScore');
     },
 
@@ -70,7 +71,7 @@ export default {
     goForward() {
       const { enableFilter } = this;
       if (enableFilter) {
-        this.$router.push({path: '/feedback', query: {finishSearch: true}});
+        this.$router.push({ path: '/feedback', query: { finishSearch: true } });
       } else {
         this.$router.push('/feedback');
       }
@@ -93,11 +94,6 @@ export default {
     selectedSystemIds() {
       const { selectedSystems } = this;
       return selectedSystems.map(system => system.id);
-    },
-
-    categoriesEnabled() {
-      const {enableFilter} = this;
-      return enableFilter;
     }
   }
 };

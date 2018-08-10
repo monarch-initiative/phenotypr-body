@@ -47,15 +47,15 @@ describe('vuex store', () => {
     test('addTerm adds the term to the end of the array', () => {
       let term = exampleTerms[1];
       const mockState = {
-        selectedTerms: []
+        selectedTerms: [],
+        constrainedTerms: []
       };
 
-      mutations.addTerm(mockState, term);
-      expect(mockState.selectedTerms.length).toEqual(1);
-      expect(mockState.selectedTerms).toContain(term);
+      mutations.addTerm(mockState, { term });
+      expect(mockState.selectedTerms).toEqual([term]);
 
       term = exampleTerms[3];
-      mutations.addTerm(mockState, term);
+      mutations.addTerm(mockState, { term });
       expect(mockState.selectedTerms.length).toEqual(2);
       expect(mockState.selectedTerms[1]).toEqual(term);
     });
@@ -63,17 +63,39 @@ describe('vuex store', () => {
     test('addTerm prevents adding duplicate terms', () => {
       const term = exampleTerms[1];
       const mockState = {
-        selectedTerms: [term]
+        selectedTerms: [term],
+        constrainedTerms: [term]
       };
 
-      mutations.addTerm(mockState, term);
+      mutations.addTerm(mockState, { term });
       expect(mockState.selectedTerms.length).toEqual(1);
+    });
+
+    test('addTerm tracks terms added in each mode', () => {
+      const [ term1, term2 ] = exampleTerms;
+      const mockState = {
+        selectedTerms: [],
+        constrainedTerms: [],
+        unconstrainedTerms: []
+      };
+
+      mutations.addTerm(mockState, { term: term1, filterEnabled: false });
+      expect(mockState.selectedTerms).toEqual([term1]);
+      expect(mockState.constrainedTerms).toEqual([term1]);
+      expect(mockState.unconstrainedTerms).toEqual([]);
+
+      mutations.addTerm(mockState, { term: term2, filterEnabled: true });
+      expect(mockState.selectedTerms).toEqual([term1, term2]);
+      expect(mockState.constrainedTerms).toEqual([term1]);
+      expect(mockState.unconstrainedTerms).toEqual([term2]);
     });
 
     test('removeTermAtIndex removes the term from the array', () => {
       const expectedItem = exampleTerms[2];
       const mockState = {
-        selectedTerms: [...exampleTerms]
+        selectedTerms: [...exampleTerms],
+        constrainedTerms: [...exampleTerms],
+        unconstrainedTerms: []
       };
 
       expect(mockState.selectedTerms).toContain(expectedItem);
@@ -81,6 +103,30 @@ describe('vuex store', () => {
       mutations.removeTermAtIndex(mockState, 2);
       expect(mockState.selectedTerms.length).toEqual(exampleTerms.length - 1);
       expect(mockState.selectedTerms).not.toContain(expectedItem);
+    });
+
+    test('removeTermAtIndex fixes up mode arrays', () => {
+      const removedItem = exampleTerms[2];
+      const otherItem = exampleTerms[3];
+      const mockState = {
+        selectedTerms: [removedItem, otherItem],
+        constrainedTerms: [removedItem],
+        unconstrainedTerms: [otherItem]
+      };
+
+      mutations.removeTermAtIndex(mockState, 0);
+      expect(mockState.selectedTerms).toEqual([otherItem]);
+      expect(mockState.constrainedTerms).toEqual([]);
+      expect(mockState.unconstrainedTerms).toEqual([otherItem]);
+
+      mockState.selectedTerms = [otherItem, removedItem];
+      mockState.constrainedTerms = [otherItem];
+      mockState.unconstrainedTerms = [removedItem];
+
+      mutations.removeTermAtIndex(mockState, 1);
+      expect(mockState.selectedTerms).toEqual([otherItem]);
+      expect(mockState.constrainedTerms).toEqual([otherItem]);
+      expect(mockState.unconstrainedTerms).toEqual([]);
     });
 
     test('acceptTermsOfUse mutates termsOfUseAccepted', () => {
@@ -243,6 +289,8 @@ describe('vuex store', () => {
       const mockState = {
         sessionId: '00000000-0000-0000-0000-000000000000',
         selectedTerms: exampleTerms.slice(0, 1),
+        constrainedTerms: exampleTerms.slice(0, 1),
+        unconstrainedTerms: [],
         selectedSystems: bodySystems.slice(0, 1),
         foundAllConditions: true
       };
@@ -265,6 +313,8 @@ describe('vuex store', () => {
             session_id: '00000000-0000-0000-0000-000000000000',
             selected_systems: expectedSystem,
             selected_terms: expectedTerms,
+            constrained_terms: expectedTerms,
+            unconstrained_terms: [],
             found_all: true
           };
 

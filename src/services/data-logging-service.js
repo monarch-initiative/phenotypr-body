@@ -21,13 +21,14 @@ export default {
   /**
    * Verify that input looks like an array of HPO terms with symptoms.
    *
-   * @param {Any} terms
+   * @param {String} propName - the name of the input object property being checked.
+   * @param {Any} terms - the value of the input object property being checked.
    */
-  _validateTerms(terms) {
+  _validateTerms(propName, terms) {
     const valid = Array.isArray(terms) && terms.every(isValidTerm) &&
       terms.every(hasSymptom);
     if (!valid) {
-      throw new Error('selected_terms: An array of HPO terms is required');
+      throw new Error(`${propName}: An array of HPO terms is required`);
     }
   },
 
@@ -61,11 +62,14 @@ export default {
    * @param {Object} data - the input object.
    */
   _validateInput(data) {
-    const { session_id, selected_terms, selected_systems, found_all } = data;
+    const { session_id, selected_systems, found_all } = data;
+    const termArrays = ['selected_terms', 'constrained_terms', 'unconstrained_terms'];
+
     this._validateSessionId(session_id);
-    this._validateTerms(selected_terms);
     this._validateSystems(selected_systems);
     this._validateFoundAllFlag(found_all);
+
+    termArrays.forEach(arrayName => this._validateTerms(arrayName, data[arrayName]));
   },
 
   /**

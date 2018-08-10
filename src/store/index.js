@@ -3,12 +3,22 @@ import uuid from 'uuid/v4';
 import scoringService from '@/services/scoring-service';
 import dataLoggingService from '@/services/data-logging-service';
 
+import { convertTerm } from '@/utils/persistence-utils';
+
 const initialState = {
   sessionId: uuid(),
-  selectedSystems: [],
-  selectedTerms: [],
-  foundAllConditions: null,
   termsOfUseAccepted: false,
+  // categories / body systems selected by the user
+  selectedSystems: [],
+  // all terms selected by the user
+  selectedTerms: [],
+  // terms selected during initial search constrained by selected systems
+  constrainedTerms: [],
+  // terms selected during second search with optional filtering
+  unconstrainedTerms: [],
+  // whether the user found all the conditions they were searching for
+  foundAllConditions: null,
+  // annotation sufficiency state
   qualityScore: 0,
   scoringError: null
 };
@@ -40,12 +50,15 @@ export default {
     /**
      * Add an HPO term to the selected terms if it is not already present.
      * @param {Object} state - the current state.
-     * @param {Object} term - an HPO term from Solr.
+     * @param {Object{term: Object, filterEnabled: Boolean}} payload - an object containing
+     *   the term to add and whether user filtering is enabled.
      */
-    addTerm(state, term) {
-      const found = state.selectedTerms.find(current => current.id === term.id);
+    addTerm(state, { term, filterEnabled = false }) {
+      const { selectedTerms, constrainedTerms, unconstrainedTerms } = state;
+      const found = selectedTerms.find(current => current.id === term.id);
       if (!found) {
-        state.selectedTerms.push(term);
+        selectedTerms.push(term);
+        filterEnabled ? unconstrainedTerms.push(term) : constrainedTerms.push(term);
       }
     },
 
@@ -55,7 +68,10 @@ export default {
      * @param {Number} index - the index of the term to remove.
      */
     removeTermAtIndex(state, index) {
-      state.selectedTerms.splice(index, 1);
+      const [ removed ] = state.selectedTerms.splice(index, 1);
+      ['constrainedTerms', 'unconstrainedTerms'].forEach(termArray => {
+        state[termArray] = state[termArray].filter(term => term.id !== removed.id);
+      });
     },
 
     /**
@@ -123,21 +139,19 @@ export default {
     saveSessionData({ commit, state }) {
       const {
         sessionId,
-        selectedTerms,
         selectedSystems,
+        selectedTerms,
+        constrainedTerms,
+        unconstrainedTerms,
         foundAllConditions
       } = state;
 
       const sessionData = {
         session_id: sessionId,
         selected_systems: selectedSystems.map(system => system.id),
-        selected_terms: selectedTerms.map(term => {
-          return {
-            id: term.id,
-            label: term.label,
-            symptom: term.symptomText
-          };
-        }),
+        selected_terms: selectedTerms.map(convertTerm),
+        constrained_terms: constrainedTerms.map(convertTerm),
+        unconstrained_terms: unconstrainedTerms.map(convertTerm),
         found_all: foundAllConditions
       };
 

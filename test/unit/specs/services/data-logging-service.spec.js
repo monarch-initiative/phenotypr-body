@@ -27,7 +27,7 @@ describe('data logging service', () => {
     expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
   });
 
-  test('it validates that terms are provided', () => {
+  test('it validates that a combined array of selected terms is provided', () => {
     const expectedMessage = 'selected_terms: An array of HPO terms is required';
 
     testInput.selected_terms = null;
@@ -40,6 +40,42 @@ describe('data logging service', () => {
     expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
 
     delete testInput.selected_terms;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+  });
+
+  test('it validates that constrained mode terms are provided', () => {
+    const expectedMessage = 'constrained_terms: An array of HPO terms is required';
+
+    testInput.constrained_terms = null;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    testInput.constrained_terms = {};
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    testInput.constrained_terms = [{ nope: 'not a term' }];
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    delete testInput.constrained_terms;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+  });
+
+  test('it validates that unconstrained mode terms are provided', () => {
+    const expectedMessage = 'unconstrained_terms: An array of HPO terms is required';
+
+    // empty array should be accepted
+    testInput.unconstrained_terms = [];
+    expect(() => { dataLoggingService.saveSession(testInput); }).not.toThrow();
+
+    testInput.unconstrained_terms = null;
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    testInput.unconstrained_terms = {};
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    testInput.unconstrained_terms = [{ nope: 'not a term' }];
+    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+
+    delete testInput.unconstrained_terms;
     expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
   });
 
