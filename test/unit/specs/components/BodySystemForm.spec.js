@@ -1,5 +1,5 @@
 import Vuex from 'vuex';
-import {createLocalVue, shallow} from '@vue/test-utils';
+import { createLocalVue, shallowMount } from '@vue/test-utils';
 
 import BodySystemForm from '@/components/BodySystemForm';
 import bodySystems from '@/store/systems';
@@ -23,13 +23,13 @@ describe('BodySystemForm.vue', () => {
   });
 
   describe('rendering', () => {
-    test('renders all systems as checkboxes', () =>{
-      const wrapper = shallow(BodySystemForm, {localVue, store});
+    test('renders all systems as checkboxes', () => {
+      const wrapper = shallowMount(BodySystemForm, { localVue, store });
       expect(wrapper.findAll('input[type=checkbox]').length).toBe(bodySystems.length);
     });
 
     test('submitButton is disabled', () => {
-      const wrapper = shallow(BodySystemForm, {localVue, store});
+      const wrapper = shallowMount(BodySystemForm, { localVue, store });
       const submitButton = wrapper.find('input[type=button]');
       expect(submitButton.attributes().disabled).toBeUndefined();
 
@@ -40,7 +40,7 @@ describe('BodySystemForm.vue', () => {
     test('if the system is in the store it is checked', () => {
       const selectedSystems = bodySystems.slice(0, 3);
       state.selectedSystems = selectedSystems;
-      const wrapper = shallow(BodySystemForm, { localVue, store });
+      const wrapper = shallowMount(BodySystemForm, { localVue, store });
       selectedSystems.forEach(system => {
         const inputSelector = `input#${system.id.replace(':', '\\:')}`;
         const checkbox = wrapper.find(inputSelector);
@@ -50,20 +50,19 @@ describe('BodySystemForm.vue', () => {
         expect(checkbox.is(':checked')).toBeTruthy(); // correct
       });
     });
-
   });
 
   describe('actions', () => {
     test('if system is in store it is selected', () => {
-      const wrapper = shallow(BodySystemForm, {store, localVue});
+      const wrapper = shallowMount(BodySystemForm, {store, localVue});
       const selectedSystem = state.selectedSystems[0];
 
       expect(wrapper.vm.isSystemSelected(selectedSystem.id)).toBe(true);
     });
 
     test('selecting a systems mutates the store', () => {
-      const wrapper = shallow(BodySystemForm, {store, localVue});
-      const cb = wrapper.find('input[type=checkbox]').trigger('click');
+      const wrapper = shallowMount(BodySystemForm, {store, localVue});
+      wrapper.find('input[type=checkbox]').trigger('click');
       expect(mutations.toggleSystem).toHaveBeenCalled();
     });
 
@@ -73,7 +72,7 @@ describe('BodySystemForm.vue', () => {
           push: jest.fn()
         }
       };
-      const wrapper = shallow(BodySystemForm, {store, localVue, mocks});
+      const wrapper = shallowMount(BodySystemForm, {store, localVue, mocks});
       wrapper.find('input[type=button]').trigger('click');
       expect(mocks.$router.push).toHaveBeenCalledWith('/search');
     });
@@ -81,18 +80,16 @@ describe('BodySystemForm.vue', () => {
 
   describe('computed properties', () => {
     test('state mapping', () => {
-      const wrapper = shallow(BodySystemForm, { store, localVue });
+      const wrapper = shallowMount(BodySystemForm, { store, localVue });
       expect(wrapper.vm.selectedSystems).toEqual(state.selectedSystems);
     });
 
     test('selectionIsEmpty', () => {
-      const wrapper = shallow(BodySystemForm, { store, localVue });
+      const wrapper = shallowMount(BodySystemForm, { store, localVue });
       expect(wrapper.vm.selectionIsEmpty).toBe(false);
 
       state.selectedSystems = [];
       expect(wrapper.vm.selectionIsEmpty).toBe(true);
-
     });
   });
-
 });

@@ -1,11 +1,11 @@
-import { shallow } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 
 import AnnotationSufficiency from '@/components/AnnotationSufficiency';
 import StarRating from 'vue-star-rating';
 
 describe('AnnotationSufficiency.vue', () => {
   test('basic rendering', () => {
-    const wrapper = shallow(AnnotationSufficiency, {
+    const wrapper = shallowMount(AnnotationSufficiency, {
       propsData: {
         score: 0.4
       }
@@ -31,7 +31,7 @@ describe('AnnotationSufficiency.vue', () => {
   });
 
   test('renders a warning if there is a scoring error', () => {
-    const wrapper = shallow(AnnotationSufficiency, {
+    const wrapper = shallowMount(AnnotationSufficiency, {
       propsData: {
         score: 0.25,
         error: null
@@ -45,7 +45,7 @@ describe('AnnotationSufficiency.vue', () => {
   });
 
   test('clampIndex helper method', () => {
-    const wrapper = shallow(AnnotationSufficiency);
+    const wrapper = shallowMount(AnnotationSufficiency);
 
     expect(wrapper.vm._clampIndex(-1)).toEqual(0);
     expect(wrapper.vm._clampIndex(0)).toEqual(0);
@@ -57,7 +57,7 @@ describe('AnnotationSufficiency.vue', () => {
   describe('actions', () => {
     test('toggling the list of tips', () => {
       const tipsSelector = '.tips-list';
-      const wrapper = shallow(AnnotationSufficiency, {
+      const wrapper = shallowMount(AnnotationSufficiency, {
         propsData: {
           score: 0.4
         }
@@ -80,12 +80,12 @@ describe('AnnotationSufficiency.vue', () => {
 
   describe('computed properties', () => {
     test('categoryCount', () => {
-      const wrapper = shallow(AnnotationSufficiency);
+      const wrapper = shallowMount(AnnotationSufficiency);
       expect(wrapper.vm.categoryCount).toEqual(wrapper.vm.categoryLabels.length);
     });
 
     test('scaledScore', () => {
-      const wrapper = shallow(AnnotationSufficiency, {
+      const wrapper = shallowMount(AnnotationSufficiency, {
         propsData: {
           score: 0
         }
@@ -98,7 +98,7 @@ describe('AnnotationSufficiency.vue', () => {
     });
 
     test('category', () => {
-      const wrapper = shallow(AnnotationSufficiency, {
+      const wrapper = shallowMount(AnnotationSufficiency, {
         propsData: {
           score: 0
         }

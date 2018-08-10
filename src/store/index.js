@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 
 import scoringService from '@/services/scoring-service';
-import termLoggingService from '@/services/term-logging-service';
+import dataLoggingService from '@/services/data-logging-service';
 
 const initialState = {
   sessionId: uuid(),
@@ -115,18 +115,33 @@ export default {
     },
 
     /**
-     * Asynchronously saves the session ID and selected terms for research analysis.
+     * Asynchronously saves the session ID, selected body systems, selected terms, and
+     * application feedback for research analysis.
      * @param {Object} context - Vuex action context.
      * @return {Promise} a promise that resolves when the request is complete.
      */
-    saveSelectedTerms({ commit, state }) {
-      const { sessionId, selectedTerms } = state;
+    saveSessionData({ commit, state }) {
+      const {
+        sessionId,
+        selectedTerms,
+        selectedSystems,
+        foundAllConditions
+      } = state;
 
-      if (!selectedTerms.length) {
-        return Promise.resolve();
-      }
+      const sessionData = {
+        session_id: sessionId,
+        selected_systems: selectedSystems.map(system => system.id),
+        selected_terms: selectedTerms.map(term => {
+          return {
+            id: term.id,
+            label: term.label,
+            symptom: term.symptomText
+          };
+        }),
+        found_all: foundAllConditions
+      };
 
-      return termLoggingService.saveTerms(sessionId, selectedTerms);
+      return dataLoggingService.saveSession(sessionData);
     }
   }
 };
