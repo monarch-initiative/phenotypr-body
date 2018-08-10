@@ -23,10 +23,7 @@
     <!-- buttons -->
     <div class="grid-x grid-margin-x button-container">
       <div class="cell large-4 text-left">
-        <input type="button" name="backButton" value="Go back" class="button rounded" @click="goBack">
-      </div>
-      <div class="cell large-4 text-right">
-        <input type="button" name="forwardButton" value="Done" class="button rounded" :disabled="feedbackIncomplete" @click="goForward">
+        <input type="button" name="forwardButton" value="Next" class="button rounded" :disabled="feedbackIncomplete" @click="goForward">
       </div>
     </div>
   </div>
@@ -39,6 +36,13 @@ import PageHeading from './PageHeading';
 export default {
   name: 'FeedbackPage',
 
+  props: {
+    finishSearch: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   components: {
     PageHeading
   },
@@ -49,13 +53,14 @@ export default {
       this.$store.commit('setFoundAllConditions', value);
     },
 
-    goBack() {
-      this.$router.push('/search');
-    },
-
     goForward() {
-      this.$store.dispatch('saveSelectedTerms');
-      this.$router.push('/results');
+      const { doneSearching } = this;
+      if (doneSearching) {
+        this.$store.dispatch('saveSelectedTerms');
+        this.$router.push('/results');
+      } else {
+        this.$router.push({path: '/search', query: {enableFilter: true}});
+      }
     }
   },
 
@@ -77,6 +82,13 @@ export default {
     falseChecked() {
       const { foundAllConditions } = this;
       return foundAllConditions === false;
+    },
+    doneSearching() {
+      const { finishSearch, foundAllConditions } = this;
+      if (finishSearch || foundAllConditions) {
+        return true;
+      }
+      return false;
     }
   }
 };

@@ -64,11 +64,13 @@ export const routes = [
   }),
   protectedRoute({
     path: searchPath,
-    component: SearchPage
+    component: SearchPage,
+    props: (route) => ({ enableFilter: route.query.enableFilter })
   }),
   protectedRoute({
     path: '/feedback',
-    component: FeedbackPage
+    component: FeedbackPage,
+    props: (route) => ({ finishSearch: route.query.finishSearch })
   }),
   protectedRoute({
     path: '/results',
