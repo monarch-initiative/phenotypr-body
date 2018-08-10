@@ -1,7 +1,8 @@
 import storeConfig from '@/store';
+import bodySystems from '@/store/systems';
 
 import scoringService from '@/services/scoring-service';
-import termLoggingService from '@/services/term-logging-service';
+import dataLoggingService from '@/services/data-logging-service';
 
 import exampleTerms from '../../example-terms';
 
@@ -11,9 +12,9 @@ jest.mock('@/services/scoring-service', () => {
   };
 });
 
-jest.mock('@/services/term-logging-service', () => {
+jest.mock('@/services/data-logging-service', () => {
   return {
-    saveTerms: jest.fn()
+    saveSession: jest.fn()
   };
 });
 
@@ -236,37 +237,39 @@ describe('vuex store', () => {
         });
     });
 
-    test('saveSelectedTerms: does nothing when no terms are selected', () => {
+    test('saveSessionData: when terms have been selected', () => {
       const commit = jest.fn();
 
       const mockState = {
         sessionId: '00000000-0000-0000-0000-000000000000',
-        selectedTerms: []
+        selectedTerms: exampleTerms.slice(0, 1),
+        selectedSystems: bodySystems.slice(0, 1),
+        foundAllConditions: true
       };
 
-      return actions.saveSelectedTerms({ commit, state: mockState })
-        .then(() => {
-          expect(commit).not.toHaveBeenCalled();
-          expect(termLoggingService.saveTerms).not.toHaveBeenCalled();
-        });
-    });
+      dataLoggingService.saveSession.mockReturnValueOnce(Promise.resolve());
 
-    test('saveSelectedTerms: when terms have been selected', () => {
-      const commit = jest.fn();
-
-      const mockState = {
-        sessionId: '00000000-0000-0000-0000-000000000000',
-        selectedTerms: exampleTerms.slice(0, 1)
-      };
-
-      termLoggingService.saveTerms.mockReturnValueOnce(Promise.resolve());
-
-      return actions.saveSelectedTerms({ commit, state: mockState })
+      return actions.saveSessionData({ commit, state: mockState })
         .then(() => {
           // No mutations should be committed
           expect(commit).not.toHaveBeenCalled();
 
-          expect(termLoggingService.saveTerms).toHaveBeenCalledWith(mockState.sessionId, mockState.selectedTerms);
+          const expectedSystem = [bodySystems[0].id];
+          const expectedTerms = [{
+            id: 'HP:0000316',
+            label: 'Hypertelorism',
+            symptom: 'Widely spaced eyes'
+          }];
+
+          const expectedData = {
+            session_id: '00000000-0000-0000-0000-000000000000',
+            selected_systems: expectedSystem,
+            selected_terms: expectedTerms,
+            found_all: true
+          };
+
+          expect(dataLoggingService.saveSession)
+            .toHaveBeenCalledWith(expectedData);
         });
     });
   });

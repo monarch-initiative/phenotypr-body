@@ -1,5 +1,5 @@
 import axios from 'axios';
-import isValidTerm from '@/utils/is-valid-term';
+import { isValidTerm } from '@/utils/term-utils';
 
 const SCORING_URL = 'https://monarchinitiative.org/score';
 

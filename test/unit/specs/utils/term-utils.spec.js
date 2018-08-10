@@ -1,4 +1,4 @@
-import isValidTerm from '@/utils/is-valid-term';
+import { isValidTerm, isValidId } from '@/utils/term-utils';
 import exampleTerms from '../../example-terms';
 
 describe('isValidTerm utility', () => {
@@ -39,5 +39,28 @@ describe('isValidTerm utility', () => {
 
   test('is true if the document has the expected structure', () => {
     expect(isValidTerm(exampleTerms[0])).toBe(true);
+  });
+});
+
+describe('isValidId utility', () => {
+  test('is false for undefined', () => {
+    expect(isValidId()).toBe(false);
+  });
+
+  test('is false for null', () => {
+    expect(isValidId(null)).toBe(false);
+  });
+
+  test('is false for types other than string', () => {
+    expect(isValidId({})).toBe(false);
+    expect(isValidId([])).toBe(false);
+    expect(isValidId(42)).toBe(false);
+    expect(isValidId(false)).toBe(false);
+  });
+
+  test('is true if input is a string with the expected format', () => {
+    expect(isValidId('hi')).toBe(false);
+    expect(isValidId('HP:000070')).toBe(false); // not enough digits
+    expect(isValidId('HP:0000708')).toBe(true);
   });
 });
