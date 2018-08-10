@@ -1,10 +1,60 @@
 /* eslint-disable camelcase */
 import { isValidTerm, isValidId } from '@/utils/term-utils';
+const hasSymptom = term => term.hasOwnProperty('symptom');
 
 /**
  * A service that performs HTTP requests to save the terms selected by the user.
  */
 export default {
+  /**
+   * Verify that the input looks like a session ID.
+   *
+   * @param {Any} sessionId
+   */
+  _validateSessionId(sessionId) {
+    const valid = Boolean(sessionId && typeof sessionId === 'string');
+    if (!valid) {
+      throw new Error('session_id: A string session ID is required');
+    }
+  },
+
+  /**
+   * Verify that input looks like an array of HPO terms with symptoms.
+   *
+   * @param {Any} terms
+   */
+  _validateTerms(terms) {
+    const valid = Array.isArray(terms) && terms.every(isValidTerm) &&
+      terms.every(hasSymptom);
+    if (!valid) {
+      throw new Error('selected_terms: An array of HPO terms is required');
+    }
+  },
+
+  /**
+   * Verify that input looks like an array of HPO IDs.
+   *
+   * @param {Any} systems
+   */
+  _validateSystems(systems) {
+    const valid = Array.isArray(systems) && systems.every(isValidId);
+    if (!valid) {
+      throw new Error('selected_systems: An array of HPO IDs is required');
+    }
+  },
+
+  /**
+   * Verify that input looks like a boolean flag.
+   *
+   * @param {Any} flag
+   */
+  _validateFoundAllFlag(flag) {
+    const valid = typeof flag === 'boolean';
+    if (!valid) {
+      throw new Error('found_all: Should be true or false');
+    }
+  },
+
   /**
    * Verify that required request inputs were received.
    *
@@ -12,22 +62,10 @@ export default {
    */
   _validateInput(data) {
     const { session_id, selected_terms, selected_systems, found_all } = data;
-
-    if (!session_id || typeof session_id !== 'string') {
-      throw new Error('session_id: A string session ID is required');
-    }
-
-    if (!Array.isArray(selected_terms) || !selected_terms.every(isValidTerm)) {
-      throw new Error('selected_terms: An array of HPO terms is required');
-    }
-
-    if (!Array.isArray(selected_systems) || !selected_systems.every(isValidId)) {
-      throw new Error('selected_systems: An array of HPO IDs is required');
-    }
-
-    if (found_all !== true && found_all !== false) {
-      throw new Error('found_all: Should be true or false');
-    }
+    this._validateSessionId(session_id);
+    this._validateTerms(selected_terms);
+    this._validateSystems(selected_systems);
+    this._validateFoundAllFlag(found_all);
   },
 
   /**

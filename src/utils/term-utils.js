@@ -22,8 +22,7 @@ export function isValidId(input) {
  * properties, and the ID is a string matching the pattern of an HPO term. False otherwise.
  */
 export function isValidTerm(input) {
-  return Boolean(input && input.id && input.label && input.symptomText &&
-      isValidId(input.id));
+  return Boolean(input && input.id && input.label && isValidId(input.id));
 }
 
 export default { isValidTerm, isValidId };
