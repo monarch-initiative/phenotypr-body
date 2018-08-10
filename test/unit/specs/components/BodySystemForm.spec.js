@@ -19,7 +19,7 @@ describe('BodySystemForm.vue', () => {
       toggleSystem: jest.fn()
     };
 
-    store = new Vuex.Store({state, mutations});
+    store = new Vuex.Store({ state, mutations });
   });
 
   describe('rendering', () => {
@@ -54,14 +54,14 @@ describe('BodySystemForm.vue', () => {
 
   describe('actions', () => {
     test('if system is in store it is selected', () => {
-      const wrapper = shallowMount(BodySystemForm, {store, localVue});
+      const wrapper = shallowMount(BodySystemForm, { store, localVue });
       const selectedSystem = state.selectedSystems[0];
 
       expect(wrapper.vm.isSystemSelected(selectedSystem.id)).toBe(true);
     });
 
     test('selecting a systems mutates the store', () => {
-      const wrapper = shallowMount(BodySystemForm, {store, localVue});
+      const wrapper = shallowMount(BodySystemForm, { store, localVue });
       wrapper.find('input[type=checkbox]').trigger('click');
       expect(mutations.toggleSystem).toHaveBeenCalled();
     });
@@ -72,7 +72,7 @@ describe('BodySystemForm.vue', () => {
           push: jest.fn()
         }
       };
-      const wrapper = shallowMount(BodySystemForm, {store, localVue, mocks});
+      const wrapper = shallowMount(BodySystemForm, { store, localVue, mocks });
       wrapper.find('input[type=button]').trigger('click');
       expect(mocks.$router.push).toHaveBeenCalledWith('/search');
     });

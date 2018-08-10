@@ -118,9 +118,9 @@ describe('SearchPage.vue', () => {
 
       const wrapper = shallowMount(SearchPage, { store, localVue, mocks });
       const forwardButton = wrapper.find('input[name=forwardButton]');
-      const mockRoute = {path: '/feedback', query: {finishSearch: true}};
+      const mockRoute = { path: '/feedback', query: { finishSearch: true } };
 
-      wrapper.setProps({enableFilter: true});
+      wrapper.setProps({ enableFilter: true });
       forwardButton.trigger('click');
       expect(mocks.$router.push).toHaveBeenCalledWith(mockRoute);
     });
@@ -155,7 +155,7 @@ describe('SearchPage.vue', () => {
     test('categoriesEnabled', () => {
       const wrapper = shallowMount(SearchPage, { store, localVue });
       expect(wrapper.vm.categoriesEnabled).toBe(false);
-      wrapper.setProps({enableFilter: true});
+      wrapper.setProps({ enableFilter: true });
       expect(wrapper.vm.categoriesEnabled).toBe(true);
     });
   });

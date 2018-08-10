@@ -90,7 +90,7 @@ describe('FeedbackPage.vue', () => {
     expect(mocks.$router.push).toHaveBeenCalledWith('/results');
 
     state.foundAllConditions = false;
-    wrapper.setProps({finishSearch: true});
+    wrapper.setProps({ finishSearch: true });
     forwardButton.trigger('click');
     expect(mocks.$router.push).toHaveBeenCalledWith('/results');
   });
@@ -101,7 +101,7 @@ describe('FeedbackPage.vue', () => {
         push: jest.fn()
       }
     };
-    const mockRoute = {path: '/search', query: {enableFilter: true}};
+    const mockRoute = { path: '/search', query: { enableFilter: true } };
     const wrapper = shallowMount(FeedbackPage, { store, localVue, mocks });
 
     state.foundAllConditions = false;
@@ -172,7 +172,7 @@ describe('FeedbackPage.vue', () => {
     });
 
     test('doneSearching', () => {
-      const wrapper = shallowMount(FeedbackPage, {store, localVue});
+      const wrapper = shallowMount(FeedbackPage, { store, localVue });
       expect(wrapper.props().finishSearch).toBe(false);
       expect(wrapper.vm.doneSearching).toBe(false);
 
@@ -180,7 +180,7 @@ describe('FeedbackPage.vue', () => {
       expect(wrapper.vm.doneSearching).toBe(true);
 
       state.foundAllConditions = false;
-      wrapper.setProps({finishSearch: true});
+      wrapper.setProps({ finishSearch: true });
       expect(wrapper.props().finishSearch).toBe(true);
       expect(wrapper.vm.doneSearching).toBe(true);
     });
