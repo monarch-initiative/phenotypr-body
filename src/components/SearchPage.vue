@@ -6,7 +6,7 @@
     <form @submit.prevent>
       <div class="grid-x grid-margin-x">
         <div class="cell medium-8 large-6">
-          <SearchInput :filterCategories="selectedSystemIds" @itemSelected="handleSelection"/>
+          <SearchInput :filterCategories="selectedSystemIds" @itemSelected="handleSelection" :enableCategoryList="categoriesEnabled"/>
 
           <!-- annotation sufficiency information -->
           <div class="quality-score">
@@ -27,9 +27,6 @@
       <!-- buttons -->
       <div class="grid-x grid-margin-x button-container">
         <div class="cell large-4 text-left">
-          <input type="button" name="backButton" value="Go back" class="button rounded" @click="goBack">
-        </div>
-        <div class="cell large-4 text-right">
           <input type="button" name="forwardButton" value="Done adding symptoms" class="button rounded" :disabled="selectionIsEmpty" @click="goForward">
         </div>
       </div>
@@ -52,6 +49,13 @@ export default {
     AnnotationSufficiency
   },
 
+  props: {
+    enableFilter: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   methods: {
     handleSelection(item) {
       this.$store.commit('addTerm', item);
@@ -64,7 +68,12 @@ export default {
     },
 
     goForward() {
-      this.$router.push('/feedback');
+      const { enableFilter } = this;
+      if (enableFilter) {
+        this.$router.push({path: '/feedback', query: {finishSearch: true}});
+      } else {
+        this.$router.push('/feedback');
+      }
     },
 
     goBack() {
@@ -84,6 +93,11 @@ export default {
     selectedSystemIds() {
       const { selectedSystems } = this;
       return selectedSystems.map(system => system.id);
+    },
+
+    categoriesEnabled() {
+      const {enableFilter} = this;
+      return enableFilter;
     }
   }
 };
