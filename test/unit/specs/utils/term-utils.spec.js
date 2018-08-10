@@ -22,14 +22,13 @@ describe('isValidTerm utility', () => {
     malformed.id = 42;
     expect(isValidTerm(malformed)).toBe(false);
 
+    // wrong ID format
+    malformed.id = 'hi';
+    expect(isValidTerm(malformed)).toBe(false);
+
     // missing label
     malformed = Object.assign({}, exampleTerms[0]);
     delete malformed.label;
-    expect(isValidTerm(malformed)).toBe(false);
-
-    // missing symptomText
-    malformed = Object.assign({}, exampleTerms[0]);
-    delete malformed.symptomText;
     expect(isValidTerm(malformed)).toBe(false);
   });
 
