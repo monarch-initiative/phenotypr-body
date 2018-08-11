@@ -1,12 +1,13 @@
 import uuid from 'uuid/v4';
 import bodySystems from '@/store/systems';
 import exampleTerms from './example-terms';
-
-const mapTermShape = ({ id, label, symptomText }) => ({ id, label, symptom: symptomText });
+import { convertTerm } from '@/utils/persistence-utils';
 
 export default {
   session_id: uuid(),
   selected_systems: bodySystems.slice(0, 1).map(system => system.id),
-  selected_terms: exampleTerms.slice(0, 1).map(mapTermShape),
+  selected_terms: exampleTerms.slice(0, 2).map(convertTerm),
+  constrained_terms: exampleTerms.slice(0, 1).map(convertTerm),
+  unconstrained_terms: exampleTerms.slice(1, 1).map(convertTerm),
   found_all: true
 };

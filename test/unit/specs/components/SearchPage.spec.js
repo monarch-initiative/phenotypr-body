@@ -66,9 +66,10 @@ describe('SearchPage.vue', () => {
     test('selecting an item adds the term to the store', () => {
       const wrapper = shallowMount(SearchPage, { store, localVue });
       const expectedItem = exampleTerms[2];
+      const expectedPayload = { term: expectedItem, filterEnabled: false };
 
       wrapper.vm.handleSelection(expectedItem);
-      expect(mutations.addTerm).toHaveBeenCalledWith(state, expectedItem);
+      expect(mutations.addTerm).toHaveBeenCalledWith(state, expectedPayload);
     });
 
     test('selecting an item recalculates the quality score', () => {
@@ -150,13 +151,6 @@ describe('SearchPage.vue', () => {
 
       state.selectedSystems = [];
       expect(wrapper.vm.selectedSystemIds).toEqual([]);
-    });
-
-    test('categoriesEnabled', () => {
-      const wrapper = shallowMount(SearchPage, { store, localVue });
-      expect(wrapper.vm.categoriesEnabled).toBe(false);
-      wrapper.setProps({ enableFilter: true });
-      expect(wrapper.vm.categoriesEnabled).toBe(true);
     });
   });
 });
