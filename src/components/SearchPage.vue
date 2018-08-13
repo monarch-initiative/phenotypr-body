@@ -1,37 +1,42 @@
 <template>
-  <div class="grid-container body-search-content">
-    <PageHeading title="Symptoms Search"/>
+<div class="grid-container body-search-content">
+  <PageHeading title="Symptoms Search" />
 
-    <!-- search form -->
-    <form @submit.prevent>
-      <div class="grid-x grid-margin-x">
-        <div class="cell medium-8 large-6">
-          <SearchInput :filterCategories="selectedSystemIds" @itemSelected="handleSelection" :enableCategoryList="enableFilter"/>
+  <!-- search form -->
+  <form @submit.prevent>
+    <div class="grid-x grid-margin-x">
+      <div class="cell medium-8 large-6">
+        <SearchInput :filterCategories="selectedSystemIds" @itemSelected="handleSelection" :enableCategoryList="enableFilter" />
 
-          <!-- annotation sufficiency information -->
-          <div class="quality-score">
-            <AnnotationSufficiency class="cell medium-8 large-6" :score="qualityScore" :error="scoringError"/>
-          </div>
-        </div>
+      <!-- annotation sufficiency information -->
+      <div class="quality-score">
+        <AnnotationSufficiency :score="qualityScore" :error="scoringError" />
       </div>
+    </div>
 
-      <!-- saved terms -->
-      <div class="grid-x grid-margin-x saved-terms">
-        <div class="cell">
-          <span v-for="(selection, index) in selections"
-                :key="selection.id"
-                class="label symptom-tag">{{ selection.symptomText }} <strong @click="removeSelection(index)">X</strong></span>
-        </div>
+    <!-- About this search callouts -->
+    <div class="cell medium-3 large-3" v-if="!enableFilter">
+      <div class="callout success filter-search-msg">
+        <p><span class="title">About this Search</span> Your search will be filtered by the terms you selected: <span class="filter-terms">{{selectedSystemIds}}</span></p>
       </div>
-
-      <!-- buttons -->
-      <div class="grid-x grid-margin-x button-container">
-        <div class="cell large-4 text-left">
-          <input type="button" name="forwardButton" value="Done adding symptoms" class="button rounded" :disabled="selectionIsEmpty" @click="goForward">
-        </div>
-      </div>
-    </form>
+    </div>
   </div>
+
+    <!-- saved terms -->
+    <div class="grid-x grid-margin-x saved-terms">
+      <div class="cell">
+        <span v-for="(selection, index) in selections" :key="selection.id" class="label symptom-tag">{{ selection.symptomText }} <strong @click="removeSelection(index)">X</strong></span>
+      </div>
+    </div>
+
+    <!-- buttons -->
+    <div class="grid-x grid-margin-x button-container">
+      <div class="cell large-4 text-left">
+        <input type="button" name="forwardButton" value="Done adding symptoms" class="button rounded" :disabled="selectionIsEmpty" @click="goForward">
+      </div>
+    </div>
+  </form>
+</div>
 </template>
 
 <script>
