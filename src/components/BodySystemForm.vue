@@ -5,22 +5,21 @@
     <div class="grid-x grid-margin-x select-systems">
       <div class="cell medium-5 large-6">
         <h2>Please choose the categories of symptoms that apply to you</h2>
-        <div class="checkbox-container" v-for="system in bodySystems" :key="system.id">
+        <div class="checkbox-container" v-for="(system, index) in bodySystems" :key="system.id">
           <input type="checkbox"
             :id="system.id"
             :value="system.id"
-            @change="toggleSystem"
-            :checked="isSystemSelected(system.id)">
+            :checked="isSystemSelected(system.id)"
+            @change="toggleSystem">
           <label :for="system.id">{{system.label}}:</label>
           <a href="#"
-            :id="'help-button' + system.id"
             role="button"
             aria-controls="system-help"
-            @click="toggleHelp">
+            @click.prevent="toggleHelp(index)">
             (... more info)
           </a>
           <transition name="collapse">
-            <div :id="'help-' + system.id" class="help-text" v-if="helpShown(system.id)">{{system.helpText}}</div>
+            <div class="help-text" v-if="system.showHelp">{{system.helpText}}</div>
           </transition>
         </div>
       </div>
@@ -64,8 +63,7 @@ export default {
 
   data() {
     return {
-      bodySystems: systems,
-      showHelp: []
+      bodySystems: systems.map(system => ({ ...system, showHelp: false }))
     };
   },
 
@@ -79,18 +77,10 @@ export default {
       this.$store.commit('toggleSystem', { id: evt.target.value });
     },
 
-    toggleHelp(id) {
-      let { showHelp, helpShown } = this;
-      if (helpShown(id)) {
-        showHelp.splice(showHelp.indexOf(id));
-      } else {
-        showHelp.push(id);
-      }
-    },
-
-    helpShown(id) {
-      const { showHelp } = this;
-      return showHelp.includes(id);
+    toggleHelp(index) {
+      const { bodySystems } = this;
+      const system = bodySystems[index];
+      system.showHelp = !system.showHelp;
     },
 
     goToSearch() {
