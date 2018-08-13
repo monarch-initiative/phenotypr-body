@@ -64,7 +64,7 @@ describe('BodySystemForm.vue', () => {
     });
 
     test('clicking the help text link displays a description', () => {
-      const selector = '.help-text';
+      const selector = '.help-text.show-help';
       const wrapper = shallowMount(BodySystemForm, { store, localVue });
       const firstContainer = wrapper.findAll('.checkbox-container').at(0);
 
@@ -77,6 +77,16 @@ describe('BodySystemForm.vue', () => {
 
       // no other help text is displayed
       expect(wrapper.findAll(selector)).toHaveLength(1);
+    });
+
+    test('clicking the help text link toggles the text', () => {
+      const wrapper = shallowMount(BodySystemForm, { store, localVue });
+      const firstLink = wrapper.findAll('.checkbox-container a').at(0);
+
+      expect(firstLink.text()).toMatch('Show more');
+
+      firstLink.trigger('click');
+      expect(firstLink.text()).toMatch('Show less');
     });
 
     test('clicking the button transitions to the search route', () => {

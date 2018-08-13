@@ -196,7 +196,7 @@ ul.tips-list li {
   animation: collapse-close .35s ease;
 }
 
-// SELECT SYSTEMS 
+// SELECT SYSTEMS
 .select-systems {
   margin-bottom:20px;
 }
@@ -219,13 +219,9 @@ span.show-help {
   margin-top:15px;
 }
 
-.truncate {
-  width: 800px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.checkbox-container {
+  font-size:0.78em;
 }
-
 .select-systems .checkbox-container label {
   margin-right:0.25em;
 }
@@ -234,12 +230,18 @@ span.show-help {
 }
 .help-text {
   color:#666;
-  font-size:0.775;
-  margin-left:8em;
+  margin-left:4em;
+  max-height: 1.55em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: max-height .3s ease;
+}
+.help-text.show-help {
+  max-height: 350px;
+  white-space: normal;
 }
 .checkbox-container .help-content {
   color:#777;
-  font-size:0.78em;
   margin-top:-1.1em;
 }
-

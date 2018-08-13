@@ -11,16 +11,17 @@
             :value="system.id"
             :checked="isSystemSelected(system.id)"
             @change="toggleSystem">
-          <label :for="system.id">{{system.label}}:</label>
-          <a href="#"
-            role="button"
-            aria-controls="system-help"
-            @click.prevent="toggleHelp(index)">
-            (... more info)
-          </a>
-          <transition name="collapse">
-            <div class="help-text" v-if="system.showHelp">{{system.helpText}}</div>
-          </transition>
+          <label :for="system.id">{{system.label}}</label>
+          <div class="help-text" :class="{ 'show-help': system.showHelp }">{{system.helpText}}</div>
+          <div class="show-help-link text-right">
+            <a href="#"
+              class="align-left"
+              role="button"
+              aria-controls="system-help"
+              @click.prevent="toggleHelp(index)">
+            Show {{system.showHelp ? 'less' : 'more'}}
+            </a>
+          </div>
         </div>
       </div>
       <div class="cell medium-4 large-5 large-offset-1">
@@ -30,7 +31,7 @@
             To get HPO terms related to your disease:
             <ol>
               <li>Select a body system / category.</li>
-              <li>Click on <span class="show-help">...more info</span> for more information about the system / category.</li>
+              <li>Click on <span class="show-help">Show more</span> for more information about the system / category.</li>
               <li>On the next page, enter search terms related to the systems / categories you selected.</li>
             </ol>
           </div>
