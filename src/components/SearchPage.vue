@@ -105,14 +105,11 @@ export default {
 
     selectedSystemLabels() {
       const { selectedSystemIds } = this;
-      return selectedSystemIds.map(system => {
-        const foundSystem = bodySystems.find(s => {
-          return s.id === system;
-        });
-        return foundSystem.label;
-      }).join(', ');
+      return bodySystems
+        .filter(system => selectedSystemIds.includes(system.id))
+        .map(system => system.label)
+        .join(', ');
     }
-
   }
 };
 </script>
