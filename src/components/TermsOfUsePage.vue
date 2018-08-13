@@ -10,7 +10,7 @@
         <p>This tool does not provide medical advice. It is intended for informational and
           educational purposes only.</p>
 
-        <p>By submitting information through the Phenotpyr platform you understand and accept
+        <p>By submitting information through the Phenotypr platform you understand and accept
           the <a href="https://phenotypr.com/terms.html" title="Phenotypr terms of use">terms of use</a>
           to this site.</p>
       </div>
