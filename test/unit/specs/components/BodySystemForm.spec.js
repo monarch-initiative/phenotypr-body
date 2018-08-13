@@ -44,10 +44,7 @@ describe('BodySystemForm.vue', () => {
       selectedSystems.forEach(system => {
         const inputSelector = `input#${system.id.replace(':', '\\:')}`;
         const checkbox = wrapper.find(inputSelector);
-        // NOTE: the line below is incorrect and gives a false result
-        // because checkbox.attributes() is truthy
-        // expect(checkbox.attributes('checked')).toBeTruthy();
-        expect(checkbox.is(':checked')).toBeTruthy(); // correct
+        expect(checkbox.is(':checked')).toBeTruthy();
       });
     });
   });
@@ -64,6 +61,32 @@ describe('BodySystemForm.vue', () => {
       const wrapper = shallowMount(BodySystemForm, { store, localVue });
       wrapper.find('input[type=checkbox]').trigger('click');
       expect(mutations.toggleSystem).toHaveBeenCalled();
+    });
+
+    test('clicking the help text link displays a description', () => {
+      const selector = '.help-text.show-help';
+      const wrapper = shallowMount(BodySystemForm, { store, localVue });
+      const firstContainer = wrapper.findAll('.checkbox-container').at(0);
+
+      // no help text is initially displayed
+      expect(wrapper.findAll(selector)).toHaveLength(0);
+
+      // clicking the link displays the help text for the category
+      firstContainer.find('a').trigger('click');
+      expect(firstContainer.findAll(selector)).toHaveLength(1);
+
+      // no other help text is displayed
+      expect(wrapper.findAll(selector)).toHaveLength(1);
+    });
+
+    test('clicking the help text link toggles the text', () => {
+      const wrapper = shallowMount(BodySystemForm, { store, localVue });
+      const firstLink = wrapper.findAll('.checkbox-container a').at(0);
+
+      expect(firstLink.text()).toMatch('Show more');
+
+      firstLink.trigger('click');
+      expect(firstLink.text()).toMatch('Show less');
     });
 
     test('clicking the button transitions to the search route', () => {
