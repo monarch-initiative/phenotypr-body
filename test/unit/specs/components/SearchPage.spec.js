@@ -60,6 +60,21 @@ describe('SearchPage.vue', () => {
       state.selectedTerms = [];
       expect(forwardButton.attributes().disabled).toBeDefined();
     });
+
+    test('the search callout contains the selected system labels', () => {
+      const wrapper = shallowMount(SearchPage, { store, localVue });
+      const filterTerms = wrapper.find('.filter-terms');
+      state.selectedSystems = bodySystems.slice(0, 2);
+      const systems = bodySystems.slice(0, 2).map(system => system.label).join(', ');
+      expect(filterTerms.text()).toBe(systems);
+    });
+
+    test('the search callout is not present if the `enableFilter` property is true', () => {
+      const wrapper = shallowMount(SearchPage, { store, localVue });
+      expect(wrapper.find('.filter-search-msg').exists()).toBe(true);
+      wrapper.setProps({ enableFilter: true });
+      expect(wrapper.find('.filter-search-msg').exists()).toBe(false);
+    });
   });
 
   describe('actions', () => {
@@ -151,6 +166,15 @@ describe('SearchPage.vue', () => {
 
       state.selectedSystems = [];
       expect(wrapper.vm.selectedSystemIds).toEqual([]);
+    });
+
+    test('selectedSystemLabels', () => {
+      const selectedSystem = state.selectedSystems[0];
+      const wrapper = shallowMount(SearchPage, { store, localVue });
+      const foundSystem = bodySystems.find(x => x.id === selectedSystem.id);
+      expect(wrapper.vm.selectedSystemLabels).toEqual(foundSystem.label);
+      state.selectedSystems = [];
+      expect(wrapper.vm.selectedSystemLabels).toEqual('');
     });
   });
 });

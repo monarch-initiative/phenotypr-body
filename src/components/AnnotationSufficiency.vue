@@ -1,5 +1,5 @@
 <template>
-  <div class="cell medium-8 large-6">
+  <div class="quality-score">
     <p class="score-error" v-if="error">The score could not be calculated due to an error. Please try again.</p>
 
     <p v-else>Profile sufficiency:
