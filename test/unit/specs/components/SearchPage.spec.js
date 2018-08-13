@@ -68,6 +68,13 @@ describe('SearchPage.vue', () => {
       const systems = bodySystems.slice(0, 2).map(system => system.label).join(', ');
       expect(filterTerms.text()).toBe(systems);
     });
+
+    test('the search callout is not present if the `enableFilter` property is true', () => {
+      const wrapper = shallowMount(SearchPage, { store, localVue });
+      expect(wrapper.find('.filter-search-msg').exists()).toBe(true);
+      wrapper.setProps({ enableFilter: true });
+      expect(wrapper.find('.filter-search-msg').exists()).toBe(false);
+    });
   });
 
   describe('actions', () => {
