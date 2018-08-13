@@ -171,10 +171,10 @@ describe('SearchPage.vue', () => {
     test('selectedSystemLabels', () => {
       const selectedSystem = state.selectedSystems[0];
       const wrapper = shallowMount(SearchPage, { store, localVue });
-      const foundSystem = bodySystems.find(x => { return x.id === selectedSystem.id; });
-      expect(wrapper.vm.selectedSystemLabels).toEqual([foundSystem.label]);
+      const foundSystem = bodySystems.find(x => x.id === selectedSystem.id);
+      expect(wrapper.vm.selectedSystemLabels).toEqual(foundSystem.label);
       state.selectedSystems = [];
-      expect(wrapper.vm.selectedSystemLabels).toEqual([]);
+      expect(wrapper.vm.selectedSystemLabels).toEqual('');
     });
   });
 });

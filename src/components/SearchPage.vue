@@ -18,7 +18,7 @@
     <div class="cell medium-3 large-3" v-if="!enableFilter">
       <div class="callout success filter-search-msg">
         <h6 class="title">About this Search</h6>
-        <p>Your search will be filtered by the categories you selected: <span class="filter-terms">{{selectedSystemLabels.join(', ')}}</span></p>
+        <p>Your search will be filtered by the categories you selected: <span class="filter-terms">{{selectedSystemLabels}}</span></p>
       </div>
     </div>
   </div>
@@ -110,7 +110,7 @@ export default {
           return s.id === system;
         });
         return foundSystem.label;
-      });
+      }).join(', ');
     }
 
   }
