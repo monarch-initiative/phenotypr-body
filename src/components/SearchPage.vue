@@ -17,7 +17,7 @@
     <!-- About this search callouts -->
     <div class="cell medium-3 large-3" v-if="!enableFilter">
       <div class="callout success filter-search-msg">
-        <p><span class="title">About this Search</span> Your search will be filtered by the terms you selected: <span class="filter-terms">{{selectSystemLabels.join(', ')}}</span></p>
+        <p><span class="title">About this Search</span> Your search will be filtered by the terms you selected: <span class="filter-terms">{{selectedSystemLabels.join(', ')}}</span></p>
       </div>
     </div>
   </div>
@@ -102,7 +102,7 @@ export default {
       return selectedSystems.map(system => system.id);
     },
 
-    selectSystemLabels() {
+    selectedSystemLabels() {
       const { selectedSystemIds } = this;
       return selectedSystemIds.map(system => {
         const foundSystem = bodySystems.find(s => {
