@@ -1,6 +1,6 @@
 <template>
   <div class="autocomplete">
-    <label class="lead">What symptoms are you experiencing?</label>
+    <label class="lead">Enter your symptoms <small>(do not include family history)</small></label>
     <div class="input-group">
       <select class="input-group-field category-list" v-if="enableCategoryList" v-model="selectedCategory">
         <option value="">Any category</option>
