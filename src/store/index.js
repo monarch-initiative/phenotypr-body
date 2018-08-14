@@ -143,7 +143,8 @@ export default {
         selectedTerms,
         constrainedTerms,
         unconstrainedTerms,
-        foundAllConditions
+        foundAllConditions,
+        qualityScore
       } = state;
 
       const sessionData = {
@@ -152,7 +153,8 @@ export default {
         selected_terms: selectedTerms.map(convertTerm),
         constrained_terms: constrainedTerms.map(convertTerm),
         unconstrained_terms: unconstrainedTerms.map(convertTerm),
-        found_all: foundAllConditions
+        found_all: foundAllConditions,
+        quality_score: qualityScore
       };
 
       return dataLoggingService.saveSession(sessionData);

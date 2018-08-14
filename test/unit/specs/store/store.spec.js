@@ -292,7 +292,8 @@ describe('vuex store', () => {
         constrainedTerms: exampleTerms.slice(0, 1),
         unconstrainedTerms: [],
         selectedSystems: bodySystems.slice(0, 1),
-        foundAllConditions: true
+        foundAllConditions: true,
+        qualityScore: 0.42
       };
 
       dataLoggingService.saveSession.mockReturnValueOnce(Promise.resolve());
@@ -315,7 +316,8 @@ describe('vuex store', () => {
             selected_terms: expectedTerms,
             constrained_terms: expectedTerms,
             unconstrained_terms: [],
-            found_all: true
+            found_all: true,
+            quality_score: 0.42
           };
 
           expect(dataLoggingService.saveSession)
