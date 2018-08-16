@@ -28,9 +28,9 @@
         <div class="callout secondary systems-help">
           <h5>Help</h5>
           <div class="help-content">
-            To get HPO terms related to your disease:
+            This app allows you to describe your signs and symptoms using a standardized terminology. The app is most effective if you can be as comprehensive as possible, even if you are not sure if a particular sign or symptom would be relevant to your diagnosis. Signs and symptoms can be current or past, but omit family history.
             <ol>
-              <li>Select a body system / category.</li>
+              <li>Select all of the body systems / categories that apply to you.</li>
               <li>Click on <span class="show-help">Show more</span> for more information about the system / category.</li>
               <li>On the next page, enter search terms related to the systems / categories you selected.</li>
             </ol>
