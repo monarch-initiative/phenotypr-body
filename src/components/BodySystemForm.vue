@@ -4,7 +4,7 @@
 
     <div class="grid-x grid-margin-x select-systems">
       <div class="cell medium-5 large-6">
-        <h2>Please choose the categories of symptoms that apply to you</h2>
+        <h2>Please choose all of the categories of symptoms that apply to you</h2>
         <div class="checkbox-container" v-for="(system, index) in bodySystems" :key="system.id">
           <input type="checkbox"
             :id="system.id"
