@@ -56,8 +56,7 @@ export default {
     goForward() {
       const { doneSearching } = this;
       if (doneSearching) {
-        this.$store.dispatch('saveSessionData');
-        this.$router.push('/results');
+        this.$router.push('/demographics');
       } else {
         this.$router.push({ path: '/search', query: { enableFilter: true } });
       }

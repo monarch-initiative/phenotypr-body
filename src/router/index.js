@@ -7,12 +7,17 @@ import ResultsPage from '@/components/ResultsPage';
 import TermsOfUsePage from '@/components/TermsOfUsePage';
 import BodySystemForm from '@/components/BodySystemForm';
 import FeedbackPage from '@/components/FeedbackPage';
+import DemographicsPage from '@/components/DemographicsPage';
+import AdditionalFeedbackPage from '@/components/AdditionalFeedbackPage';
 
 Vue.use(Router);
 
 const termsOfUsePath = '/terms-of-use';
 const searchPath = '/search';
 const bodySystemPath = '/body-systems';
+const feedbackPath = '/feedback';
+const demographicsPath = '/demographics';
+const additionalFeedbackPath = '/additionalFeedback';
 
 /**
  * Redirect to the terms of use if they have not already been accepted.
@@ -68,8 +73,18 @@ export const routes = [
     props: (route) => ({ enableFilter: route.query.enableFilter })
   }),
   protectedRoute({
-    path: '/feedback',
+    path: feedbackPath,
     component: FeedbackPage,
+    props: (route) => ({ finishSearch: route.query.finishSearch })
+  }),
+  protectedRoute({
+    path: demographicsPath,
+    component: DemographicsPage,
+    props: (route) => ({ finishSearch: route.query.finishSearch })
+  }),
+  protectedRoute({
+    path: additionalFeedbackPath,
+    component: AdditionalFeedbackPage,
     props: (route) => ({ finishSearch: route.query.finishSearch })
   }),
   protectedRoute({
