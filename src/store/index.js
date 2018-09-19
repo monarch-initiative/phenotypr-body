@@ -18,9 +18,11 @@ const initialState = {
   unconstrainedTerms: [],
   // whether the user found all the conditions they were searching for
   foundAllConditions: null,
-  // whether the user found all the conditions they were searching for
+  // demographics details
   demographics: null,
-  // whether the user found all the conditions they were searching for
+  // additional symptoms
+  additionalSymptoms: null,
+  // additional comments
   additionalComments: null,
   // annotation sufficiency state
   qualityScore: 0,
@@ -124,6 +126,15 @@ export default {
     },
 
     /**
+     * Sets the additonal symptoms from participant
+     * @param {Object} state - the current state.
+     * @param {String} value - symptoms
+     */
+    setAdditionalSymptoms(state, value) {
+      state.additionalSymptoms = value;
+    },
+
+    /**
      * Sets the additonal comments from participant
      * @param {Object} state - the current state.
      * @param {String} value - comments
@@ -167,6 +178,7 @@ export default {
         unconstrainedTerms,
         foundAllConditions,
         demographics,
+        additionalSymptoms,
         additionalComments,
         qualityScore
       } = state;
@@ -179,6 +191,7 @@ export default {
         unconstrained_terms: unconstrainedTerms.map(convertTerm),
         found_all: foundAllConditions,
         demographics: demographics,
+        additionalSymptoms: additionalSymptoms,
         additionalComments: additionalComments,
         quality_score: qualityScore
       };

@@ -7,6 +7,15 @@
 
       <div class="grid-x grid-margin-x">
         <div class="cell medium-8 large-6">
+          Please list below any symptom(s) that you feel are important that were not on the previous pages
+          <div class="input-group feedback-inputs">
+            <textarea id="additionalSymptoms" name="additionalSymptoms" cols="50" rows="5" v-model="additionalSymptoms"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-x grid-margin-x">
+        <div class="cell medium-8 large-6">
           Specify below any additional thoughts you would like to share with us?
           <div class="input-group feedback-inputs">
             <textarea id="additionalComments" name="additionalComments" cols="50" rows="5" v-model="additionalComments"/>
@@ -37,6 +46,7 @@ export default {
 
   data() {
     return {
+      additionalSymptoms: '',
       additionalComments: ''
     };
   },
@@ -49,6 +59,8 @@ export default {
     handleSubmit(evt) {
       // Send data to the server or update your stores and such.
       // console.log(evt.target);
+      console.log(this.additionalSymptoms);
+      this.$store.commit('setAdditionalSymptoms', this.additionalSymptoms);
       console.log(this.additionalComments);
       this.$store.commit('setAdditionalComments', this.additionalComments);
       this.$store.dispatch('saveSessionData');
