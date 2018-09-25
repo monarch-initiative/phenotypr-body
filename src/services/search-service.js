@@ -40,8 +40,6 @@ const defaultParams = {
   hl: 'on',
   'hl.snippets': '1000',
   'hl.simple.pre': '<em class="hilite">',
-  // Fields to query with boosting factors
-  qf: searchFields.map(field => `${field.name}^${field.boost}`).join(' '),
   // JSON output
   wt: 'json'
 };
