@@ -28,7 +28,7 @@
       <div class="cell">
         <span v-for="(selection, index) in selections" :key="selection.id" class="label symptom-tag">{{ selection.symptomText }}<strong @click="removeSelection(index)">X</strong></span>
         <br/>
-        <div v-for="(selection) in selections" :key="selection.id" class="symptom-definition"><strong>{{ selection.symptomText }}: </strong>{{ selection.symptomDefinition }}</div>
+        <div v-for="(selection) in selections" :key="selection.id + selection.symptomDefinition" class="symptom-definition"><strong>{{ selection.symptomText }}: </strong>{{ selection.symptomDefinition }}</div>
       </div>
     </div>
 
