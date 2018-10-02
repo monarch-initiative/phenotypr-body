@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 
 import scoringService from '@/services/scoring-service';
-import dataLoggingService from '@/services/data-logging-service';
+import DataLoggingService from '@/services/data-logging-service';
 
 import { convertTerm } from '@/utils/persistence-utils';
 
@@ -18,6 +18,12 @@ const initialState = {
   unconstrainedTerms: [],
   // whether the user found all the conditions they were searching for
   foundAllConditions: null,
+  // demographics details
+  demographics: null,
+  // additional symptoms
+  additionalSymptoms: null,
+  // additional comments
+  additionalComments: null,
   // annotation sufficiency state
   qualityScore: 0,
   scoringError: null
@@ -108,6 +114,33 @@ export default {
      */
     setFoundAllConditions(state, value) {
       state.foundAllConditions = value;
+    },
+
+    /**
+     * Sets the demographic details provided by the participant
+     * @param {Object} state - the current state.
+     * @param {Object} value - demographic details
+     */
+    setDemographics(state, value) {
+      state.demographics = value;
+    },
+
+    /**
+     * Sets the additonal symptoms from participant
+     * @param {Object} state - the current state.
+     * @param {String} value - symptoms
+     */
+    setAdditionalSymptoms(state, value) {
+      state.additionalSymptoms = value;
+    },
+
+    /**
+     * Sets the additonal comments from participant
+     * @param {Object} state - the current state.
+     * @param {String} value - comments
+     */
+    setAdditionalComments(state, value) {
+      state.additionalComments = value;
     }
   },
 
@@ -144,6 +177,9 @@ export default {
         constrainedTerms,
         unconstrainedTerms,
         foundAllConditions,
+        demographics,
+        additionalSymptoms,
+        additionalComments,
         qualityScore
       } = state;
 
@@ -154,9 +190,13 @@ export default {
         constrained_terms: constrainedTerms.map(convertTerm),
         unconstrained_terms: unconstrainedTerms.map(convertTerm),
         found_all: foundAllConditions,
+        demographics: demographics,
+        additionalSymptoms: additionalSymptoms,
+        additionalComments: additionalComments,
         quality_score: qualityScore
       };
 
+      const dataLoggingService = new DataLoggingService(process.env.GENOMICS_API_ENDPOINT);
       return dataLoggingService.saveSession(sessionData);
     }
   }

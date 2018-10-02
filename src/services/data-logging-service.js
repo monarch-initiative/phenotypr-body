@@ -1,11 +1,20 @@
 /* eslint-disable camelcase */
 import { isValidTerm, isValidId } from '@/utils/term-utils';
+import axios from 'axios';
+
 const hasSymptom = term => term.hasOwnProperty('symptom');
 
 /**
  * A service that performs HTTP requests to save the terms selected by the user.
  */
-export default {
+export default class DataLoggingService {
+  /**
+   * @param {String} saveTermsApiUrl - URL to save the search results
+   */
+  constructor(saveTermsApiUrl) {
+    this.saveTermsApiUrl = saveTermsApiUrl;
+  }
+
   /**
    * Verify that the input looks like a session ID.
    *
@@ -16,7 +25,7 @@ export default {
     if (!valid) {
       throw new Error('session_id: A string session ID is required');
     }
-  },
+  }
 
   /**
    * Verify that input looks like an array of HPO terms with symptoms.
@@ -30,7 +39,7 @@ export default {
     if (!valid) {
       throw new Error(`${propName}: An array of HPO terms is required`);
     }
-  },
+  }
 
   /**
    * Verify that input looks like an array of HPO IDs.
@@ -42,7 +51,7 @@ export default {
     if (!valid) {
       throw new Error('selected_systems: An array of HPO IDs is required');
     }
-  },
+  }
 
   /**
    * Verify that input looks like a boolean flag.
@@ -54,7 +63,7 @@ export default {
     if (!valid) {
       throw new Error('found_all: Should be true or false');
     }
-  },
+  }
 
   /**
    * Verify that required request inputs were received.
@@ -70,7 +79,7 @@ export default {
     this._validateFoundAllFlag(found_all);
 
     termArrays.forEach(arrayName => this._validateTerms(arrayName, data[arrayName]));
-  },
+  }
 
   /**
    * Persist the user's session data.
@@ -90,6 +99,16 @@ export default {
    */
   saveSession(data) {
     this._validateInput(data);
-    return Promise.resolve(data);
+
+    const requestBody = {};
+    requestBody.search_results = data;
+
+    axios.post(this.saveTermsApiUrl, requestBody)
+      .then(response => {
+        return Promise.resolve(response.data);
+      }).catch(function (error) {
+        console.log(error);
+        return Promise.resolve(error);
+      });
   }
 };

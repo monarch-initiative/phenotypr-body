@@ -13,6 +13,7 @@
     "test-ci": "jest --config test/unit/jest.conf.js --testResultsProcessor=./node_modules/jest-junit-reporter",
     "lint": "eslint --ext .js,.vue src test/unit",
     "build": "node build/build.js",
+    "server:prod": "http-server dist -p 8000 -c-1 --cors",
     "mockups": "webpack-dev-server --inline --progress --config build/webpack.mockups.conf.js",
     "premockups": "npm install"
   },
