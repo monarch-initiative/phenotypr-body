@@ -147,7 +147,8 @@ export default class SearchService {
       return {
         ...term,
         symptomHtml,
-        symptomText: striptags(symptomHtml)
+        symptomText: striptags(symptomHtml),
+        symptomDefinition: term.definition
       };
     });
 
