@@ -134,8 +134,6 @@ export default {
   methods: {
     handleSubmit(evt) {
       // Send data to the server or update your stores and such.
-      // console.log(evt.target);
-      console.log(this.demographics);
       this.$store.commit('setDemographics', this.demographics);
       this.$router.push('/additionalFeedback');
     },

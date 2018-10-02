@@ -105,7 +105,6 @@ export default class DataLoggingService {
       .then(response => {
         return Promise.resolve(response.data);
       }).catch(function (error) {
-        console.log(error);
         return Promise.resolve(error);
       });
   }
