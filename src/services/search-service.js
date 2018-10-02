@@ -6,15 +6,30 @@ const searchFields = [
   { name: 'exact_synonym_std', boost: 5 },
   { name: 'exact_synonym_kw', boost: 5 },
   { name: 'exact_synonym_eng', boost: 5 },
+  { name: 'exact_syn_clin_std', boost: 5 },
+  { name: 'exact_syn_clin_kw', boost: 5 },
+  { name: 'exact_syn_clin_eng', boost: 5 },
   { name: 'narrow_synonym_std', boost: 3 },
   { name: 'narrow_synonym_kw', boost: 3 },
   { name: 'narrow_synonym_eng', boost: 3 },
+  { name: 'narrow_syn_clin_std', boost: 3 },
+  { name: 'narrow_syn_clin_kw', boost: 3 },
+  { name: 'narrow_syn_clin_eng', boost: 3 },
   { name: 'related_synonym_std', boost: 2 },
   { name: 'related_synonym_kw', boost: 2 },
   { name: 'related_synonym_eng', boost: 2 },
+  { name: 'related_syn_clin_std', boost: 2 },
+  { name: 'related_syn_clin_eng', boost: 2 },
+  { name: 'related_synonym_eng', boost: 2 },
   { name: 'broad_synonym_std', boost: 1 },
   { name: 'broad_synonym_kw', boost: 1 },
-  { name: 'broad_synonym_eng', boost: 1 }
+  { name: 'broad_synonym_eng', boost: 1 },
+  { name: 'broad_syn_clin_std', boost: 1 },
+  { name: 'broad_syn_clin_kw', boost: 1 },
+  { name: 'broad_syn_clin_eng', boost: 1 },
+  { name: 'label_std', boost: 5 },
+  { name: 'label_kw', boost: 5 },
+  { name: 'label_eng', boost: 5 }
 ];
 
 /**
@@ -41,7 +56,7 @@ const defaultParams = {
   'hl.snippets': '1000',
   'hl.simple.pre': '<em class="hilite">',
   // Fields to query with boosting factors
-  qf: searchFields.map(field => `${field.name}^${field.boost}`).join(' '),
+  // qf: searchFields.map(field => `${field.name}^${field.boost}`).join(' '),
   // JSON output
   wt: 'json'
 };
