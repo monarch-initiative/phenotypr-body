@@ -84,7 +84,7 @@
       </div>
       <div class="grid-x grid-margin-x">
         <div class="cell medium-8 large-6">
-          With which one or more of the following races do you identify? Please select all that apply. (On a PC hold ctrl pr command key)
+          With which one or more of the following races do you identify? Please select all that apply. (On a PC hold ctrl or command key)
           <select id="demographic-race" name="race" v-model="demographics.race" multiple="true" style="height:160px;">
             <option value="American Indian or Alaska Native">American Indian or Alaska Native</option>
             <option value="Asian">Asian</option>

@@ -10,8 +10,6 @@
   </div>
   <br/>
 
-  <PageHeading title="Terms of Use"/>
-
   <div class="grid-x grid-margin-x">
     <div class="cell medium-12 large-10">
       <div class="callout secondary">

@@ -41,9 +41,6 @@ import PageHeading from './PageHeading';
 export default {
   name: 'AdditionalFeedbackPage',
 
-  props: {
-  },
-
   data() {
     return {
       additionalSymptoms: '',
@@ -58,10 +55,7 @@ export default {
   methods: {
     handleSubmit(evt) {
       // Send data to the server or update your stores and such.
-      // console.log(evt.target);
-      console.log(this.additionalSymptoms);
       this.$store.commit('setAdditionalSymptoms', this.additionalSymptoms);
-      console.log(this.additionalComments);
       this.$store.commit('setAdditionalComments', this.additionalComments);
       this.$store.dispatch('saveSessionData');
       this.$router.push('/results');

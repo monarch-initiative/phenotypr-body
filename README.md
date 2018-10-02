@@ -17,6 +17,10 @@ npm run mockups
 # build for production with minification
 npm run build
 
+# eun web server for production build
+# needs module http-server installed as global
+npm run server:prod
+
 # build for production and view the bundle analyzer report
 npm run build --report
 

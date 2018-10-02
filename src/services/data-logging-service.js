@@ -9,7 +9,7 @@ const hasSymptom = term => term.hasOwnProperty('symptom');
  */
 export default class DataLoggingService {
   /**
-   * @param {String} saveTermsApiUrl - URL ro save the search results
+   * @param {String} saveTermsApiUrl - URL to save the search results
    */
   constructor(saveTermsApiUrl) {
     this.saveTermsApiUrl = saveTermsApiUrl;
@@ -99,19 +99,8 @@ export default class DataLoggingService {
    */
   saveSession(data) {
     this._validateInput(data);
-    console.log(data);
 
     const requestBody = {};
-    // requestBody.body_hpo_search = {
-    //   session_id: data.session_id,
-    //   body_hpo_search_terms: data.selected_terms.map(term => {
-    //     return {
-    //       hpo_term: term.selected_terms,
-    //       hpo_label: term.label,
-    //       symptom: term.symptomText
-    //     };
-    //   })
-    // };
     requestBody.search_results = data;
 
     axios.post(this.saveTermsApiUrl, requestBody)
@@ -121,7 +110,5 @@ export default class DataLoggingService {
         console.log(error);
         return Promise.resolve(error);
       });
-
-    // return Promise.resolve(data);
   }
 };
