@@ -82,6 +82,7 @@ export default {
       const { foundAllConditions } = this;
       return foundAllConditions === false;
     },
+
     doneSearching() {
       const { finishSearch, foundAllConditions } = this;
       if (finishSearch || foundAllConditions) {

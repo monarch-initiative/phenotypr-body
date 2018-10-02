@@ -76,7 +76,7 @@ describe('FeedbackPage.vue', () => {
     expect(forwardButton.attributes().disabled).toBeFalsy();
   });
 
-  test('clicking the forward button transitions to the results route', () => {
+  test('clicking the forward button transitions to the demographics route', () => {
     const mocks = {
       $router: {
         push: jest.fn()
@@ -87,12 +87,12 @@ describe('FeedbackPage.vue', () => {
 
     state.foundAllConditions = true;
     forwardButton.trigger('click');
-    expect(mocks.$router.push).toHaveBeenCalledWith('/results');
+    expect(mocks.$router.push).toHaveBeenCalledWith('/demographics');
 
     state.foundAllConditions = false;
     wrapper.setProps({ finishSearch: true });
     forwardButton.trigger('click');
-    expect(mocks.$router.push).toHaveBeenCalledWith('/results');
+    expect(mocks.$router.push).toHaveBeenCalledWith('/demographics');
   });
 
   test('clicking the forward button transitions to the search route if not done searching', () => {
@@ -107,20 +107,6 @@ describe('FeedbackPage.vue', () => {
     state.foundAllConditions = false;
     wrapper.find('input[name=forwardButton]').trigger('click');
     expect(mocks.$router.push).toHaveBeenCalledWith(mockRoute);
-  });
-
-  test('clicking the forward button saves the session', () => {
-    const mocks = {
-      $router: {
-        push: jest.fn()
-      }
-    };
-
-    state.foundAllConditions = true;
-    const wrapper = shallowMount(FeedbackPage, { store, localVue, mocks });
-
-    wrapper.find('input[name=forwardButton]').trigger('click');
-    expect(actions.saveSessionData).toHaveBeenCalled();
   });
 
   describe('computed properties', () => {
