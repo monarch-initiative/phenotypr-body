@@ -1,10 +1,12 @@
 import storeConfig from '@/store';
 import bodySystems from '@/store/systems';
 
+import '@/services/data-logging-service';
 import scoringService from '@/services/scoring-service';
-import dataLoggingService from '@/services/data-logging-service';
 
 import exampleTerms from '../../example-terms';
+
+const mockSaveSession = jest.fn();
 
 jest.mock('@/services/scoring-service', () => {
   return {
@@ -13,9 +15,11 @@ jest.mock('@/services/scoring-service', () => {
 });
 
 jest.mock('@/services/data-logging-service', () => {
-  return {
-    saveSession: jest.fn()
-  };
+  return jest.fn().mockImplementation(() => {
+    return {
+      saveSession: mockSaveSession
+    };
+  });
 });
 
 describe('vuex store', () => {
@@ -224,6 +228,7 @@ describe('vuex store', () => {
 
     beforeEach(() => {
       scoringService.score.mockReset();
+      mockSaveSession.mockReset();
     });
 
     test('calculateQualityScore: when terms are selected', () => {
@@ -296,7 +301,7 @@ describe('vuex store', () => {
         qualityScore: 0.42
       };
 
-      dataLoggingService.saveSession.mockReturnValueOnce(Promise.resolve());
+      mockSaveSession.mockReturnValueOnce(Promise.resolve());
 
       return actions.saveSessionData({ commit, state: mockState })
         .then(() => {
@@ -320,7 +325,8 @@ describe('vuex store', () => {
             quality_score: 0.42
           };
 
-          expect(dataLoggingService.saveSession)
+          // Should have called into the data logging service to save
+          expect(mockSaveSession)
             .toHaveBeenCalledWith(expectedData);
         });
     });

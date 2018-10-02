@@ -84,8 +84,6 @@ export default class DataLoggingService {
   /**
    * Persist the user's session data.
    *
-   * TODO: This is currently a stub. Implement the actual HTTP request.
-   *
    * @param {Object} data - session data object with the following shape:
    * @param {String} data.session_id - the UUID session identifier
    * @param {String[]} data.selected_systems - an array of HPO term IDs for the high-level
@@ -103,11 +101,10 @@ export default class DataLoggingService {
     const requestBody = {};
     requestBody.search_results = data;
 
-    axios.post(this.saveTermsApiUrl, requestBody)
+    return axios.post(this.saveTermsApiUrl, requestBody)
       .then(response => {
         return Promise.resolve(response.data);
       }).catch(function (error) {
-        console.log(error);
         return Promise.resolve(error);
       });
   }

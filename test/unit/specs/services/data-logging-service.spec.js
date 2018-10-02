@@ -1,12 +1,19 @@
-import dataLoggingService from '@/services/data-logging-service';
+import axios from 'axios';
+import DataLoggingService from '@/services/data-logging-service';
 
 import exampleSession from '../../example-session-data';
 
+jest.mock('axios');
+
 describe('data logging service', () => {
-  let testInput;
+  const MOCK_ENDPOINT = 'http://example.com/save';
+  let testInput, service;
 
   beforeEach(() => {
+    axios.mockReset();
+    axios.post.mockReturnValue(Promise.resolve({ data: {} }));
     testInput = Object.assign({}, exampleSession);
+    service = new DataLoggingService(MOCK_ENDPOINT);
   });
 
   test('it validates that a session ID is provided', () => {
@@ -14,49 +21,49 @@ describe('data logging service', () => {
 
     // Falsy ID
     testInput.session_id = null;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
     testInput.session_id = '';
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     // Wrong type
     testInput.session_id = 42;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     // Missing ID
     delete testInput.session_id;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
   });
 
   test('it validates that a combined array of selected terms is provided', () => {
     const expectedMessage = 'selected_terms: An array of HPO terms is required';
 
     testInput.selected_terms = null;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     testInput.selected_terms = {};
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     testInput.selected_terms = [{ nope: 'not a term' }];
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     delete testInput.selected_terms;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
   });
 
   test('it validates that constrained mode terms are provided', () => {
     const expectedMessage = 'constrained_terms: An array of HPO terms is required';
 
     testInput.constrained_terms = null;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     testInput.constrained_terms = {};
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     testInput.constrained_terms = [{ nope: 'not a term' }];
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     delete testInput.constrained_terms;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
   });
 
   test('it validates that unconstrained mode terms are provided', () => {
@@ -64,61 +71,59 @@ describe('data logging service', () => {
 
     // empty array should be accepted
     testInput.unconstrained_terms = [];
-    expect(() => { dataLoggingService.saveSession(testInput); }).not.toThrow();
+    expect(() => { service.saveSession(testInput); }).not.toThrow();
 
     testInput.unconstrained_terms = null;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     testInput.unconstrained_terms = {};
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     testInput.unconstrained_terms = [{ nope: 'not a term' }];
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     delete testInput.unconstrained_terms;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
   });
 
   test('it validates that body systems are provided', () => {
     const expectedMessage = 'selected_systems: An array of HPO IDs is required';
 
     testInput.selected_systems = null;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     testInput.selected_systems = {};
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     testInput.selected_systems = ['not an ID'];
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     delete testInput.selected_systems;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
   });
 
   test('it validates that the feedback flag is provided', () => {
     const expectedMessage = 'found_all: Should be true or false';
 
     testInput.found_all = null;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     testInput.found_all = {};
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     testInput.found_all = 42;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
 
     delete testInput.found_all;
-    expect(() => { dataLoggingService.saveSession(testInput); }).toThrow(expectedMessage);
+    expect(() => { service.saveSession(testInput); }).toThrow(expectedMessage);
   });
 
-  // TODO: when we have an endpoint to post to:
-  // - verify that post occurs
-  // - update request body test
+  test('it posts to the persistence endpoint', () => {
+    const expectedBody = { search_results: testInput };
 
-  test('it constructs the request body as expected', () => {
-    return dataLoggingService.saveSession(testInput)
-      .then(response => {
-        expect(response).toEqual(testInput);
+    return service.saveSession(testInput)
+      .then(() => {
+        expect(axios.post).toHaveBeenCalledWith(MOCK_ENDPOINT, expectedBody);
       });
   });
 });
