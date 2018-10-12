@@ -1,9 +1,26 @@
-import uuid from 'uuid/v4';
+import uuid from "uuid/v4";
 
-import scoringService from '@/services/scoring-service';
-import DataLoggingService from '@/services/data-logging-service';
+import scoringService from "@/services/scoring-service";
+import DataLoggingService from "@/services/data-logging-service";
 
-import { convertTerm } from '@/utils/persistence-utils';
+import { convertTerm } from "@/utils/persistence-utils";
+
+const participant_uid = getUrlParameter("s", "");
+
+function getUrlParameter(param, reqPath) {
+  const sPageURL = reqPath || decodeURIComponent(window.location.hash),
+    sURLVariables = sPageURL.split(/[&||?]/);
+  var res;
+  for (var i = 0; i < sURLVariables.length; i += 1) {
+    const paramName = sURLVariables[i],
+      sParameterName = (paramName || "").split("=");
+
+    if (sParameterName[0] === param) {
+      res = sParameterName[1];
+    }
+  }
+  return res;
+}
 
 const initialState = {
   sessionId: uuid(),
@@ -22,6 +39,7 @@ const initialState = {
   demographics: null,
   // additional symptoms
   additionalSymptoms: null,
+  participantuid: participant_uid,
   // additional comments
   additionalComments: null,
   // annotation sufficiency state
@@ -45,7 +63,9 @@ export default {
      */
     toggleSystem(state, system) {
       const { selectedSystems } = state;
-      const index = selectedSystems.findIndex(current => current.id === system.id);
+      const index = selectedSystems.findIndex(
+        current => current.id === system.id
+      );
       if (index !== -1) {
         selectedSystems.splice(index, 1);
       } else {
@@ -64,7 +84,9 @@ export default {
       const found = selectedTerms.find(current => current.id === term.id);
       if (!found) {
         selectedTerms.push(term);
-        filterEnabled ? unconstrainedTerms.push(term) : constrainedTerms.push(term);
+        filterEnabled
+          ? unconstrainedTerms.push(term)
+          : constrainedTerms.push(term);
       }
     },
 
@@ -74,9 +96,11 @@ export default {
      * @param {Number} index - the index of the term to remove.
      */
     removeTermAtIndex(state, index) {
-      const [ removed ] = state.selectedTerms.splice(index, 1);
-      ['constrainedTerms', 'unconstrainedTerms'].forEach(termArray => {
-        state[termArray] = state[termArray].filter(term => term.id !== removed.id);
+      const [removed] = state.selectedTerms.splice(index, 1);
+      ["constrainedTerms", "unconstrainedTerms"].forEach(termArray => {
+        state[termArray] = state[termArray].filter(
+          term => term.id !== removed.id
+        );
       });
     },
 
@@ -155,11 +179,12 @@ export default {
       const { selectedTerms } = state;
 
       if (selectedTerms.length) {
-        return scoringService.score(selectedTerms)
-          .then(scoreData => commit('setQualityScore', scoreData.scaled_score))
-          .catch(reason => commit('setScoringError', reason));
+        return scoringService
+          .score(selectedTerms)
+          .then(scoreData => commit("setQualityScore", scoreData.scaled_score))
+          .catch(reason => commit("setScoringError", reason));
       } else {
-        return Promise.resolve(commit('setQualityScore', 0));
+        return Promise.resolve(commit("setQualityScore", 0));
       }
     },
 
@@ -180,7 +205,8 @@ export default {
         demographics,
         additionalSymptoms,
         additionalComments,
-        qualityScore
+        qualityScore,
+        participantuid
       } = state;
 
       const sessionData = {
@@ -193,10 +219,13 @@ export default {
         demographics: demographics,
         additionalSymptoms: additionalSymptoms,
         additionalComments: additionalComments,
-        quality_score: qualityScore
+        quality_score: qualityScore,
+        participantuid: participant_uid
       };
 
-      const dataLoggingService = new DataLoggingService(process.env.GENOMICS_API_ENDPOINT);
+      const dataLoggingService = new DataLoggingService(
+        process.env.GENOMICS_API_ENDPOINT
+      );
       return dataLoggingService.saveSession(sessionData);
     }
   }
