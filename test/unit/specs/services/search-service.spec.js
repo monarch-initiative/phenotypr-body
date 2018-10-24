@@ -54,7 +54,9 @@ describe('search service', () => {
       expect(axios).toHaveBeenCalled();
       const searchUrl = axios.mock.calls[0][0];
       const queryString = searchUrl.split('?')[1];
-      expect(queryString).toMatch('q=plain%20language%20terms');
+      expect(queryString).toMatch(
+        'plain%20language%20terms%20%2B%20%22plain%20language%20terms%22'
+      );
     });
 
     test('it adds selected high level terms to the fq parameter', () => {

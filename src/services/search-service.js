@@ -102,7 +102,9 @@ export default class SearchService {
       filterObject = { fq: this._buildFilter(filterTerms) };
     }
 
-    const params = Object.assign({}, defaultParams, { q: queryText }, filterObject);
+    const params = Object.assign(
+      {}, defaultParams, { q: `${queryText} + "${queryText}"` }, filterObject
+    );
     const queryString = qs.stringify(params, { addQueryPrefix: true });
 
     return `${this.searchUrl}${queryString}`;
