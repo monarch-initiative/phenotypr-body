@@ -1,19 +1,19 @@
-import uuid from "uuid/v4";
+import uuid from 'uuid/v4';
 
-import scoringService from "@/services/scoring-service";
-import DataLoggingService from "@/services/data-logging-service";
+import scoringService from '@/services/scoring-service';
+import DataLoggingService from '@/services/data-logging-service';
 
-import { convertTerm } from "@/utils/persistence-utils";
+import { convertTerm } from '@/utils/persistence-utils';
 
-const participant_uid = getUrlParameter("s", "");
+const participantuid = getUrlParameter('s', '');
 
 function getUrlParameter(param, reqPath) {
-  const sPageURL = reqPath || decodeURIComponent(window.location.hash),
-    sURLVariables = sPageURL.split(/[&||?]/);
+  const sPageURL = reqPath || decodeURIComponent(window.location.hash);
+  const sURLVariables = sPageURL.split(/[&||?]/);
   var res;
   for (var i = 0; i < sURLVariables.length; i += 1) {
-    const paramName = sURLVariables[i],
-      sParameterName = (paramName || "").split("=");
+    const paramName = sURLVariables[i];
+    const sParameterName = (paramName || '').split('=');
 
     if (sParameterName[0] === param) {
       res = sParameterName[1];
@@ -39,7 +39,7 @@ const initialState = {
   demographics: null,
   // additional symptoms
   additionalSymptoms: null,
-  participantuid: participant_uid,
+  participantuid: participantuid,
   // additional comments
   additionalComments: null,
   // annotation sufficiency state
@@ -97,7 +97,7 @@ export default {
      */
     removeTermAtIndex(state, index) {
       const [removed] = state.selectedTerms.splice(index, 1);
-      ["constrainedTerms", "unconstrainedTerms"].forEach(termArray => {
+      ['constrainedTerms', 'unconstrainedTerms'].forEach(termArray => {
         state[termArray] = state[termArray].filter(
           term => term.id !== removed.id
         );
@@ -181,10 +181,10 @@ export default {
       if (selectedTerms.length) {
         return scoringService
           .score(selectedTerms)
-          .then(scoreData => commit("setQualityScore", scoreData.scaled_score))
-          .catch(reason => commit("setScoringError", reason));
+          .then(scoreData => commit('setQualityScore', scoreData.scaled_score))
+          .catch(reason => commit('setScoringError', reason));
       } else {
-        return Promise.resolve(commit("setQualityScore", 0));
+        return Promise.resolve(commit('setQualityScore', 0));
       }
     },
 
@@ -220,7 +220,7 @@ export default {
         additionalSymptoms: additionalSymptoms,
         additionalComments: additionalComments,
         quality_score: qualityScore,
-        participantuid: participant_uid
+        participantuid: participantuid
       };
 
       const dataLoggingService = new DataLoggingService(
