@@ -63,7 +63,7 @@ describe('search service', () => {
       const expectedFilter = [
         'fq=phenotype_closure%3A%22HP%3A0000077%22%20OR%20',
         'phenotype_closure%3A%22HP%3A0003011%22%20OR%20',
-        'phenotype_closure%3A%22HP%3A0000951%22%20OR%20' +
+        'phenotype_closure%3A%22HP%3A0000951%22%20OR%20',
         'phenotype_closure%3A%22HP%3A0025142%22'
       ].join('');
 
