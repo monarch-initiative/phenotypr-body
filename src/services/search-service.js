@@ -96,9 +96,13 @@ export default class SearchService {
    * @private
    */
   _buildUrl(queryText, filterTerms) {
+    const defaultFilterTerms = [
+      'HP:0025142' // Constitutional symptom
+    ];
     let filterObject = {};
 
     if (Array.isArray(filterTerms) && filterTerms.length) {
+      filterTerms = filterTerms.concat(defaultFilterTerms);
       filterObject = { fq: this._buildFilter(filterTerms) };
     }
 
