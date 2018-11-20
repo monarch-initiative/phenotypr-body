@@ -1,11 +1,12 @@
 <template>
   <div class="grid-container body-search-content">
     <PageHeading title="Results"/>
-
+  <h3 style="color:red;">Thank you for submitting your survey!</h3>
     <!-- sub heading -->
     <div class="grid-x grid-margin-x terms-subheading">
       <div class="cell large-8">
-        <h2>Your HPO Terms</h2>
+        <!-- <h2>Your HPO Terms</h2> -->
+         <h2>Following are your HPO Terms</h2>
       </div>
 
       <div class="cell large-4 text-right">
@@ -41,13 +42,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import PageHeading from './PageHeading';
-import PdfRenderer from '@/utils/pdf-renderer';
-import createExportDocument from '@/utils/create-export-document';
+import { mapState } from "vuex";
+import PageHeading from "./PageHeading";
+import PdfRenderer from "@/utils/pdf-renderer";
+import createExportDocument from "@/utils/create-export-document";
 
 export default {
-  name: 'ResultsPage',
+  name: "ResultsPage",
 
   components: {
     PageHeading
@@ -58,12 +59,12 @@ export default {
       const renderer = new PdfRenderer();
       const doc = createExportDocument(this.selectedTerms);
       const pdf = renderer.renderDocument(doc);
-      pdf.download('phenotypr-body-export.pdf');
+      pdf.download("phenotypr-body-export.pdf");
     }
   },
 
   computed: mapState({
-    selectedTerms: 'selectedTerms'
+    selectedTerms: "selectedTerms"
   })
 };
 </script>
