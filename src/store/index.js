@@ -3,22 +3,35 @@ import uuid from 'uuid/v4';
 import scoringService from '@/services/scoring-service';
 import DataLoggingService from '@/services/data-logging-service';
 
-import { convertTerm } from '@/utils/persistence-utils';
+import {
+  convertTerm
+} from '@/utils/persistence-utils';
 
-const participantuid = getUrlParameter('s', '');
+// Check Local storage value
+const stored_participant_UID = localStorage.getItem("participant_uid");
+// Get URL variable
+var participant_uid = getUrlParameter("s", "");
+
+//Verify if the value in URL is same as local storage
+// If they are same -- Keep it, if nor rewrite local variable
+if (stored_participant_UID != participant_uid) {
+  localStorage["participant_uid"] = participant_uid;
+}
 
 function getUrlParameter(param, reqPath) {
-  const sPageURL = reqPath || decodeURIComponent(window.location.hash);
-  const sURLVariables = sPageURL.split(/[&||?]/);
+  const sPageURL = reqPath || window.location.search.substring(1),
+    sURLVariables = sPageURL.split(/[&||?]/);
   var res;
+
   for (var i = 0; i < sURLVariables.length; i += 1) {
-    const paramName = sURLVariables[i];
-    const sParameterName = (paramName || '').split('=');
+    const paramName = sURLVariables[i],
+      sParameterName = (paramName || "").split("=");
 
     if (sParameterName[0] === param) {
       res = sParameterName[1];
     }
   }
+
   return res;
 }
 
@@ -62,7 +75,9 @@ export default {
      *   a high-level body system in the HPO.
      */
     toggleSystem(state, system) {
-      const { selectedSystems } = state;
+      const {
+        selectedSystems
+      } = state;
       const index = selectedSystems.findIndex(
         current => current.id === system.id
       );
@@ -79,14 +94,22 @@ export default {
      * @param {Object{term: Object, filterEnabled: Boolean}} payload - an object containing
      *   the term to add and whether user filtering is enabled.
      */
-    addTerm(state, { term, filterEnabled = false }) {
-      const { selectedTerms, constrainedTerms, unconstrainedTerms } = state;
+    addTerm(state, {
+      term,
+      filterEnabled = false
+    }) {
+      const {
+        selectedTerms,
+        constrainedTerms,
+        unconstrainedTerms
+      } = state;
       const found = selectedTerms.find(current => current.id === term.id);
       if (!found) {
         selectedTerms.push(term);
         filterEnabled
-          ? unconstrainedTerms.push(term)
-          : constrainedTerms.push(term);
+          ?
+          unconstrainedTerms.push(term) :
+          constrainedTerms.push(term);
       }
     },
 
@@ -175,8 +198,13 @@ export default {
      * @param {Object} context - Vuex action context.
      * @return {Promise} a promise that resolves when the request is complete.
      */
-    calculateQualityScore({ commit, state }) {
-      const { selectedTerms } = state;
+    calculateQualityScore({
+      commit,
+      state
+    }) {
+      const {
+        selectedTerms
+      } = state;
 
       if (selectedTerms.length) {
         return scoringService
@@ -194,7 +222,10 @@ export default {
      * @param {Object} context - Vuex action context.
      * @return {Promise} a promise that resolves when the request is complete.
      */
-    saveSessionData({ commit, state }) {
+    saveSessionData({
+      commit,
+      state
+    }) {
       const {
         sessionId,
         selectedSystems,
