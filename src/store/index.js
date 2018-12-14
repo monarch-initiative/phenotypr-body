@@ -8,24 +8,24 @@ import {
 } from '@/utils/persistence-utils';
 
 // Check Local storage value
-const stored_participant_UID = localStorage.getItem("participant_uid");
+const storedParticipantUid = localStorage.getItem('participant_uid');
 // Get URL variable
-var participant_uid = getUrlParameter("s", "");
+var participantUid = getUrlParameter('s', '');
 
-//Verify if the value in URL is same as local storage
+// Verify if the value in URL is same as local storage
 // If they are same -- Keep it, if nor rewrite local variable
-if (stored_participant_UID != participant_uid) {
-  localStorage["participant_uid"] = participant_uid;
+if (storedParticipantUid !== participantUid) {
+  localStorage['participant_uid'] = participantUid;
 }
 
 function getUrlParameter(param, reqPath) {
-  const sPageURL = reqPath || window.location.search.substring(1),
-    sURLVariables = sPageURL.split(/[&||?]/);
+  const sPageURL = reqPath || window.location.search.substring(1);
+  const sURLVariables = sPageURL.split(/[&||?]/);
   var res;
 
   for (var i = 0; i < sURLVariables.length; i += 1) {
-    const paramName = sURLVariables[i],
-      sParameterName = (paramName || "").split("=");
+    const paramName = sURLVariables[i];
+    const sParameterName = (paramName || '').split('=');
 
     if (sParameterName[0] === param) {
       res = sParameterName[1];
@@ -52,7 +52,7 @@ const initialState = {
   demographics: null,
   // additional symptoms
   additionalSymptoms: null,
-  participantuid: participantuid,
+  participantuid: participantUid,
   // additional comments
   additionalComments: null,
   // annotation sufficiency state
@@ -106,10 +106,7 @@ export default {
       const found = selectedTerms.find(current => current.id === term.id);
       if (!found) {
         selectedTerms.push(term);
-        filterEnabled
-          ?
-          unconstrainedTerms.push(term) :
-          constrainedTerms.push(term);
+        filterEnabled ? unconstrainedTerms.push(term) : constrainedTerms.push(term);
       }
     },
 

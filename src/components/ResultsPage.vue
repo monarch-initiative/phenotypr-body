@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import PageHeading from "./PageHeading";
-import PdfRenderer from "@/utils/pdf-renderer";
-import createExportDocument from "@/utils/create-export-document";
+import { mapState } from 'vuex';
+import PageHeading from './PageHeading';
+import PdfRenderer from '@/utils/pdf-renderer';
+import createExportDocument from '@/utils/create-export-document';
 
 export default {
-  name: "ResultsPage",
+  name: 'ResultsPage',
 
   components: {
     PageHeading
@@ -59,12 +59,12 @@ export default {
       const renderer = new PdfRenderer();
       const doc = createExportDocument(this.selectedTerms);
       const pdf = renderer.renderDocument(doc);
-      pdf.download("phenotypr-body-export.pdf");
+      pdf.download('phenotypr-body-export.pdf');
     }
   },
 
   computed: mapState({
-    selectedTerms: "selectedTerms"
+    selectedTerms: 'selectedTerms'
   })
 };
 </script>
