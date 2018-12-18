@@ -19,7 +19,8 @@ if (storedParticipantUid !== participantUid) {
 }
 
 function getUrlParameter(param, reqPath) {
-  const sPageURL = reqPath || window.location.search.substring(1);
+  const sPageURLEncoded = reqPath || window.location.search.substring(1);
+  const sPageURL = decodeURIComponent(sPageURLEncoded);
   const sURLVariables = sPageURL.split(/[&||?]/);
   var res;
 
