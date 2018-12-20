@@ -24,7 +24,7 @@ function getUrlParameter(param, reqPath) {
 
   if (sPageURL === '') {
     const hrefVariable = window.location.href;
-    var sPageURL = decodeURIComponent(hrefVariable.replace('/#', ''));
+    sPageURL = decodeURIComponent(hrefVariable.replace('/#', ''));
   }
 
   const sURLVariables = sPageURL.split(/[&||?]/);
@@ -42,7 +42,7 @@ function getUrlParameter(param, reqPath) {
   return res;
 }
 
-console.log("Participant UID => ", participantUid);
+console.log('Participant UID => ', participantUid);
 
 const initialState = {
   sessionId: uuid(),
