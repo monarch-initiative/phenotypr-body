@@ -20,7 +20,13 @@ if (storedParticipantUid !== participantUid) {
 
 function getUrlParameter(param, reqPath) {
   const sPageURLEncoded = reqPath || window.location.search.substring(1);
-  const sPageURL = decodeURIComponent(sPageURLEncoded);
+  var sPageURL = decodeURIComponent(sPageURLEncoded);
+
+  if (sPageURL === '') {
+    const hrefVariable = window.location.href;
+    var sPageURL = decodeURIComponent(hrefVariable.replace('/#', ''));
+  }
+
   const sURLVariables = sPageURL.split(/[&||?]/);
   var res;
 
@@ -35,6 +41,8 @@ function getUrlParameter(param, reqPath) {
 
   return res;
 }
+
+console.log("Participant UID => ", participantUid);
 
 const initialState = {
   sessionId: uuid(),
