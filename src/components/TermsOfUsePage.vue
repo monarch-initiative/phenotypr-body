@@ -56,12 +56,6 @@ export default {
 };
 </script>
 
-<!--Following Google analytics Code is added by Sam - 01/07/2018-->
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script
-  async
-  src="https://www.googletagmanager.com/gtag/js?id=UA-131729536-1"
-></script>
 <script>
 import PageHeading from "./PageHeading";
 
