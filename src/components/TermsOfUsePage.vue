@@ -38,10 +38,10 @@
 </template>
 
 <script>
-import PageHeading from './PageHeading';
+import PageHeading from "./PageHeading";
 
 export default {
-  name: 'TermsOfUsePage',
+  name: "TermsOfUsePage",
 
   components: {
     PageHeading
@@ -49,8 +49,33 @@ export default {
 
   methods: {
     acceptTermsOfUse() {
-      this.$store.commit('acceptTermsOfUse');
-      this.$router.push('/body-systems');
+      this.$store.commit("acceptTermsOfUse");
+      this.$router.push("/body-systems");
+    }
+  }
+};
+</script>
+
+<!--Following Google analytics Code is added by Sam - 01/07/2018-->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-131729536-1"
+></script>
+<script>
+import PageHeading from "./PageHeading";
+
+export default {
+  name: "TermsOfUsePage",
+
+  components: {
+    PageHeading
+  },
+
+  methods: {
+    acceptTermsOfUse() {
+      this.$store.commit("acceptTermsOfUse");
+      this.$router.push("/body-systems");
     }
   }
 };
