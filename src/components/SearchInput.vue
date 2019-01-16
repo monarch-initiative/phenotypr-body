@@ -118,7 +118,19 @@ export default {
         this.$searchService.search(this.queryText, this.searchCategories)
           .then(response => {
             this.suggestions = response.docs;
-            this.searchComplete = true;
+            if (this.suggestions.length === 0) {
+              this.$searchService.search(this.queryText, [])
+                .then(response => {
+                  this.suggestions = response.docs;
+                  this.searchComplete = true;
+                })
+                .catch(reason => {
+                  this.searchError = reason;
+                  this.searchComplete = true;
+                });
+            } else {
+              this.searchComplete = true;
+            }
           })
           .catch(reason => {
             this.searchError = reason;
