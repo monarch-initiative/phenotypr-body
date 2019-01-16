@@ -38,10 +38,10 @@
 </template>
 
 <script>
-import PageHeading from "./PageHeading";
+import PageHeading from './PageHeading';
 
 export default {
-  name: "TermsOfUsePage",
+  name: 'TermsOfUsePage',
 
   components: {
     PageHeading
@@ -49,15 +49,15 @@ export default {
 
   methods: {
     acceptTermsOfUse() {
-      this.$store.commit("acceptTermsOfUse");
-      this.$router.push("/body-systems");
+      this.$store.commit('acceptTermsOfUse');
+      this.$router.push('/body-systems');
     }
   }
 };
 </script>
 
 <script>
-import PageHeading from "./PageHeading";
+import PageHeading from './PageHeading';
 
 export default {
   name: "TermsOfUsePage",
@@ -68,8 +68,8 @@ export default {
 
   methods: {
     acceptTermsOfUse() {
-      this.$store.commit("acceptTermsOfUse");
-      this.$router.push("/body-systems");
+      this.$store.commit('acceptTermsOfUse');
+      this.$router.push('/body-systems');
     }
   }
 };
